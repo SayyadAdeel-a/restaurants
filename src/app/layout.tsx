@@ -28,10 +28,46 @@ const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
 });
 
+const SITE_URL = "https://killybegsseafoodshack.ie";
+const TITLE = "Killybegs Seafood Shack | Award-Winning Seafood on the Old Pier, Donegal";
+const DESCRIPTION =
+  "Taste Ireland's #1 Seafood Chowder and pier-fresh fish & chips at the Killybegs Seafood Shack on the Wild Atlantic Way. Crafted by Chef Garry Anderson.";
+
+const OG_IMAGE = {
+  url: "/og-image.jpg",
+  width: 1200,
+  height: 630,
+  alt: "Killybegs Seafood Shack — award-winning seafood on the Old Pier, Donegal",
+};
+
 export const metadata: Metadata = {
-  title: "Killybegs Seafood Shack | Award-Winning Seafood on the Old Pier, Donegal",
-  description:
-    "Taste Ireland's #1 Seafood Chowder and pier-fresh fish & chips at the Killybegs Seafood Shack on the Wild Atlantic Way. Crafted by Chef Garry Anderson.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  keywords: [
+    "Killybegs Seafood Shack",
+    "seafood takeaway Donegal",
+    "fish and chips Killybegs",
+    "Wild Atlantic Way seafood",
+    "Old Pier Killybegs",
+    "All-Ireland Chowder Champion",
+    "Anderson's Boathouse",
+  ],
+  openGraph: {
+    type: "website",
+    siteName: "Killybegs Seafood Shack",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "/",
+    images: [OG_IMAGE],
+    locale: "en_IE",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [OG_IMAGE],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
