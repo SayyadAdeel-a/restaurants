@@ -189,16 +189,12 @@ export default function PressReviewsSection() {
             ))}
           </div>
         ) : (
-          <div className="overflow-hidden">
-            <motion.div
-              className="flex w-max gap-6 pl-6"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
-            >
+          <div className="marquee-wrap overflow-hidden">
+            <div className="marquee-track flex w-max gap-6 pl-6">
               {[...reviews, ...reviews, ...reviews, ...reviews].map((r, i) => (
                 <ReviewCard key={`${r.quote}-${i}`} review={r} />
               ))}
-            </motion.div>
+            </div>
           </div>
         )}
       </div>
