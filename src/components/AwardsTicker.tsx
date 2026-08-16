@@ -3,11 +3,10 @@
 import { motion, useReducedMotion } from "framer-motion";
 
 const awards = [
-  "All-Ireland Chowder Champion 2019 & 2020",
-  "Donegal's Best 2018",
-  "TripAdvisor #1 Quick Bite",
-  "1,000+ Reviews",
-  "Chef ex-Claridge's, Gordon Ramsay",
+  "TripAdvisor #1 Quick Bite Killybegs",
+  "1,000+ 5-Star Reviews",
+  "Award-Winning Chowder",
+  "Fresh Daily from Old Pier",
 ];
 
 /** One full pass of the marquee content. */
