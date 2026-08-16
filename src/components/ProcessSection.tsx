@@ -96,7 +96,7 @@ export default function ProcessSection() {
         p.y -= 0.05;
         if (p.y < -10) p.y = h + 10;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, Math.max(0.1, p.r), 0, Math.PI * 2);
         ctx.fillStyle = `rgba(245,243,236,${p.o * 0.5})`;
         ctx.fill();
       });
@@ -105,7 +105,8 @@ export default function ProcessSection() {
       if (c > 0.01) {
         parts.forEach((p, i) => {
           const surge = c * 26;
-          const S = p.r + surge * (0.5 + ((i % 7) / 7)) + Math.sin(Date.now() * 0.001 + p.base) * 2;
+          const rawS = p.r + surge * (0.5 + ((i % 7) / 7)) + Math.sin(Date.now() * 0.001 + p.base) * 2;
+          const S = Math.max(0.1, rawS);
           const d = Math.min(1, c * 0.9);
           const stepOffset = Math.floor(c * 3) / 3; // which step we're passing
           const x = p.x + Math.sin(c * 5 + p.base) * 10 + stepOffset * 0;
@@ -114,7 +115,7 @@ export default function ProcessSection() {
           ctx.fillStyle = `rgba(250,247,240,${d * 0.85})`;
           ctx.fill();
           ctx.beginPath();
-          ctx.arc(x * 0.98, p.y * 1.02 + c * -22, S * 0.6, 0, Math.PI * 2);
+          ctx.arc(x * 0.98, p.y * 1.02 + c * -22, Math.max(0.1, S * 0.6), 0, Math.PI * 2);
           ctx.fillStyle = `rgba(255,255,255,${d * 0.5})`;
           ctx.fill();
         });

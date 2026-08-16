@@ -1,96 +1,131 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useReducedMotion } from "framer-motion";
-import { Phone } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import NextImage from "next/image";
+import {
+  Sun,
+  Anchor,
+  Sparkles,
+  Clock,
+  MapPin,
+  Waves,
+  Ship,
+  Phone,
+  ArrowRight,
+  CheckCircle2,
+  X,
+  Info,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const FRAME_COUNT = 40;
-const FRAME_DIR = "/frames/hero-signature-box";
-const pad = (n: number) => String(n).padStart(3, "0");
+interface Hotspot {
+  id: string;
+  title: string;
+  subtitle: string;
+  desc: string;
+  x: number; // percentage
+  y: number; // percentage
+  icon: typeof Sun;
+  tag: string;
+  highlight: string;
+}
+
+const HOTSPOTS: Hotspot[] = [
+  {
+    id: "solar",
+    title: "Solar-Powered Galley",
+    subtitle: "Eco-Engineered by Mairéad",
+    desc: "Ireland's first solar-powered pier trailer. Clean energy fuels our custom deep fryers, minimising our footprint on Killybegs Harbour.",
+    x: 32,
+    y: 36,
+    icon: Sun,
+    tag: "Clean Energy",
+    highlight: "100% Solar Driven",
+  },
+  {
+    id: "catch",
+    title: "Boat-to-Fryer Window",
+    subtitle: "Landed at 06:00 · Fried at 12:30",
+    desc: "Trawlers dock just 40 metres away at dawn. Fish is hand-filleted and dipped into Garry's ultra-crisp craft beer batter the moment you order.",
+    x: 62,
+    y: 52,
+    icon: Anchor,
+    tag: "Fresh Provenance",
+    highlight: "0 KM Harbour Catch",
+  },
+  {
+    id: "chalkboard",
+    title: "Daily Chalkboard",
+    subtitle: "Handwritten Specials",
+    desc: "Menu changes with the morning tide. Fresh crab claws, scampi prawns, and our double All-Ireland award-winning seafood chowder.",
+    x: 80,
+    y: 40,
+    icon: Sparkles,
+    tag: "Daily Rotation",
+    highlight: "Chowder Champion",
+  },
+  {
+    id: "seating",
+    title: "The Sunny Pier Wall",
+    subtitle: "Where Donegal Eats",
+    desc: "No reservations needed. Grab your steaming cardboard box, pop open a wooden fork, and sit on the harbour wall watching the trawlers.",
+    x: 18,
+    y: 68,
+    icon: Waves,
+    tag: "Harbour Vibe",
+    highlight: "Panoramic Atlantic View",
+  },
+];
+
+const DOCK_TELEMETRY = [
+  { label: "Harbour Status", val: "Trawlers Landed", icon: Ship, status: "active" },
+  { label: "Today's Service", val: "12:30 – 19:30", icon: Clock, status: "active" },
+  { label: "Location", val: "Shore Road, Old Pier", icon: MapPin, status: "live" },
+  { label: "Water Temp", val: "11.8°C Atlantic", icon: Waves, status: "live" },
+];
 
 export default function OpeningSection() {
   const rootRef = useRef<HTMLElement>(null);
-  const counterRef = useRef<HTMLSpanElement>(null);
   const reduceMotion = useReducedMotion();
+  const [activeHotspot, setActiveHotspot] = useState<Hotspot | null>(HOTSPOTS[1]);
 
+  const { scrollYProgress } = useScroll({
+    target: rootRef,
+    offset: ["start end", "end start"],
+  });
+
+  const imageY = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const glowY = useTransform(scrollYProgress, [0, 1], [-20, 20]);
+
+  // Entrance reveals
   useGSAP(
     () => {
       if (reduceMotion) return;
-
-      // Crossfade cascade: each frame fades in over the previous (DOM order stacks them).
-      // The cascade is compressed into the first CASCADE_END of the section's passage, so the
-      // door is fully open just before the section fills the screen, then holds as it scrolls
-      // away — no pin, nothing frozen for the animation's sake.
-      const CASCADE_END = 0.25;
-      const frames = gsap.utils.toArray<HTMLElement>(".opening-frame");
-      const step = CASCADE_END / (frames.length - 1);
-
       const tl = gsap.timeline({
-        defaults: { ease: "none" },
+        defaults: { ease: "power3.out" },
         scrollTrigger: {
           trigger: rootRef.current,
-          // Frames begin the moment the section's top crosses 60% down the viewport —
-          // the point where the hero + ticker are still visible above and the chapter
-          // label is on screen (see the reference screenshot).
-          start: "top 50%",
-          end: "bottom top",
-          scrub: 1,
-          onUpdate: (self) => {
-            if (!counterRef.current) return;
-            // Same mapping as the cascade: frame n is fully visible at n/39 of CASCADE_END.
-            const k = Math.min(
-              FRAME_COUNT,
-              Math.floor((self.progress / CASCADE_END) * (FRAME_COUNT - 1)) + 1
-            );
-            const text = String(k).padStart(2, "0");
-            if (counterRef.current.textContent !== text) {
-              counterRef.current.textContent = text;
-            }
-          },
+          start: "top 75%",
         },
       });
 
-      tl.fromTo(
-        ".opening-bar-fill",
-        { scaleX: 0 },
-        { scaleX: 1, duration: 1 },
-        0
-      );
-
-      frames.forEach((frame, i) => {
-        if (i === 0) return;
-        tl.to(frame, { opacity: 1, duration: step }, (i - 1) * step);
-      });
-
-      // Pad the timeline to a unit duration so scroll progress maps 1:1 to it —
-      // otherwise the copy tweens extending past CASCADE_END would stretch the cascade.
-      tl.to({}, { duration: 1 }, 0);
-
-      // Cue fades out the moment scrubbing starts; copy fades in, then the CTA appears
-      // once the section is fully in view with the door open. Both exit as the section leaves.
-      tl.to("#opening-cue", { opacity: 0, duration: 0.05, ease: "none" }, 0.02)
-        .fromTo(
-          "#opening-copy",
-          { opacity: 0, y: 24 },
-          { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" },
-          0.08
+      tl.from("#opening-eyebrow", { y: 16, opacity: 0, duration: 0.6 }, 0)
+        .from(
+          "#opening-title .line-inner",
+          { yPercent: 110, duration: 0.9, stagger: 0.1, ease: "power4.out" },
+          0.15
         )
-        .fromTo(
-          "#opening-cta",
-          { opacity: 0, y: 14 },
-          { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" },
-          0.52
-        )
-        .to(
-          "#opening-copy",
-          { opacity: 0, y: -16, duration: 0.1, ease: "power2.in" },
-          0.9
-        );
+        .from("#opening-sub", { y: 18, opacity: 0, duration: 0.7 }, 0.4)
+        .from("#opening-telemetry", { y: 24, opacity: 0, duration: 0.8, stagger: 0.1 }, 0.5)
+        .from("#opening-stage", { scale: 0.96, opacity: 0, duration: 1, ease: "power2.out" }, 0.4)
+        .from(".hotspot-pin", { scale: 0, opacity: 0, stagger: 0.12, ease: "back.out(1.8)", duration: 0.7 }, 0.8);
     },
     { scope: rootRef }
   );
@@ -99,104 +134,254 @@ export default function OpeningSection() {
     <section
       id="opening"
       ref={rootRef}
-      className="relative overflow-hidden bg-navy-950"
+      className="grain relative overflow-hidden bg-navy-950 py-24 text-cream lg:py-36"
     >
-      {/* Stacked frames — all preloaded; later frames paint above earlier ones */}
-      <div className="relative h-screen w-full">
-        {Array.from({ length: FRAME_COUNT }, (_, i) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            key={i}
-            src={`${FRAME_DIR}/ezgif-frame-${pad(i + 1)}.jpg`}
-            alt=""
-            loading="eager"
-            decoding="async"
-            className="opening-frame absolute inset-0 h-full w-full object-cover"
-            style={{ opacity: i === 0 ? 1 : 0 }}
-          />
-        ))}
+      {/* Background Ambient Harbour Glows */}
+      <motion.div
+        aria-hidden
+        style={reduceMotion ? undefined : { y: glowY }}
+        className="pointer-events-none absolute top-1/4 left-1/2 h-[700px] w-[1000px] -translate-x-1/2 rounded-full bg-blue/10 blur-[120px]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 right-0 h-[500px] w-[500px] rounded-full bg-red/10 blur-[140px]"
+      />
 
-        {/* Legibility scrims */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-navy-950/70 to-transparent"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-navy-950/85 to-transparent"
-        />
+      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
+        {/* Top Header & Chapter Badge */}
+        <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
+          <div className="max-w-2xl">
+            <div id="opening-eyebrow" className="flex items-center gap-3">
+              <span className="flex size-2 rounded-full bg-gold animate-ping" />
+              <p className="font-mono text-[11px] tracking-[0.32em] text-cream/70 uppercase">
+                01.5 — The 12:30 Service Ritual
+              </p>
+            </div>
 
-        {/* Chapter label */}
-        <div className="absolute top-0 left-0 z-10 p-6 sm:p-10">
-          <p className="flex items-center gap-3 font-mono text-[11px] tracking-[0.32em] text-cream/70 uppercase">
-            <span className="inline-block h-px w-8 bg-gold/70" />
-            01.5 — The Opening
-          </p>
-        </div>
+            <h2
+              id="opening-title"
+              className="mt-6 font-serif text-[clamp(2.5rem,5.5vw,4.5rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-cream"
+            >
+              <span className="block overflow-hidden pb-1">
+                <span className="line-inner block">When the harbour shutter</span>
+              </span>
+              <span className="block overflow-hidden pb-1">
+                <span className="line-inner block">
+                  rolls up at <em className="text-blue italic">12:30.</em>
+                </span>
+              </span>
+            </h2>
 
-        {/* Caption + progress bar + CTA */}
-        <div
-          id="opening-copy"
-          className="absolute inset-x-0 bottom-0 z-10 p-6 pb-10 sm:p-10 sm:pb-12"
-        >
-          <h2 className="max-w-md font-serif text-2xl leading-snug font-semibold text-cream italic sm:text-3xl">
-            The door rolls up at 12:30.
-            <span className="mt-2 block font-mono text-[10px] tracking-[0.28em] text-cream/55 uppercase not-italic">
-              Solar-powered trailer · Old Pier, Killybegs
-            </span>
-          </h2>
-
-          <div className="mt-6 h-px w-full max-w-[280px] overflow-hidden bg-cream/20">
-            <div className="opening-bar-fill h-full w-full origin-left bg-gold" />
+            <p id="opening-sub" className="mt-5 text-base leading-relaxed text-cream/70 sm:text-lg">
+              The queue starts before we unlock. Solar-powered fryers heat up, the morning trawler catch
+              is hand-battered, and the Old Pier fills with the aroma of golden sea salt chips.
+            </p>
           </div>
 
-          {/* CTA — appears once the door is open and the section fills the screen */}
-          <div id="opening-cta" className="mt-8 flex flex-wrap items-center gap-4">
+          {/* Quick CTA Pill */}
+          <div className="flex shrink-0 items-center gap-4">
             <a
               href="tel:+353892393094"
-              className="inline-flex h-11 items-center gap-2 rounded-full bg-red px-7 text-sm font-semibold text-white shadow-lg shadow-red/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-crimson hover:shadow-xl hover:shadow-red/30"
+              className="inline-flex h-12 items-center gap-2.5 rounded-full bg-red px-8 text-sm font-semibold text-white shadow-xl shadow-red/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-crimson hover:shadow-2xl hover:shadow-red/35"
             >
               <Phone className="size-4" />
-              Order Takeaway
+              Call Ahead: 089 239 3094
             </a>
-            <a
-              href="#menu"
-              className="inline-flex h-11 items-center gap-1.5 rounded-full border border-cream/30 px-6 text-sm font-medium text-cream transition-all duration-300 hover:border-gold/70 hover:text-gold"
+          </div>
+        </div>
+
+        {/* Harbour Dock Telemetry Strip */}
+        <div
+          id="opening-telemetry"
+          className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:gap-4"
+        >
+          {DOCK_TELEMETRY.map((item) => (
+            <div
+              key={item.label}
+              className="flex items-center gap-3.5 rounded-2xl border border-cream/10 bg-navy-900/60 p-3.5 backdrop-blur-md transition-colors hover:border-gold/30"
             >
-              View Menu
-              <span aria-hidden className="text-gold">
-                →
-              </span>
-            </a>
-          </div>
-        </div>
-
-        {/* Frame counter — bottom right, tracks the scrub */}
-        <div className="absolute right-0 bottom-0 z-10 p-6 sm:p-10">
-          <p className="flex items-baseline gap-1.5 font-mono text-[11px] tracking-[0.24em] text-cream/70 uppercase">
-            <span ref={counterRef} className="text-gold">
-              01
-            </span>
-            <span className="text-cream/40">/ {FRAME_COUNT}</span>
-          </p>
-        </div>
-
-        {/* Scroll cue — fades out as soon as the door starts opening */}
-        {!reduceMotion && (
-          <div
-            id="opening-cue"
-            className="absolute bottom-24 left-1/2 z-10 -translate-x-1/2 sm:bottom-28"
-          >
-            <div className="flex flex-col items-center gap-3">
-              <span className="flex h-9 w-5 items-start justify-center rounded-full border border-cream/40 p-1">
-                <span className="opening-scroll-dot h-2 w-0.5 rounded-full bg-gold" />
-              </span>
-              <span className="font-mono text-[9px] tracking-[0.32em] text-cream/60 uppercase">
-                Scroll to open
-              </span>
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-navy-800/80 text-gold shadow-inner">
+                <item.icon className="size-5" />
+              </div>
+              <div className="min-w-0">
+                <p className="font-mono text-[9px] tracking-[0.22em] text-cream/45 uppercase">
+                  {item.label}
+                </p>
+                <p className="truncate font-sans text-xs sm:text-sm font-semibold text-cream">
+                  {item.val}
+                </p>
+              </div>
             </div>
+          ))}
+        </div>
+
+        {/* Main Interactive Stage: Interactive Shack Explorer */}
+        <div id="opening-stage" className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-center">
+          {/* Left / Center (8 Cols): Photo Canvas with Glowing Hotspots */}
+          <div className="relative lg:col-span-8">
+            <motion.div
+              style={reduceMotion ? undefined : { y: imageY }}
+              className="group relative aspect-[16/10] w-full overflow-hidden rounded-3xl border border-cream/15 shadow-[0_30px_70px_rgba(0,0,0,0.6)]"
+            >
+              {/* Background Trailer Image */}
+              <NextImage
+                src="/images/open_shack_16x9.webp"
+                alt="The Killybegs Seafood Shack solar trailer in action on Old Pier"
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 65vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+
+              {/* Scrims */}
+              <div
+                aria-hidden
+                className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-transparent to-navy-950/30"
+              />
+
+              {/* Live Explorer Watermark */}
+              <div className="absolute top-4 left-4 z-10 flex items-center gap-2 rounded-full border border-cream/20 bg-navy-950/80 px-3.5 py-1.5 backdrop-blur-md">
+                <span className="size-2 rounded-full bg-gold animate-pulse" />
+                <span className="font-mono text-[10px] tracking-[0.24em] text-cream/80 uppercase">
+                  Interactive Pier Map · Click Pins
+                </span>
+              </div>
+
+              {/* Interactive Hotspot Pins */}
+              {HOTSPOTS.map((spot) => {
+                const isActive = activeHotspot?.id === spot.id;
+                return (
+                  <button
+                    key={spot.id}
+                    onClick={() => setActiveHotspot(spot)}
+                    aria-label={`Explore ${spot.title}`}
+                    style={{ top: `${spot.y}%`, left: `${spot.x}%` }}
+                    className="hotspot-pin group/pin absolute -translate-x-1/2 -translate-y-1/2 z-20 transition-transform duration-300 focus:outline-none"
+                  >
+                    <span className="relative flex size-10 items-center justify-center">
+                      {/* Pulsing ring */}
+                      <span
+                        className={`absolute inline-flex h-full w-full rounded-full opacity-75 transition-all ${
+                          isActive
+                            ? "scale-125 bg-gold animate-ping"
+                            : "bg-blue/60 group-hover/pin:scale-110"
+                        }`}
+                      />
+                      {/* Core pin */}
+                      <span
+                        className={`relative flex size-8 items-center justify-center rounded-full border shadow-lg transition-all duration-300 ${
+                          isActive
+                            ? "border-gold bg-gold text-navy-950 scale-110 shadow-gold/50"
+                            : "border-white/40 bg-navy-950/90 text-cream group-hover/pin:scale-105 group-hover/pin:border-gold"
+                        }`}
+                      >
+                        <spot.icon className="size-4" />
+                      </span>
+                    </span>
+
+                    {/* Tooltip Label on Hover */}
+                    <span className="pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-navy-950/90 px-2.5 py-1 font-mono text-[9px] tracking-wider text-gold opacity-0 shadow-lg backdrop-blur transition-opacity duration-200 group-hover/pin:opacity-100">
+                      {spot.title}
+                    </span>
+                  </button>
+                );
+              })}
+
+              {/* Bottom bar summary */}
+              <div className="absolute right-4 bottom-4 left-4 z-10 hidden sm:flex items-center justify-between rounded-2xl border border-cream/10 bg-navy-950/70 p-4 backdrop-blur-md">
+                <div className="flex items-center gap-3">
+                  <Badge variant="outline" className="border-gold/50 text-gold font-mono text-[9px] uppercase tracking-wider">
+                    {activeHotspot?.tag || "Old Pier Spotlight"}
+                  </Badge>
+                  <p className="font-serif text-sm italic text-cream">
+                    {activeHotspot?.highlight}
+                  </p>
+                </div>
+                <span className="font-mono text-[10px] tracking-[0.2em] text-cream/50 uppercase">
+                  Shore Road · Killybegs
+                </span>
+              </div>
+            </motion.div>
           </div>
-        )}
+
+          {/* Right (4 Cols): Selected Hotspot Details Glass Card */}
+          <div className="lg:col-span-4">
+            <AnimatePresence mode="wait">
+              {activeHotspot && (
+                <motion.div
+                  key={activeHotspot.id}
+                  initial={{ opacity: 0, y: 16, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -16, scale: 0.97 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className="relative flex flex-col justify-between rounded-3xl border border-cream/15 bg-gradient-to-b from-navy-900/90 to-navy-950/95 p-7 shadow-[0_24px_50px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+                >
+                  <div>
+                    {/* Top Tag & Icon */}
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-2 rounded-full bg-gold/15 px-3 py-1 font-mono text-[9px] tracking-[0.22em] text-gold uppercase">
+                        <activeHotspot.icon className="size-3" />
+                        {activeHotspot.tag}
+                      </span>
+                      <span className="font-mono text-[10px] tracking-[0.24em] text-cream/40 uppercase">
+                        Feature 0{HOTSPOTS.findIndex((h) => h.id === activeHotspot.id) + 1}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="mt-5 font-serif text-2xl sm:text-3xl font-semibold text-cream italic">
+                      {activeHotspot.title}
+                    </h3>
+                    <p className="mt-1 font-mono text-[10px] tracking-[0.26em] text-blue uppercase">
+                      {activeHotspot.subtitle}
+                    </p>
+
+                    {/* Description */}
+                    <p className="mt-4 text-sm leading-relaxed text-cream/75">
+                      {activeHotspot.desc}
+                    </p>
+
+                    {/* Key Highlights Checkmarks */}
+                    <div className="mt-6 space-y-2.5 border-t border-cream/10 pt-5">
+                      <div className="flex items-center gap-2.5 text-xs text-cream/85">
+                        <CheckCircle2 className="size-3.5 text-gold shrink-0" />
+                        <span>Operated by Chef Garry & Mairéad Anderson</span>
+                      </div>
+                      <div className="flex items-center gap-2.5 text-xs text-cream/85">
+                        <CheckCircle2 className="size-3.5 text-gold shrink-0" />
+                        <span>Fresh Atlantic wild catch prepared to order</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bottom Navigation between Hotspots */}
+                  <div className="mt-8 flex items-center justify-between border-t border-cream/10 pt-5">
+                    <div className="flex gap-1.5">
+                      {HOTSPOTS.map((h) => (
+                        <button
+                          key={h.id}
+                          onClick={() => setActiveHotspot(h)}
+                          aria-label={`Select ${h.title}`}
+                          className={`size-2 rounded-full transition-all ${
+                            activeHotspot.id === h.id ? "w-6 bg-gold" : "bg-cream/25 hover:bg-cream/60"
+                          }`}
+                        />
+                      ))}
+                    </div>
+
+                    <a
+                      href="#menu"
+                      className="group inline-flex items-center gap-1.5 font-serif text-sm text-gold italic transition-colors hover:text-white"
+                    >
+                      See Menu Boxes
+                      <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                    </a>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </section>
   );
