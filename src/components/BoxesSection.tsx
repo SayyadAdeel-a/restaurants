@@ -71,20 +71,6 @@ type Scatter = {
   children: ReactNode;
 };
 
-/* Wooden fork — no asset exists, drawn inline to match the site's fork motif */
-function WoodenFork() {
-  return (
-    <svg viewBox="0 0 24 64" className="h-full w-full" aria-hidden>
-      <rect x="2" y="1" width="3.5" height="20" rx="1.75" fill="#d8c9a8" />
-      <rect x="10.25" y="1" width="3.5" height="24" rx="1.75" fill="#d8c9a8" />
-      <rect x="18.5" y="1" width="3.5" height="20" rx="1.75" fill="#d8c9a8" />
-      <path d="M1 18h22v8c0 3-2 5-5 5H6c-3 0-5-2-5-5z" fill="#c2a878" />
-      <rect x="7.5" y="30" width="9" height="30" rx="4.5" fill="#c2a878" />
-      <rect x="7.5" y="30" width="3.5" height="30" rx="1.75" fill="#d8c9a8" />
-    </svg>
-  );
-}
-
 /* ---------- Component ---------- */
 
 export default function BoxesSection() {
@@ -201,12 +187,12 @@ export default function BoxesSection() {
       ),
     },
     {
-      posCls: "left-[15%] bottom-[8%] w-12 sm:left-[20%] sm:w-14",
+      posCls: "left-[12%] bottom-[6%] w-16 sm:left-[19%] sm:w-20",
       speed: "slow",
       parallax: -40,
       orbit: 6,
       orbitDur: 5.4,
-      rotate: 14,
+      rotate: 8,
       children: (
         <NextImage
           src="/images/dish/exact_garlic_mayo.png"
@@ -216,15 +202,6 @@ export default function BoxesSection() {
           className="h-auto w-full object-contain"
         />
       ),
-    },
-    {
-      posCls: "right-[15%] bottom-[10%] w-10 sm:right-[20%] sm:w-12",
-      speed: "fast",
-      parallax: -60,
-      orbit: 7,
-      orbitDur: 3.6,
-      rotate: -32,
-      children: <WoodenFork />,
     },
   ];
 
@@ -292,7 +269,7 @@ export default function BoxesSection() {
             className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-navy-800"
           >
             <span className="block overflow-hidden pb-1">
-              <span className="line-inner block">Seven Boxes.</span>
+              <span className="line-inner block">Three Bestsellers.</span>
             </span>
             <span className="block overflow-hidden pb-1">
               <span className="line-inner block">
@@ -330,9 +307,12 @@ export default function BoxesSection() {
         </div>
 
         {/* The three big boxes — floating, never synced */}
-        <div className="mt-16 flex flex-col items-center gap-14 sm:flex-row sm:items-end sm:justify-center sm:gap-12 lg:gap-16">
+        <div className="mt-10 flex flex-col items-center gap-14 sm:flex-row sm:items-end sm:justify-center sm:gap-12 lg:gap-16">
           {boxes.map((box) => (
-            <div key={box.name} className="boxes-item">
+            <div
+              key={box.name}
+              className={box.champion ? "boxes-item sm:mb-5" : "boxes-item"}
+            >
               <motion.div
                 className="flex flex-col items-center"
                 animate={
@@ -347,18 +327,13 @@ export default function BoxesSection() {
                 }}
               >
                 <div className={`relative ${box.wCls}`}>
-                  {/* Huge soft shadow — same as the chowder bowl */}
-                  <div
-                    aria-hidden
-                    className="absolute -bottom-8 left-1/2 h-10 w-3/4 -translate-x-1/2 rounded-full bg-navy-900/10 blur-2xl"
-                  />
                   <NextImage
                     src={box.src}
                     alt={box.alt}
                     width={1920}
                     height={1280}
                     sizes="(max-width: 640px) 208px, (max-width: 1024px) 280px, 320px"
-                    className="relative h-auto w-full object-contain drop-shadow-[0_30px_40px_rgba(27,29,58,0.18)]"
+                    className="relative h-auto w-full object-contain drop-shadow-[0_30px_80px_rgba(0,0,0,0.15)]"
                   />
                 </div>
 
