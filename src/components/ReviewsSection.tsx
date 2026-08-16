@@ -89,7 +89,7 @@ export default function ReviewsSection() {
       {/* Soft blue glow behind the bowl */}
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/2 left-[28%] h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-200/25 blur-3xl"
+        className="pointer-events-none absolute top-1/2 left-[28%] h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-200/30 blur-3xl"
       />
 
       {/* Edge scatters — same six assets drifting down from Bestsellers */}
@@ -224,24 +224,38 @@ export default function ReviewsSection() {
               </span>
 
               {/* Basil + lemon drifting around the bowl */}
-              <motion.img
-                src="/images/dish/killybegs_herbs_clean.png"
-                alt=""
-                className="absolute -left-6 top-[14%] w-14 -rotate-12 drop-shadow-[0_12px_20px_rgba(0,0,0,0.15)] sm:-left-10 sm:w-16 will-change-transform"
+              <motion.div
+                className="absolute -left-6 top-[14%] w-14 -rotate-12 sm:-left-10 sm:w-16 will-change-transform"
                 animate={
                   reduceMotion || !bowlInView ? undefined : { y: [0, -8, 0] }
                 }
                 transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut" }}
-              />
-              <motion.img
-                src="/images/dish/killybegs_lemon_clean.png"
-                alt=""
-                className="absolute -right-4 bottom-[12%] w-12 rotate-12 drop-shadow-[0_12px_20px_rgba(0,0,0,0.15)] sm:-right-8 sm:w-14 will-change-transform"
+              >
+                <NextImage
+                  src="/images/dish/killybegs_herbs_clean.png"
+                  alt=""
+                  width={1920}
+                  height={1280}
+                  sizes="96px"
+                  className="h-auto w-full object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.15)]"
+                />
+              </motion.div>
+              <motion.div
+                className="absolute -right-4 bottom-[12%] w-12 rotate-12 sm:-right-8 sm:w-14 will-change-transform"
                 animate={
                   reduceMotion || !bowlInView ? undefined : { y: [0, 9, 0] }
                 }
                 transition={{ repeat: Infinity, duration: 5.1, ease: "easeInOut" }}
-              />
+              >
+                <NextImage
+                  src="/images/dish/killybegs_lemon_clean.png"
+                  alt=""
+                  width={1920}
+                  height={1280}
+                  sizes="96px"
+                  className="h-auto w-full object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.15)]"
+                />
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>

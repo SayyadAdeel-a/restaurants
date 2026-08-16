@@ -70,7 +70,7 @@ export default function FindUsSection() {
       {/* Soft blue glow behind the photo */}
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/2 right-[26%] h-[600px] w-[600px] -translate-y-1/2 translate-x-1/2 rounded-full bg-blue-200/25 blur-3xl"
+        className="pointer-events-none absolute top-1/2 right-[26%] h-[600px] w-[600px] -translate-y-1/2 translate-x-1/2 rounded-full bg-red-200/30 blur-3xl"
       />
 
       {/* Edge scatters — same assets drifting down the page */}

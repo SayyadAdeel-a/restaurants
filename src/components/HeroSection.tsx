@@ -57,10 +57,8 @@ function FloatingAsset({
         style={reduceMotion ? undefined : { y, rotate }}
         className="will-change-transform"
       >
-        <motion.img
-          src={src}
-          alt={alt}
-          className={`${shadow ? "w-full drop-shadow-[0_22px_28px_rgba(27,29,58,0.18)]" : "w-full"} will-change-transform`}
+        <motion.div
+          className="will-change-transform"
           initial={{ opacity: 0, scale: 0.6 }}
           animate={
             reduceMotion
@@ -78,23 +76,61 @@ function FloatingAsset({
                   y: { repeat: Infinity, duration: bobDur, ease: "easeInOut" },
                 }
           }
-        />
+        >
+          {/* next/image optimizes + lazy-loads; the raw 2 MB PNGs never ship */}
+          <NextImage
+            src={src}
+            alt={alt}
+            width={1920}
+            height={1280}
+            sizes="192px"
+            className={
+              shadow
+                ? "h-auto w-full object-contain drop-shadow-[0_22px_28px_rgba(27,29,58,0.18)]"
+                : "h-auto w-full object-contain"
+            }
+          />
+        </motion.div>
       </motion.div>
     </div>
   );
 }
 
+/* The two floating heroes — Shack by day, Boathouse by night */
+const duo = [
+  {
+    src: "/images/dish/exact_sharing_box.png",
+    alt: "The Killybegs Seafood Shack takeaway box",
+    name: "Shack",
+    dur: 5,
+    w: 1920,
+    h: 1280,
+    cls: "w-[min(64vw,300px)] md:w-[min(30vw,340px)]",
+  },
+  {
+    src: "/images/boathouse-logo.png",
+    alt: "Anderson's Boathouse Restaurant — porthole logo",
+    name: "Boathouse",
+    dur: 7,
+    w: 500,
+    h: 500,
+    cls: "w-[min(52vw,260px)] md:w-[min(24vw,280px)]",
+  },
+];
+
 export default function HeroSection() {
   const rootRef = useRef<HTMLElement>(null);
+  const duoRef = useRef<HTMLDivElement>(null);
+  const duoInView = useInView(duoRef, { margin: "200px 0px" });
   const reduceMotion = useReducedMotion();
 
-  // One shared scroll progress for the dish + all floats (different rates = depth)
+  // One shared scroll progress for the duo + all floats (different rates = depth)
   const { scrollYProgress } = useScroll({
     target: rootRef,
     offset: ["start start", "end start"],
   });
-  const dishY = useTransform(scrollYProgress, [0, 1], [0, 70]);
-  const dishScale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
+  const duoY = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  const duoScale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
 
   // GSAP — one smooth entrance timeline for the copy + floats
   useGSAP(
@@ -110,7 +146,8 @@ export default function HeroSection() {
         )
         .from("#hero-sub", { y: 18, opacity: 0, duration: 0.7 }, 0.7)
         .from("#hero-cta", { y: 16, opacity: 0, duration: 0.6 }, 0.85)
-        .from("#hero-dish-inner", { scale: 0.92, opacity: 0, duration: 1.1, ease: "power2.out" }, 0.45)
+        // LCP-safe: keep visible (no opacity gate), just a gentle scale-in
+        .from(".hero-duo", { scale: 0.94, duration: 1.2, ease: "power2.out" }, 0.45)
         .from(".hero-float", { opacity: 0, y: 26, duration: 0.8, stagger: 0.09 }, 0.6);
     },
     { scope: rootRef }
@@ -187,10 +224,10 @@ export default function HeroSection() {
       ref={rootRef}
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-cream px-5 py-24 text-center sm:px-6"
     >
-      {/* One soft glow behind the dish — nothing else */}
+      {/* One soft glow behind the duo — nothing else */}
       <div
         aria-hidden
-        className="pointer-events-none absolute top-[42%] left-1/2 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-200/30 blur-3xl"
+        className="pointer-events-none absolute top-[46%] left-1/2 h-[620px] w-[880px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-200/40 blur-3xl"
       />
 
       {/* Floating dish assets framing the copy */}
@@ -204,7 +241,7 @@ export default function HeroSection() {
           id="hero-eyebrow"
           className="font-mono text-[11px] tracking-[0.32em] text-navy-800/50 uppercase"
         >
-          Killybegs · Old Pier, Donegal
+          Garry &amp; Mairéad Anderson — 40 Years Hospitality
         </p>
 
         {/* Title */}
@@ -213,11 +250,11 @@ export default function HeroSection() {
           className="mt-6 font-serif text-[clamp(2.9rem,7vw,5.75rem)] leading-[0.98] font-semibold tracking-[-0.02em] text-navy-800"
         >
           <span className="block overflow-hidden pb-1">
-            <span className="line-inner block">Fresh from the</span>
+            <span className="line-inner block">From Pier to Plate.</span>
           </span>
           <span className="block overflow-hidden pb-1">
             <span className="line-inner block">
-              <em className="text-blue italic">Boats</em> to Your Plate
+              <em className="text-blue italic">From Day to Night.</em>
             </span>
           </span>
         </h1>
@@ -225,10 +262,10 @@ export default function HeroSection() {
         {/* Sub */}
         <p
           id="hero-sub"
-          className="mt-6 max-w-md text-base leading-relaxed text-navy-800/60 sm:text-lg"
+          className="mt-6 max-w-xl text-base leading-relaxed text-navy-800/60 sm:text-lg"
         >
-          Award-winning chowder and pier-fresh fish &amp; chips, crafted daily by
-          Chef Garry Anderson.
+          Gordon Ramsay-trained Garry, front-of-house Mairéad. Shack by day on
+          Main St, Boathouse by night over the harbour, plus harbour-view stay.
         </p>
 
         {/* CTA */}
@@ -239,26 +276,39 @@ export default function HeroSection() {
           </Button>
         </div>
 
-        {/* Dish */}
+        {/* The two floating heroes — Shack box + Boathouse plate */}
         <motion.div
-          id="hero-dish"
-          className="relative mt-14 w-[min(72vw,380px)]"
-          style={reduceMotion ? undefined : { y: dishY, scale: dishScale }}
+          className="mt-16 w-full"
+          style={reduceMotion ? undefined : { y: duoY, scale: duoScale }}
         >
-          {/* Soft contact shadow */}
           <div
-            aria-hidden
-            className="absolute -bottom-6 left-1/2 h-10 w-3/4 -translate-x-1/2 rounded-full bg-navy-900/10 blur-2xl"
-          />
-          <div id="hero-dish-inner" className="relative aspect-square">
-            <NextImage
-              src="/images/dish/killybegs_chowder_bowl.png"
-              alt="Killybegs award-winning seafood chowder"
-              fill
-              priority
-              sizes="(max-width: 1024px) 72vw, 380px"
-              className="object-contain drop-shadow-[0_30px_40px_rgba(27,29,58,0.18)]"
-            />
+            ref={duoRef}
+            className="flex w-full flex-col items-center justify-center gap-12 md:flex-row md:items-end md:gap-20"
+          >
+            {duo.map((d) => (
+              <div key={d.name} className={`hero-duo ${d.cls}`}>
+                <motion.div
+                  className="will-change-transform"
+                  animate={
+                    reduceMotion || !duoInView ? undefined : { y: [0, -12, 0] }
+                  }
+                  transition={{
+                    repeat: Infinity,
+                    duration: d.dur,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <NextImage
+                    src={d.src}
+                    alt={d.alt}
+                    width={d.w}
+                    height={d.h}
+                    sizes="(max-width: 768px) 64vw, 340px"
+                    className="relative h-auto w-full object-contain drop-shadow-[0_30px_80px_rgba(0,0,0,0.15)]"
+                  />
+                </motion.div>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>

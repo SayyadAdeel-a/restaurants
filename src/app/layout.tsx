@@ -1,24 +1,16 @@
 import type { Metadata } from "next";
-import { Archivo, Bricolage_Grotesque, Cormorant_Garamond, IBM_Plex_Mono, Geist } from "next/font/google";
+import { Inter, IBM_Plex_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  subsets: ["latin"],
-});
-
-const archivo = Archivo({
-  variable: "--font-archivo",
+const poppins = Poppins({
+  variable: "--font-poppins",
+  weight: ["400", "500", "600", "700", "800"],
   subsets: ["latin"],
 });
 
@@ -247,7 +239,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", bricolage.variable, cormorant.variable, archivo.variable, plexMono.variable, "font-sans", geist.variable)}
+      className={cn("h-full", "antialiased", inter.variable, poppins.variable, plexMono.variable, "font-sans")}
     >
       <body className="min-h-full flex flex-col bg-cream text-ink">
         <script

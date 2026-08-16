@@ -22,27 +22,20 @@ export default function Navbar() {
       initial={{ y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-x-0 top-0 z-50 border-b border-navy-800/8 bg-cream/80 backdrop-blur-xl"
+      className="fixed inset-x-0 top-0 z-50 border-b border-navy-800/8 bg-white/85 backdrop-blur-xl"
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-10">
         {/* Brand lockup */}
-        <a href="#hero" className="group flex items-center gap-3" onClick={() => setOpen(false)}>
-          <span className="relative block size-10 shrink-0 overflow-hidden rounded-full bg-white shadow-md ring-1 ring-navy-100 transition-transform duration-300 group-hover:scale-105">
+        <a href="#hero" className="group flex items-center" onClick={() => setOpen(false)}>
+          <span className="relative block h-8 w-auto shrink-0 transition-transform duration-300 group-hover:scale-[1.03]">
             <NextImage
-              src="/images/logo.jpg"
-              alt="Killybegs Seafood Shack logo"
-              fill
-              sizes="40px"
-              className="object-cover"
+              src="/images/Logo_300.png"
+              alt="Jack's Burger UK logo"
+              width={300}
+              height={144}
+              sizes="120px"
+              className="h-full w-auto object-contain"
             />
-          </span>
-          <span className="hidden flex-col leading-tight sm:flex">
-            <span className="font-serif text-lg font-semibold tracking-tight text-navy-800">
-              Killybegs <em className="text-blue italic">Seafood Shack</em>
-            </span>
-            <span className="font-mono text-[9px] tracking-[0.3em] text-navy-800/50 uppercase">
-              Old Pier · Donegal
-            </span>
           </span>
         </a>
 
@@ -58,7 +51,7 @@ export default function Navbar() {
               {active === link.label && (
                 <motion.span
                   layoutId="nav-pill"
-                  className="absolute inset-0 rounded-full bg-navy-800/8"
+                  className="absolute inset-0 rounded-full bg-blue/10"
                   transition={{ type: "spring", stiffness: 400, damping: 32 }}
                 />
               )}
@@ -71,7 +64,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           <Button className="hidden h-10 rounded-full bg-red px-5 text-xs font-semibold tracking-wide text-white shadow-lg shadow-red/25 transition-all hover:-translate-y-0.5 hover:bg-crimson hover:shadow-xl hover:shadow-red/30 sm:inline-flex">
             <Phone className="size-3.5" />
-            Order Takeaway
+            Order Now
           </Button>
 
           {/* Mobile menu toggle */}
@@ -95,7 +88,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden border-b border-navy-800/8 bg-cream/95 backdrop-blur-xl md:hidden"
+            className="overflow-hidden border-b border-navy-800/8 bg-white/95 backdrop-blur-xl md:hidden"
           >
             <div className="flex flex-col gap-1 px-5 py-4">
               {links.map((link, i) => (
@@ -109,13 +102,13 @@ export default function Navbar() {
                     setActive(link.label);
                     setOpen(false);
                   }}
-                  className="rounded-xl px-4 py-3 text-base font-medium text-navy-800/80 transition-colors hover:bg-navy-800/5 hover:text-navy-800"
+                  className="rounded-xl px-4 py-3 text-base font-medium text-navy-800/80 transition-colors hover:bg-blue/5 hover:text-navy-800"
                 >
                   {link.label}
                 </motion.a>
               ))}
               <motion.a
-                href="tel:+353892393094"
+                href="tel:+440000000000"
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.28, duration: 0.25 }}
@@ -123,7 +116,7 @@ export default function Navbar() {
                 className="mt-2 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-red px-5 text-sm font-semibold text-white shadow-lg shadow-red/25"
               >
                 <Phone className="size-4" />
-                Order Takeaway
+                Order Now
               </motion.a>
             </div>
           </motion.nav>

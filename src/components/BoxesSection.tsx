@@ -248,7 +248,7 @@ export default function BoxesSection() {
       {/* Soft blue glow — same as the hero */}
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/2 left-1/2 h-[640px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-200/30 blur-3xl"
+        className="pointer-events-none absolute top-1/2 left-1/2 h-[640px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-200/40 blur-3xl"
       />
 
       {/* Scatters — behind the boxes, each with scroll parallax + idle orbit */}
