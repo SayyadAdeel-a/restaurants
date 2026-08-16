@@ -202,6 +202,32 @@ section[id] {
   }
 }
 
+/* Opening section — scroll cue dot bobbing inside the mouse outline */
+.opening-scroll-dot {
+  animation: opening-dot-bounce 1.6s ease-in-out infinite;
+}
+@keyframes opening-dot-bounce {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(10px);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opening-scroll-dot {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
