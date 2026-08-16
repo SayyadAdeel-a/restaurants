@@ -6,14 +6,14 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   motion,
+  useInView,
   useReducedMotion,
   useScroll,
-  useTransform,
-  type MotionValue,
 } from "framer-motion";
 import NextImage from "next/image";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Scatter from "@/components/Scatter";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -38,7 +38,7 @@ const boxes: Box[] = [
     desc: "Smoked haddock, goujons, scampi & calamari, skin-on fries",
     price: "€14",
     dur: 5,
-    wCls: "w-52 sm:w-60 lg:w-64",
+    wCls: "w-52 md:w-48 lg:w-64",
   },
   {
     src: "/images/dish/killybegs_chowder_bowl.png",
@@ -47,7 +47,7 @@ const boxes: Box[] = [
     desc: "Smoked haddock, wild salmon & Donegal blue mussels",
     price: "€8.50",
     dur: 6,
-    wCls: "w-56 sm:w-[16.5rem] lg:w-[17.6rem]", // 10% bigger — the award winner
+    wCls: "w-56 md:w-52 lg:w-[17.6rem]", // 10% bigger — the award winner
     champion: true,
   },
   {
@@ -57,7 +57,7 @@ const boxes: Box[] = [
     desc: "Hand-battered cod, triple-cooked chips, mushy peas",
     price: "€9.50",
     dur: 7,
-    wCls: "w-52 sm:w-60 lg:w-64",
+    wCls: "w-52 md:w-48 lg:w-64",
   },
 ];
 
@@ -75,6 +75,8 @@ type Scatter = {
 
 export default function BoxesSection() {
   const rootRef = useRef<HTMLElement>(null);
+  const boxesRef = useRef<HTMLDivElement>(null);
+  const boxesInView = useInView(boxesRef, { margin: "200px 0px" });
   const reduceMotion = useReducedMotion();
 
   // One shared scroll progress → per-scatter parallax (fast = 1.5× slow)
@@ -251,7 +253,12 @@ export default function BoxesSection() {
 
       {/* Scatters — behind the boxes, each with scroll parallax + idle orbit */}
       {scatters.map((s, i) => (
-        <Scatter key={i} {...s} progress={scrollYProgress} />
+        <Scatter
+          key={i}
+          {...s}
+          progress={scrollYProgress}
+          wrapperCls="boxes-scatter"
+        />
       ))}
 
       <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-6 lg:px-10">
@@ -307,16 +314,19 @@ export default function BoxesSection() {
         </div>
 
         {/* The three big boxes — floating, never synced */}
-        <div className="mt-10 flex flex-col items-center gap-14 sm:flex-row sm:items-end sm:justify-center sm:gap-12 lg:gap-16">
+        <div
+          ref={boxesRef}
+          className="mt-10 flex flex-col items-center gap-14 md:flex-row md:items-end md:justify-center md:gap-8 lg:gap-16"
+        >
           {boxes.map((box) => (
             <div
               key={box.name}
-              className={box.champion ? "boxes-item sm:mb-5" : "boxes-item"}
+              className={box.champion ? "boxes-item md:mb-5" : "boxes-item"}
             >
               <motion.div
-                className="flex flex-col items-center"
+                className="flex flex-col items-center will-change-transform"
                 animate={
-                  reduceMotion
+                  reduceMotion || !boxesInView
                     ? undefined
                     : { y: [0, -12, 0] }
                 }
@@ -370,45 +380,3 @@ export default function BoxesSection() {
   );
 }
 
-/* ---------- Scatter layer ---------- */
-
-function Scatter({
-  posCls,
-  parallax,
-  orbit,
-  orbitDur,
-  rotate,
-  children,
-  progress,
-}: Scatter & { progress: MotionValue<number> }) {
-  const reduceMotion = useReducedMotion();
-  const y = useTransform(progress, [0, 1], [0, parallax]);
-
-  return (
-    <div
-      aria-hidden
-      className={`boxes-scatter pointer-events-none absolute z-0 ${posCls}`}
-    >
-      <motion.div style={reduceMotion ? undefined : { y }}>
-        <motion.div
-          animate={
-            reduceMotion
-              ? undefined
-              : {
-                  x: [0, orbit, 0, -orbit, 0],
-                  y: [0, -orbit * 0.7, 0, orbit * 0.7, 0],
-                }
-          }
-          transition={{
-            repeat: Infinity,
-            duration: orbitDur,
-            ease: "easeInOut",
-          }}
-          style={{ rotate }}
-        >
-          {children}
-        </motion.div>
-      </motion.div>
-    </div>
-  );
-}

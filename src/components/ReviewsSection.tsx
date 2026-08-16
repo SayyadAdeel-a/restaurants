@@ -1,76 +1,24 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   motion,
+  useInView,
   useReducedMotion,
   useScroll,
   useTransform,
-  type MotionValue,
 } from "framer-motion";
 import NextImage from "next/image";
 import { ArrowRight, Star } from "lucide-react";
+import Scatter from "@/components/Scatter";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const TRIPADVISOR_URL =
   "https://www.tripadvisor.com/Restaurant_Review-g211874-d12519106-Reviews-Killybegs_Seafood_Shack-Killybegs_County_Donegal.html";
-
-/* ---------- Scatter layer (same as Bestsellers — carried over) ---------- */
-
-type ScatterProps = {
-  posCls: string;
-  parallax: number;
-  orbit: number;
-  orbitDur: number;
-  rotate: number;
-  children: ReactNode;
-  progress: MotionValue<number>;
-};
-
-function Scatter({
-  posCls,
-  parallax,
-  orbit,
-  orbitDur,
-  rotate,
-  children,
-  progress,
-}: ScatterProps) {
-  const reduceMotion = useReducedMotion();
-  const y = useTransform(progress, [0, 1], [0, parallax]);
-
-  return (
-    <div
-      aria-hidden
-      className={`pointer-events-none absolute z-0 ${posCls}`}
-    >
-      <motion.div style={reduceMotion ? undefined : { y }}>
-        <motion.div
-          animate={
-            reduceMotion
-              ? undefined
-              : {
-                  x: [0, orbit, 0, -orbit, 0],
-                  y: [0, -orbit * 0.7, 0, orbit * 0.7, 0],
-                }
-          }
-          transition={{
-            repeat: Infinity,
-            duration: orbitDur,
-            ease: "easeInOut",
-          }}
-          style={{ rotate }}
-        >
-          {children}
-        </motion.div>
-      </motion.div>
-    </div>
-  );
-}
 
 /* ---------- Avatar circle ---------- */
 
@@ -88,6 +36,8 @@ function Avatar({ initials, tone }: { initials: string; tone: string }) {
 
 export default function ReviewsSection() {
   const rootRef = useRef<HTMLElement>(null);
+  const bowlRef = useRef<HTMLDivElement>(null);
+  const bowlInView = useInView(bowlRef, { margin: "200px 0px" });
   const reduceMotion = useReducedMotion();
 
   // Shared scroll progress for the parallax on the bowl + edge scatters
@@ -247,8 +197,11 @@ export default function ReviewsSection() {
             {/* Bowl — floats forever on a slow 8s cycle */}
             <motion.div
               id="rev-bowl-inner"
-              className="relative"
-              animate={reduceMotion ? undefined : { y: [0, -15, 0] }}
+              ref={bowlRef}
+              className="relative will-change-transform"
+              animate={
+                reduceMotion || !bowlInView ? undefined : { y: [0, -15, 0] }
+              }
               transition={{
                 repeat: Infinity,
                 duration: 8,
@@ -274,15 +227,19 @@ export default function ReviewsSection() {
               <motion.img
                 src="/images/dish/killybegs_herbs_clean.png"
                 alt=""
-                className="absolute -left-6 top-[14%] w-14 -rotate-12 drop-shadow-[0_12px_20px_rgba(0,0,0,0.15)] sm:-left-10 sm:w-16"
-                animate={reduceMotion ? undefined : { y: [0, -8, 0] }}
+                className="absolute -left-6 top-[14%] w-14 -rotate-12 drop-shadow-[0_12px_20px_rgba(0,0,0,0.15)] sm:-left-10 sm:w-16 will-change-transform"
+                animate={
+                  reduceMotion || !bowlInView ? undefined : { y: [0, -8, 0] }
+                }
                 transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut" }}
               />
               <motion.img
                 src="/images/dish/killybegs_lemon_clean.png"
                 alt=""
-                className="absolute -right-4 bottom-[12%] w-12 rotate-12 drop-shadow-[0_12px_20px_rgba(0,0,0,0.15)] sm:-right-8 sm:w-14"
-                animate={reduceMotion ? undefined : { y: [0, 9, 0] }}
+                className="absolute -right-4 bottom-[12%] w-12 rotate-12 drop-shadow-[0_12px_20px_rgba(0,0,0,0.15)] sm:-right-8 sm:w-14 will-change-transform"
+                animate={
+                  reduceMotion || !bowlInView ? undefined : { y: [0, 9, 0] }
+                }
                 transition={{ repeat: Infinity, duration: 5.1, ease: "easeInOut" }}
               />
             </motion.div>

@@ -46,7 +46,7 @@ export default function AwardsTicker() {
         </div>
       ) : (
         <motion.div
-          className="flex w-max"
+          className="flex w-max will-change-transform"
           animate={{ x: ["0%", "-50%"] }}
           transition={{ repeat: Infinity, duration: 38, ease: "linear" }}
         >

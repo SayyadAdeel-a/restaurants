@@ -1,18 +1,19 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   motion,
+  useInView,
   useReducedMotion,
   useScroll,
   useTransform,
-  type MotionValue,
 } from "framer-motion";
 import NextImage from "next/image";
 import { Clock, MapPin, Navigation, Phone } from "lucide-react";
+import Scatter from "@/components/Scatter";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -20,56 +21,12 @@ const PHONE = "+353 89 239 3094";
 const PHONE_HREF = "tel:+353892393094";
 const MAPS_URL = "https://maps.google.com/?cid=12648710332822452345";
 
-/* ---------- Scatter layer (same pattern as Bestsellers / Reviews) ---------- */
-
-type ScatterProps = {
-  posCls: string;
-  parallax: number;
-  orbit: number;
-  orbitDur: number;
-  rotate: number;
-  children: ReactNode;
-  progress: MotionValue<number>;
-};
-
-function Scatter({
-  posCls,
-  parallax,
-  orbit,
-  orbitDur,
-  rotate,
-  children,
-  progress,
-}: ScatterProps) {
-  const reduceMotion = useReducedMotion();
-  const y = useTransform(progress, [0, 1], [0, parallax]);
-
-  return (
-    <div aria-hidden className={`pointer-events-none absolute z-0 ${posCls}`}>
-      <motion.div style={reduceMotion ? undefined : { y }}>
-        <motion.div
-          animate={
-            reduceMotion
-              ? undefined
-              : {
-                  x: [0, orbit, 0, -orbit, 0],
-                  y: [0, -orbit * 0.7, 0, orbit * 0.7, 0],
-                }
-          }
-          transition={{ repeat: Infinity, duration: orbitDur, ease: "easeInOut" }}
-          style={{ rotate }}
-        >
-          {children}
-        </motion.div>
-      </motion.div>
-    </div>
-  );
-}
-
 /* ---------- Section ---------- */
 
 export default function FindUsSection() {
   const rootRef = useRef<HTMLElement>(null);
+  const photoRef = useRef<HTMLDivElement>(null);
+  const photoInView = useInView(photoRef, { margin: "200px 0px" });
   const reduceMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
@@ -326,8 +283,11 @@ export default function FindUsSection() {
           <motion.div style={reduceMotion ? undefined : { y: photoY }}>
             <motion.div
               id="find-photo-inner"
-              className="relative"
-              animate={reduceMotion ? undefined : { y: [0, -12, 0] }}
+              ref={photoRef}
+              className="relative will-change-transform"
+              animate={
+                reduceMotion || !photoInView ? undefined : { y: [0, -12, 0] }
+              }
               transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
             >
               {/* Floating plate — circular crop like a serving plate */}

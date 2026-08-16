@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import {
   motion,
+  useInView,
   useReducedMotion,
   useScroll,
   useTransform,
@@ -41,21 +42,32 @@ function FloatingAsset({
   shadow = true,
 }: FloatProps) {
   const reduceMotion = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { margin: "200px 0px" });
   const y = useTransform(progress, [0, 1], [0, moveY]);
   const rotate = useTransform(progress, [0, 1], [0, rotateTo]);
 
   return (
-    <div aria-hidden className={`hero-float pointer-events-none absolute z-10 ${className}`}>
-      <motion.div style={reduceMotion ? undefined : { y, rotate }}>
+    <div
+      ref={ref}
+      aria-hidden
+      className={`hero-float pointer-events-none absolute z-10 ${className}`}
+    >
+      <motion.div
+        style={reduceMotion ? undefined : { y, rotate }}
+        className="will-change-transform"
+      >
         <motion.img
           src={src}
           alt={alt}
-          className={shadow ? "w-full drop-shadow-[0_22px_28px_rgba(27,29,58,0.18)]" : "w-full"}
+          className={`${shadow ? "w-full drop-shadow-[0_22px_28px_rgba(27,29,58,0.18)]" : "w-full"} will-change-transform`}
           initial={{ opacity: 0, scale: 0.6 }}
           animate={
             reduceMotion
               ? { opacity: 1, scale: 1 }
-              : { opacity: 1, scale: 1, y: [0, -bob, 0] }
+              : inView
+                ? { opacity: 1, scale: 1, y: [0, -bob, 0] }
+                : { opacity: 1, scale: 1, y: 0 }
           }
           transition={
             reduceMotion
