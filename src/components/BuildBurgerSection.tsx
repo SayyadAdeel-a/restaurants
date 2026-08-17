@@ -141,16 +141,20 @@ export default function BuildBurgerSection() {
   const reduceMotion = useReducedMotion();
 
   // Active toppings — toggled from the chips or the fan. Starts fully stacked.
-  const [active, setActive] = useState<string[]>(() =>
-    layers.map((l) => l.src)
+  const [active, setActive] = useState<Set<string>>(() =>
+    new Set(layers.map((l) => l.src))
   );
 
   const toggle = (src: string) =>
-    setActive((prev) =>
-      prev.includes(src)
-        ? prev.filter((s) => s !== src)
-        : [...prev, src]
-    );
+    setActive((prev) => {
+      const next = new Set(prev);
+      if (next.has(src)) {
+        next.delete(src);
+      } else {
+        next.add(src);
+      }
+      return next;
+    });
 
   // Gentle parallax drift on the whole fan while scrolling
   const { scrollYProgress } = useScroll({
@@ -242,7 +246,7 @@ export default function BuildBurgerSection() {
           >
             <div className="flex flex-wrap gap-2.5">
               {layers.map((l) => {
-                const on = active.includes(l.src);
+                const on = active.has(l.src);
                 return (
                   <button
                     key={l.src}
@@ -266,7 +270,7 @@ export default function BuildBurgerSection() {
               })}
             </div>
             <p className="mt-3 font-mono text-[10px] tracking-[0.22em] text-cream/50 uppercase">
-              Tap a topping to add or remove it · {active.length}/{N} stacked
+              Tap a topping to add or remove it · {active.size}/{N} stacked
             </p>
           </motion.div>
 
@@ -309,7 +313,7 @@ export default function BuildBurgerSection() {
             className="relative h-64 will-change-transform sm:h-72"
           >
             {layers.map((l, i) => {
-              const on = active.includes(l.src);
+              const on = active.has(l.src);
               // Fan geometry: sweep the ten ingredients evenly across the
               // counter on a gentle arch, each tilted toward the middle.
               const t = N === 1 ? 0.5 : i / (N - 1);
