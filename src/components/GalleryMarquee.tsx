@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView, useReducedMotion } from "framer-motion";
+
+import { motion, useReducedMotion } from "framer-motion";
 import NextImage from "next/image";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -63,8 +63,8 @@ const shots: Shot[] = [
 /* ---------- Component ---------- */
 
 export default function GalleryMarquee() {
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const titleInView = useInView(titleRef, { once: true, margin: "-15% 0px" });
+
+
   const reduceMotion = useReducedMotion();
 
   return (
@@ -93,14 +93,14 @@ export default function GalleryMarquee() {
 
           <h2
             id="gallery-title"
-            ref={titleRef}
+
             className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-bold tracking-[-0.02em] text-ink"
           >
             <span className="block overflow-hidden pb-1">
               <motion.span
                 className="line-inner block"
                 initial={reduceMotion ? false : { y: 80 }}
-                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                animate={reduceMotion ? undefined : { y: 0 }}
                 transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
               >
                 Properly Messy.
@@ -110,7 +110,7 @@ export default function GalleryMarquee() {
               <motion.span
                 className="line-inner block"
                 initial={reduceMotion ? false : { y: 80 }}
-                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                animate={reduceMotion ? undefined : { y: 0 }}
                 transition={{ duration: 0.9, ease: EASE, delay: 0.37 }}
               >
                 <em className="text-blue italic">Every Single Time.</em>

@@ -28,8 +28,8 @@ export default function StorySection() {
   const rootRef = useRef<HTMLElement>(null);
   const visualRef = useRef<HTMLDivElement>(null);
   const visualInView = useInView(visualRef, { margin: "200px 0px" });
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const titleInView = useInView(titleRef, { once: true, margin: "-15% 0px" });
+
+
   const reduceMotion = useReducedMotion();
 
   // Gentle parallax drift on the burger while scrolling
@@ -145,14 +145,14 @@ export default function StorySection() {
 
           <h2
             id="story-title"
-            ref={titleRef}
+
             className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-bold tracking-[-0.02em] text-cream"
           >
             <span className="block overflow-hidden pb-1">
               <motion.span
                 className="line-inner block"
                 initial={reduceMotion ? false : { y: 80 }}
-                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                animate={reduceMotion ? undefined : { y: 0 }}
                 transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
               >
                 Born on the
@@ -162,7 +162,7 @@ export default function StorySection() {
               <motion.span
                 className="line-inner block"
                 initial={reduceMotion ? false : { y: 80 }}
-                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                animate={reduceMotion ? undefined : { y: 0 }}
                 transition={{ duration: 0.9, ease: EASE, delay: 0.37 }}
               >
                 <em className="text-blue italic">High Street.</em>
