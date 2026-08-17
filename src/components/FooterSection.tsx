@@ -94,7 +94,7 @@ export default function FooterSection() {
                 href={link.href}
                 target={link.href.startsWith("http") ? "_blank" : undefined}
                 rel={
-                  link.href.startsWith("http") ? "noreferrer" : undefined
+                  link.href.startsWith("http") ? "noopener noreferrer" : undefined
                 }
                 className="group font-mono text-xs tracking-[0.18em] text-cream/70 uppercase transition-colors hover:text-blue"
               >
