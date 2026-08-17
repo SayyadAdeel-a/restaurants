@@ -2,8 +2,8 @@
 
 import NextImage from "next/image";
 
-const PHONE = "+44 0000 000000";
-const PHONE_HREF = "tel:+440000000000";
+const PHONE = "01248 666800";
+const PHONE_HREF = "tel:+441248666800";
 const MAPS_URL = "https://maps.google.com/";
 
 const links = [

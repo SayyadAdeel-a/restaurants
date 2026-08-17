@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import {
-  AnimatePresence,
   motion,
   useInView,
   useReducedMotion,
@@ -10,7 +9,7 @@ import {
   useTransform,
 } from "framer-motion";
 import NextImage from "next/image";
-import { Check, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -23,10 +22,9 @@ type Layer = {
   alt: string;
   imgW: number;
   imgH: number;
-  cls: string; // width only — the buns run slightly wider than the filling
-  mt: string; // negative top margin — tucks each layer under the one above
-  rz: number; // flat rotation (deg)
-  ry: number; // 3D yaw (deg) — alternates so each ingredient peeks around the burger
+  rot: number; // flat display rotation (deg)
+  dur: number; // bob cycle (s) — all different so they never sync
+  bob: number; // bob amplitude (px)
 };
 
 const layers: Layer[] = [
@@ -36,10 +34,9 @@ const layers: Layer[] = [
     alt: "Fresh brioche bun",
     imgW: 1920,
     imgH: 1280,
-    cls: "w-44 sm:w-48",
-    mt: "",
-    rz: -3,
-    ry: 0,
+    rot: -3,
+    dur: 5.1,
+    bob: 4,
   },
   {
     src: "/images/jacks_stack_lettuce_clean.png",
@@ -47,10 +44,9 @@ const layers: Layer[] = [
     alt: "Crisp lettuce",
     imgW: 900,
     imgH: 600,
-    cls: "w-40 sm:w-44",
-    mt: "-mt-24",
-    rz: 2,
-    ry: 5,
+    rot: 2,
+    dur: 4.6,
+    bob: 5,
   },
   {
     src: "/images/burger_tomato.png",
@@ -58,10 +54,9 @@ const layers: Layer[] = [
     alt: "Fresh tomato",
     imgW: 1920,
     imgH: 1280,
-    cls: "w-40 sm:w-44",
-    mt: "-mt-24",
-    rz: -2,
-    ry: -4,
+    rot: -2,
+    dur: 5.4,
+    bob: 4,
   },
   {
     src: "/images/burger_cheese.png",
@@ -69,10 +64,9 @@ const layers: Layer[] = [
     alt: "Melted cheddar",
     imgW: 1920,
     imgH: 1280,
-    cls: "w-40 sm:w-44",
-    mt: "-mt-24",
-    rz: 3,
-    ry: 4,
+    rot: 3,
+    dur: 4.9,
+    bob: 5,
   },
   {
     src: "/images/burger_bacon.png",
@@ -80,10 +74,9 @@ const layers: Layer[] = [
     alt: "Smoky bacon",
     imgW: 1920,
     imgH: 1280,
-    cls: "w-40 sm:w-44",
-    mt: "-mt-24",
-    rz: -2,
-    ry: -5,
+    rot: -2,
+    dur: 5.6,
+    bob: 4,
   },
   {
     src: "/images/jacks_asset_onion_rings.png",
@@ -91,10 +84,9 @@ const layers: Layer[] = [
     alt: "Onion rings",
     imgW: 1600,
     imgH: 1600,
-    cls: "w-40 sm:w-44",
-    mt: "-mt-24",
-    rz: 2,
-    ry: 3,
+    rot: 2,
+    dur: 4.7,
+    bob: 5,
   },
   {
     src: "/images/jacks_asset_pickle_lemon.png",
@@ -102,10 +94,9 @@ const layers: Layer[] = [
     alt: "Pickles and lemon",
     imgW: 1920,
     imgH: 1280,
-    cls: "w-40 sm:w-44",
-    mt: "-mt-24",
-    rz: -3,
-    ry: 4,
+    rot: -3,
+    dur: 5.2,
+    bob: 4,
   },
   {
     src: "/images/jacks_asset_jalapeno.png",
@@ -113,10 +104,9 @@ const layers: Layer[] = [
     alt: "Pickled jalapeños",
     imgW: 1920,
     imgH: 1280,
-    cls: "w-40 sm:w-44",
-    mt: "-mt-24",
-    rz: 2,
-    ry: -3,
+    rot: 2,
+    dur: 4.4,
+    bob: 5,
   },
   {
     src: "/images/jacks_stack_beef_patty.png",
@@ -124,10 +114,9 @@ const layers: Layer[] = [
     alt: "Flame-grilled beef patty",
     imgW: 1600,
     imgH: 1600,
-    cls: "w-40 sm:w-44",
-    mt: "-mt-24",
-    rz: -1,
-    ry: -2,
+    rot: -1,
+    dur: 5.8,
+    bob: 4,
   },
   {
     src: "/images/jacks_stack_bottom_bun.png",
@@ -135,10 +124,9 @@ const layers: Layer[] = [
     alt: "Toasted bottom bun",
     imgW: 900,
     imgH: 900,
-    cls: "w-44 sm:w-48",
-    mt: "-mt-24",
-    rz: 2,
-    ry: 0,
+    rot: 2,
+    dur: 5.3,
+    bob: 5,
   },
 ];
 
@@ -146,13 +134,13 @@ const layers: Layer[] = [
 
 export default function BuildBurgerSection() {
   const rootRef = useRef<HTMLElement>(null);
-  const stackRef = useRef<HTMLDivElement>(null);
-  const stackInView = useInView(stackRef, { margin: "200px 0px" });
+  const figureRef = useRef<HTMLDivElement>(null);
+  const figureInView = useInView(figureRef, { margin: "200px 0px" });
   const titleRef = useRef<HTMLHeadingElement>(null);
   const titleInView = useInView(titleRef, { once: true, margin: "-15% 0px" });
   const reduceMotion = useReducedMotion();
 
-  // Active parts — toggled from the manifest. Starts fully assembled.
+  // Active toppings — toggled from the chips or the fan. Starts fully stacked.
   const [active, setActive] = useState<string[]>(() =>
     layers.map((l) => l.src)
   );
@@ -164,49 +152,29 @@ export default function BuildBurgerSection() {
         : [...prev, src]
     );
 
-  // Gentle parallax drift on the whole stack while scrolling
+  // Gentle parallax drift on the whole fan while scrolling
   const { scrollYProgress } = useScroll({
     target: rootRef,
     offset: ["start end", "end start"],
   });
-  const stackY = useTransform(scrollYProgress, [0, 1], [0, -28]);
+  const figureY = useTransform(scrollYProgress, [0, 1], [0, -24]);
+
+  const N = layers.length;
 
   return (
     <section
       id="build"
       ref={rootRef}
-      className="relative overflow-hidden bg-gradient-to-b from-navy-900 to-navy-950 py-24 lg:py-36"
+      className="relative overflow-hidden bg-navy-950 py-24 lg:py-36"
     >
-      {/* Blueprint grid */}
+      {/* Soft red glow behind the fan */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] [background-size:36px_36px]"
-      />
-      {/* Vignette to keep the edges dark */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(15,15,15,0.5)_100%)]"
-      />
-      {/* Soft red glow behind the assembly */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute top-1/2 right-[26%] h-[620px] w-[620px] -translate-y-1/2 translate-x-1/2 rounded-full bg-red/20 blur-3xl"
+        className="pointer-events-none absolute top-1/2 right-[22%] h-[560px] w-[720px] -translate-y-1/2 translate-x-1/2 rounded-full bg-red/20 blur-3xl"
       />
 
-      {/* Drawing title block — like the corner of an engineering sheet */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-6 bottom-6 hidden border border-cream/15 px-4 py-3 font-mono text-[9px] leading-relaxed tracking-[0.22em] text-cream/40 uppercase lg:block"
-      >
-        Jack&rsquo;s Burger UK · Assembly Guide
-        <br />
-        Scale 1:1 · Sheet 01 of 01
-        <br />
-        <span className="text-blue">Rev C · Est. 2024</span>
-      </div>
-
-      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-20 px-5 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-10">
-        {/* Left — spec sheet + parts manifest */}
+      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-16 px-5 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:px-10">
+        {/* Left — copy */}
         <div className="max-w-xl">
           <motion.p
             id="build-eyebrow"
@@ -216,8 +184,7 @@ export default function BuildBurgerSection() {
             transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
             className="font-mono text-[11px] tracking-[0.32em] text-cream/50 uppercase"
           >
-            <span className="text-blue">+</span> Jack&rsquo;s Burger UK ·
-            Assembly Guide
+            Jack&rsquo;s Burger UK · Build Your Burger
           </motion.p>
 
           <h2
@@ -251,23 +218,6 @@ export default function BuildBurgerSection() {
             </span>
           </h2>
 
-          {/* Spec strip */}
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-            whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-15% 0px" }}
-            transition={{ duration: 0.6, ease: EASE, delay: 0.55 }}
-            className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[9px] tracking-[0.28em] text-cream/40 uppercase"
-          >
-            <span className="text-blue">Spec</span>
-            <span aria-hidden className="size-1 rotate-45 bg-cream/30" />
-            <span>10 Parts</span>
-            <span aria-hidden className="size-1 rotate-45 bg-cream/30" />
-            <span>Flame-Grilled</span>
-            <span aria-hidden className="size-1 rotate-45 bg-cream/30" />
-            <span>Built to Order</span>
-          </motion.div>
-
           <motion.p
             id="build-sub"
             initial={reduceMotion ? false : { y: 18, opacity: 0 }}
@@ -281,7 +231,7 @@ export default function BuildBurgerSection() {
             between. Pick any combo, add-ons from 50p.
           </motion.p>
 
-          {/* Parts manifest — tap a part to mount or remove it */}
+          {/* Topping chips — tap to add or remove a layer */}
           <motion.div
             id="build-chips"
             initial={reduceMotion ? false : { y: 16, opacity: 0 }}
@@ -290,8 +240,8 @@ export default function BuildBurgerSection() {
             transition={{ duration: 0.6, ease: EASE, delay: 0.75 }}
             className="mt-7"
           >
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-5 sm:gap-2.5">
-              {layers.map((l, i) => {
+            <div className="flex flex-wrap gap-2.5">
+              {layers.map((l) => {
                 const on = active.includes(l.src);
                 return (
                   <button
@@ -299,48 +249,24 @@ export default function BuildBurgerSection() {
                     type="button"
                     aria-pressed={on}
                     onClick={() => toggle(l.src)}
-                    className={`group flex min-w-0 flex-col gap-1.5 rounded-md border px-3 py-2.5 text-left transition-all duration-300 ${
+                    className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2 font-mono text-[10px] tracking-[0.18em] uppercase shadow-[0_8px_30px_rgba(0,0,0,0.25)] transition-all duration-300 ${
                       on
-                        ? "border-red/60 bg-red/10 shadow-[0_0_24px_rgba(237,28,36,0.12)]"
-                        : "border-cream/12 bg-white/[0.03] hover:border-cream/30 hover:bg-white/[0.06]"
+                        ? "border-red bg-red text-white shadow-red/25 hover:bg-crimson"
+                        : "border-cream/15 bg-white/5 text-cream/70 hover:border-cream/40 hover:text-cream"
                     }`}
                   >
-                    <span className="flex items-center justify-between">
-                      <span
-                        className={`font-mono text-[8px] tracking-[0.08em] ${
-                          on ? "text-blue" : "text-cream/35"
-                        }`}
-                      >
-                        J-{String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span
-                        className={`flex size-4 items-center justify-center rounded-[3px] border transition-colors duration-300 ${
-                          on ? "border-blue bg-blue" : "border-cream/25"
-                        }`}
-                      >
-                        {on && (
-                          <Check
-                            className="size-3 text-white"
-                            strokeWidth={3}
-                            aria-hidden
-                          />
-                        )}
-                      </span>
-                    </span>
                     <span
-                      className={`min-w-0 truncate font-mono text-[10px] tracking-[0.16em] uppercase transition-colors duration-300 ${
-                        on ? "text-cream" : "text-cream/60"
+                      className={`size-1.5 rounded-full transition-colors duration-300 ${
+                        on ? "bg-white" : "bg-red"
                       }`}
-                    >
-                      {l.label}
-                    </span>
+                    />
+                    {l.label}
                   </button>
                 );
               })}
             </div>
             <p className="mt-3 font-mono text-[10px] tracking-[0.22em] text-cream/50 uppercase">
-              Tap a part to mount or remove it · {active.length}/{layers.length}{" "}
-              parts mounted
+              Tap a topping to add or remove it · {active.length}/{N} stacked
             </p>
           </motion.div>
 
@@ -369,119 +295,96 @@ export default function BuildBurgerSection() {
           </motion.div>
         </div>
 
-        {/* Right — the assembly figure */}
+        {/* Right — the ingredients fanned across the counter */}
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
           whileInView={reduceMotion ? undefined : { opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 1, ease: EASE, delay: 0.4 }}
-          className="relative mx-auto w-fit"
+          className="relative mx-auto w-full max-w-xl"
         >
-          {/* Dashed drawing frame */}
-          <div
-            aria-hidden
-            className="absolute -inset-7 rounded-2xl border border-dashed border-cream/15"
-          />
-          {/* Frame corner ticks */}
-          <span
-            aria-hidden
-            className="absolute -top-[3px] -left-[3px] size-5 border-t-2 border-l-2 border-cream/40"
-          />
-          <span
-            aria-hidden
-            className="absolute -top-[3px] -right-[3px] size-5 border-t-2 border-r-2 border-cream/40"
-          />
-          <span
-            aria-hidden
-            className="absolute -bottom-[3px] -left-[3px] size-5 border-b-2 border-l-2 border-cream/40"
-          />
-          <span
-            aria-hidden
-            className="absolute -right-[3px] -bottom-[3px] size-5 border-r-2 border-b-2 border-cream/40"
-          />
-
-          {/* Figure caption */}
-          <div
-            aria-hidden
-            className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap font-mono text-[9px] tracking-[0.3em] text-cream/40 uppercase"
+          <motion.div
+            ref={figureRef}
+            style={reduceMotion ? undefined : { y: figureY }}
+            className="relative h-64 will-change-transform sm:h-72"
           >
-            Fig. 01 — Final Assembly
-          </div>
-
-          {/* Dimension callouts */}
-          <div
-            aria-hidden
-            className="absolute top-1/2 -left-20 hidden -translate-y-1/2 font-mono text-[9px] tracking-[0.3em] text-cream/30 uppercase lg:block [writing-mode:vertical-rl]"
-          >
-            Model J-01
-          </div>
-          <div
-            aria-hidden
-            className="absolute top-1/2 -right-20 hidden -translate-y-1/2 rotate-180 font-mono text-[9px] tracking-[0.3em] text-cream/30 uppercase lg:block [writing-mode:vertical-rl]"
-          >
-            H 3.5&quot; · Stacked to Order
-          </div>
-
-          {/* The burger */}
-          <div className="relative mt-8 [perspective:1100px]">
-            {/* Elliptical ground shadow under the burger */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -bottom-9 left-1/2 h-10 w-56 -translate-x-1/2 rounded-[50%] bg-black/45 blur-2xl"
-            />
-
-            {/* Tilt the burger toward the viewer for a 3D read — viewed from
-                above, like the ingredient photos, so the top bun sits in front */}
-            <div className="[transform-style:preserve-3d] [transform:rotateX(-14deg)]">
-              <motion.div style={reduceMotion ? undefined : { y: stackY }}>
-                <motion.div
-                  ref={stackRef}
-                  className="relative flex flex-col items-center will-change-transform"
-                  animate={
-                    reduceMotion || !stackInView ? undefined : { y: [0, -10, 0] }
-                  }
-                  transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
+            {layers.map((l, i) => {
+              const on = active.includes(l.src);
+              // Fan geometry: sweep the ten ingredients evenly across the
+              // counter on a gentle arch, each tilted toward the middle.
+              const t = N === 1 ? 0.5 : i / (N - 1);
+              const left = 5 + t * 90;
+              const bottom = 6 + 30 * (1 - Math.pow(2 * t - 1, 2));
+              const tilt = (0.5 - t) * 24;
+              return (
+                <button
+                  key={l.src}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => toggle(l.src)}
+                  style={{ left: `${left}%`, bottom: `${bottom}%` }}
+                  className={`group absolute flex w-14 -translate-x-1/2 flex-col items-center transition-opacity duration-300 sm:w-20 ${
+                    on ? "" : "opacity-40 hover:opacity-80"
+                  }`}
                 >
-                  <AnimatePresence>
-                    {layers
-                      .filter((l) => active.includes(l.src))
-                      .map((l, i) => (
-                        <motion.div
-                          key={l.src}
-                          layout={!reduceMotion}
-                          initial={{ opacity: 0, scale: 0.6 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.6 }}
-                          transition={{ duration: reduceMotion ? 0 : 0.35 }}
-                        >
-                          <div
-                            className={`build-layer relative ${l.mt} ${l.cls}`}
-                            style={{
-                              zIndex: active.length - i,
-                              transform: `rotate(${l.rz}deg) rotateY(${l.ry}deg)`,
-                            }}
-                          >
-                            <NextImage
-                              src={l.src}
-                              alt={l.alt}
-                              width={l.imgW}
-                              height={l.imgH}
-                              sizes="(max-width: 1024px) 176px, 192px"
-                              className="h-auto w-full object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,0.16)]"
-                            />
-                          </div>
-                        </motion.div>
-                      ))}
-                  </AnimatePresence>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
+                  {/* Soft halo behind active ingredients */}
+                  {on && (
+                    <span
+                      aria-hidden
+                      className="absolute -inset-3 rounded-full bg-red/15 blur-lg"
+                    />
+                  )}
 
-          {/* Plinth the assembly stands on */}
+                  <span
+                    style={{ transform: `rotate(${tilt + l.rot}deg)` }}
+                    className="relative block"
+                  >
+                    <motion.span
+                      className="flex h-14 w-full items-center justify-center sm:h-16"
+                      animate={
+                        reduceMotion || !figureInView
+                          ? undefined
+                          : { y: [0, -l.bob, 0] }
+                      }
+                      transition={{
+                        repeat: Infinity,
+                        duration: l.dur,
+                        ease: "easeInOut",
+                      }}
+                    >
+                      <NextImage
+                        src={l.src}
+                        alt={l.alt}
+                        width={l.imgW}
+                        height={l.imgH}
+                        sizes="(max-width: 640px) 56px, 80px"
+                        className="h-full w-auto object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.4)]"
+                      />
+                    </motion.span>
+                  </span>
+
+                  {/* Labels sit right under each item in a single row — tight
+                      mono at 8px with reduced tracking keeps even the long
+                      names ("Onion Rings") clear of the neighbours at the
+                      flat arch peak. Active state is signalled by the halo
+                      and label colour instead of a dot, which would widen
+                      the labels and re-collide them. */}
+                  <span
+                    className={`mt-1.5 flex items-center justify-center truncate font-mono text-[8px] tracking-[0.06em] uppercase transition-colors duration-300 ${
+                      on ? "text-cream" : "text-cream/45"
+                    }`}
+                  >
+                    <span className="truncate">{l.label}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </motion.div>
+
+          {/* Counter line the fan rests on */}
           <div
             aria-hidden
-            className="relative mx-auto mt-1 h-1.5 w-64 rounded-full bg-cream/15"
+            className="relative mx-auto mt-1 h-1.5 w-full max-w-xl rounded-full bg-cream/15"
           />
         </motion.div>
       </div>

@@ -47,10 +47,10 @@ export default function GalleryMarquee() {
   return (
     <section
       id="gallery"
-      className="relative overflow-hidden border-y border-navy-800/8 bg-cream py-16 sm:py-20"
+      className="relative overflow-hidden border-y border-navy-800/8 bg-kraft py-16 sm:py-20"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
-        <p className="text-center font-mono text-[11px] tracking-[0.32em] text-navy-800/50 uppercase">
+        <p className="text-center font-mono text-[11px] tracking-[0.32em] text-navy-950/70 uppercase">
           Jack&rsquo;s Burger UK · The Gallery
         </p>
       </div>

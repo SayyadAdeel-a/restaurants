@@ -24,9 +24,9 @@ type Deal = {
 const deals: Deal[] = [
   {
     src: "/images/jacks_smash_burger_cutout.png",
-    alt: "The Stack Deal — smash burger, fries and a drink",
+    alt: "The Stack Deal — Duo Smash, sweet chili fries and a drink",
     name: "The Stack Deal",
-    desc: "Smash burger, skin-on fries & a soft drink",
+    desc: "Duo Smash, sweet chili fries & a drink",
     price: "£10.95",
     tag: "Best Value",
     imgW: 1600,
@@ -34,9 +34,9 @@ const deals: Deal[] = [
   },
   {
     src: "/images/jacks_asset_onion_rings.png",
-    alt: "Ring the Changes — onion rings on any burger",
+    alt: "Ring the Changes — onion rings on any smash",
     name: "Ring the Changes",
-    desc: "Add a side of golden onion rings to any burger",
+    desc: "Add a side of golden onion rings to any smash",
     price: "+£2.50",
     tag: "Limited Time",
     imgW: 1600,
@@ -44,9 +44,9 @@ const deals: Deal[] = [
   },
   {
     src: "/images/jacks_asset_burger_box.png",
-    alt: "The Family Box — two burgers, two fries and onion rings to share",
+    alt: "The Family Box — two smash burgers, two fries and onion rings to share",
     name: "The Family Box",
-    desc: "2 smash burgers, 2 fries & 4 onion rings to share",
+    desc: "2 smash burgers (your pick), 2 fries & 4 onion rings to share",
     price: "£24.95",
     tag: "Feeds 4",
     imgW: 1600,
@@ -54,9 +54,9 @@ const deals: Deal[] = [
   },
   {
     src: "/images/burger_bacon_cheddar_combo.png",
-    alt: "The Bacon & Cheddar Combo — bacon and cheddar smash with fries and a drink",
+    alt: "The Bacon & Cheddar Combo — Classic Smash loaded with bacon and cheddar, fries and a drink",
     name: "The Bacon & Cheddar Combo",
-    desc: "Bacon & cheddar smash, skin-on fries & a drink",
+    desc: "Classic Smash loaded with bacon & cheddar, fries & a drink",
     price: "£11.95",
     tag: "New",
     imgW: 900,
@@ -133,8 +133,8 @@ export default function SpecialsSection() {
             transition={{ duration: 0.7, ease: EASE, delay: 0.6 }}
             className="mt-5 mx-auto max-w-md text-base leading-relaxed text-cream/60 sm:text-lg"
           >
-            Made-to-order favourites, bundled into proper value. Ask in store or
-            quote the deal when you call ahead.
+            Real smash burgers, bundled into proper value. Ask in store or quote
+            the deal when you call ahead.
           </motion.p>
         </div>
 
@@ -168,7 +168,7 @@ export default function SpecialsSection() {
                 />
               </div>
 
-              <h3 className="mt-5 font-serif text-xl font-semibold text-cream sm:text-2xl">
+              <h3 className="mt-5 font-serif text-xl font-bold text-cream sm:text-2xl">
                 {deal.name}
               </h3>
               <p className="mt-1 max-w-[16rem] text-sm leading-relaxed text-cream/60">

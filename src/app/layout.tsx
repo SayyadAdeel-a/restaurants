@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { Inter, IBM_Plex_Mono, Poppins } from "next/font/google";
+import { Alfa_Slab_One, IBM_Plex_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
 
 const poppins = Poppins({
   variable: "--font-poppins",
   weight: ["400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+});
+
+const alfaSlab = Alfa_Slab_One({
+  variable: "--font-alfa",
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -21,14 +22,14 @@ const plexMono = IBM_Plex_Mono({
 });
 
 const SITE_URL = "https://jacksburgeruk.com";
-const TITLE = "Jack's Burger UK | Flame-Grilled British Beef Burgers";
+const TITLE = "Jack's Burger UK | Where Passion Meets Flavour";
 const DESCRIPTION =
-  "Flame-grilled 100% British beef burgers, made to order. Fresh brioche, melted cheddar and house sauces — served fast from our high-street kitchens across the UK.";
+  "Where passion meets flavour — and maybe a little sauce on your chin. Flame-grilled smash burgers made with top-quality ingredients, served fast from Jack's Burger in North Wales.";
 
 const OG_IMAGE = {
-  url: "/images/jacks_smash_burger_cutout.png",
+  url: "/images/jacks_scroll01_transparent_v2.png",
   width: 1600,
-  height: 1600,
+  height: 1066,
   alt: "Jack's Burger UK — the signature flame-grilled smash burger",
 };
 
@@ -92,36 +93,41 @@ const structuredData = {
         "Flame-grilled 100% British beef burgers, made to order. Fresh brioche, melted cheddar and house sauces — served fast from our high-street kitchens across the UK.",
       url: SITE_URL,
       image: `${SITE_URL}/images/jacks_smash_burger_cutout.png`,
-      telephone: "+440000000000",
+      telephone: "+441248666800",
       priceRange: "£",
       servesCuisine: ["Burgers", "Fast Food", "British"],
       acceptsReservations: "False",
-      hasMap: "https://maps.google.com/",
+      hasMap: "https://www.google.com/maps/search/?api=1&query=Llangefni+Road+Brynteg",
       address: {
         "@type": "PostalAddress",
-        streetAddress: "High Street",
-        addressLocality: "London",
+        streetAddress: "Llangefni Road",
+        addressLocality: "Brynteg",
+        postalCode: "LL78 8JQ",
         addressCountry: "GB",
       },
       geo: {
         "@type": "GeoCoordinates",
-        latitude: 51.5074,
-        longitude: -0.1278,
+        latitude: 53.3142,
+        longitude: -4.3457,
       },
       openingHoursSpecification: [
         {
           "@type": "OpeningHoursSpecification",
           dayOfWeek: [
+            "Sunday",
             "Monday",
             "Tuesday",
             "Wednesday",
             "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday",
           ],
-          opens: "11:30",
-          closes: "21:00",
+          opens: "11:00",
+          closes: "23:00",
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Friday", "Saturday"],
+          opens: "11:00",
+          closes: "00:00",
         },
       ],
       aggregateRating: {
@@ -195,7 +201,7 @@ const structuredData = {
           name: "Where is Jack's Burger UK?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "On High Street, London — with more sites opening soon across the UK.",
+            text: "Llangefni Road, Brynteg, LL78 8JQ — with more sites opening soon across the UK.",
           },
         },
         {
@@ -203,7 +209,7 @@ const structuredData = {
           name: "What are Jack's Burger UK opening hours?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Open every day from 11:30am to 9pm.",
+            text: "Open Sun–Thu 11am–11pm and Fri–Sat 11am–midnight.",
           },
         },
         {
@@ -223,7 +229,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", inter.variable, poppins.variable, plexMono.variable, "font-sans")}
+      className={cn("h-full", "antialiased", poppins.variable, alfaSlab.variable, plexMono.variable, "font-sans")}
     >
       <body className="min-h-full flex flex-col bg-cream text-ink">
         <script

@@ -9,14 +9,17 @@ import {
   useTransform,
 } from "framer-motion";
 import NextImage from "next/image";
-import { Clock, MapPin, Navigation, Phone } from "lucide-react";
+import { Clock, Mail, MapPin, Navigation, Phone } from "lucide-react";
 import Scatter from "@/components/Scatter";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const PHONE = "+44 0000 000000";
-const PHONE_HREF = "tel:+440000000000";
-const MAPS_URL = "https://maps.google.com/";
+const PHONE = "01248 666800";
+const PHONE_HREF = "tel:+441248666800";
+const MAPS_URL =
+  "https://www.google.com/maps/search/?api=1&query=Llangefni+Road+Brynteg+LL78+8JQ";
+const EMAIL = "info@jacksburgeruk.com";
+const EMAIL_HREF = "mailto:info@jacksburgeruk.com";
 
 /* ---------- Section ---------- */
 
@@ -157,78 +160,109 @@ export default function FindUsSection() {
             </span>
           </h2>
 
-          {/* Address */}
+          {/* Maroon location blocks — the real Jack's Burger spots */}
           <motion.div
             id="find-address"
             initial={reduceMotion ? false : { y: 14, opacity: 0 }}
             whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-15% 0px" }}
             transition={{ duration: 0.6, ease: EASE, delay: 0.6 }}
-            className="mt-8 flex items-start gap-4"
+            className="mt-8 overflow-hidden rounded-3xl bg-maroon text-cream shadow-[0_30px_70px_rgba(61,10,10,0.35)]"
           >
-            <span className="mt-0.5 flex size-11 shrink-0 items-center justify-center rounded-full bg-white text-red shadow-[0_8px_30px_rgba(27,29,58,0.08)] ring-1 ring-navy-100">
-              <MapPin className="size-5" />
-            </span>
-            <div>
-              <p className="text-lg font-medium text-navy-800">
-                Find your nearest Jack&rsquo;s
-              </p>
-              <p className="mt-1 text-sm leading-relaxed text-navy-800/60">
-                High Street, London
-                <br />
-                More sites opening soon across the UK
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Hours */}
-          <motion.div
-            id="find-hours"
-            initial={reduceMotion ? false : { y: 14, opacity: 0 }}
-            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
-            viewport={{ once: true, margin: "-15% 0px" }}
-            transition={{ duration: 0.6, ease: EASE, delay: 0.72 }}
-            className="mt-6 flex items-start gap-4"
-          >
-            <span className="mt-0.5 flex size-11 shrink-0 items-center justify-center rounded-full bg-white text-blue shadow-[0_8px_30px_rgba(27,29,58,0.08)] ring-1 ring-navy-100">
-              <Clock className="size-5" />
-            </span>
-            <div>
-              <p className="text-lg font-medium text-navy-800">
-                Mon–Sun · 11:30am – 9pm
-              </p>
-              <p className="mt-1 text-sm leading-relaxed text-navy-800/60">
-                Dine-in, takeaway &amp; delivery — order ahead to skip the
-                queue.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Phone */}
-          <div className="mt-6 flex items-start gap-4">
-            <span className="mt-0.5 flex size-11 shrink-0 items-center justify-center rounded-full bg-white text-gold shadow-[0_8px_30px_rgba(27,29,58,0.08)] ring-1 ring-navy-100">
-              <Phone className="size-5" />
-            </span>
-            <div>
-              <a
-                href={PHONE_HREF}
-                className="text-lg font-medium text-navy-800 transition-colors hover:text-red"
-              >
-                {PHONE}
-              </a>
-              <p className="mt-1 text-sm leading-relaxed text-navy-800/60">
-                Or send us a message on Instagram{" "}
+            <div className="grid gap-px bg-white/10 sm:grid-cols-2">
+              {/* Location */}
+              <div className="bg-maroon p-6">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-retro text-lg tracking-wide text-jacks uppercase">
+                    Jack&rsquo;s Burger
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-jacks px-3 py-1 font-mono text-[9px] tracking-[0.18em] text-ink uppercase">
+                    <span className="size-1.5 rounded-full bg-red" />
+                    Open Now
+                  </span>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-cream/80">
+                  Llangefni Road, Brynteg
+                  <br />
+                  LL78 8JQ · North Wales
+                </p>
                 <a
-                  href="https://instagram.com/jacksburgeruk"
+                  href={MAPS_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="font-medium text-blue transition-colors hover:text-navy-800"
+                  className="mt-4 inline-flex items-center gap-1.5 font-mono text-[10px] tracking-[0.18em] text-jacks uppercase transition-colors hover:text-cream"
                 >
-                  @jacksburgeruk
+                  <Navigation className="size-3.5" />
+                  Get Directions
                 </a>
+              </div>
+
+              {/* Hours */}
+              <div className="bg-maroon p-6">
+                <p className="flex items-center gap-2 font-mono text-[10px] tracking-[0.2em] text-cream/60 uppercase">
+                  <Clock className="size-3.5 text-jacks" />
+                  Working Hours
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-cream/90">
+                  Sun – Thu · 11am – 11pm
+                  <br />
+                  Fri – Sat · 11am – Midnight
+                </p>
+              </div>
+
+              {/* Phone */}
+              <div className="bg-maroon p-6">
+                <p className="flex items-center gap-2 font-mono text-[10px] tracking-[0.2em] text-cream/60 uppercase">
+                  <Phone className="size-3.5 text-jacks" />
+                  Call Us
+                </p>
+                <a
+                  href={PHONE_HREF}
+                  className="mt-3 inline-block text-lg font-semibold text-cream transition-colors hover:text-jacks"
+                >
+                  {PHONE}
+                </a>
+                <p className="mt-1 text-xs text-cream/60">
+                  Dine-in, takeaway &amp; delivery
+                </p>
+              </div>
+
+              {/* Email */}
+              <div className="bg-maroon p-6">
+                <p className="flex items-center gap-2 font-mono text-[10px] tracking-[0.2em] text-cream/60 uppercase">
+                  <Mail className="size-3.5 text-jacks" />
+                  Got a Question?
+                </p>
+                <a
+                  href={EMAIL_HREF}
+                  className="mt-3 inline-block text-sm font-semibold break-all text-cream transition-colors hover:text-jacks"
+                >
+                  {EMAIL}
+                </a>
+                <p className="mt-1 text-xs text-cream/60">
+                  Or find us on Instagram{" "}
+                  <a
+                    href="https://instagram.com/jacksburgeruk"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-medium text-jacks transition-colors hover:text-cream"
+                  >
+                    @jacksburgeruk
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            {/* Coming-soon strip — banter from the real site */}
+            <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-white/10 bg-maroon px-6 py-4">
+              <p className="font-mono text-[10px] tracking-[0.2em] text-cream/70 uppercase">
+                Bryn Bettws Lodge · Opening Soon
+              </p>
+              <p className="font-mono text-[10px] tracking-[0.2em] text-jacks uppercase">
+                More sites across the UK — watch us grow 🍔
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* CTAs */}
           <motion.div
@@ -280,15 +314,14 @@ export default function FindUsSection() {
               transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
             >
               {/* Floating plate — circular crop like a serving plate */}
-              <div className="relative overflow-hidden rounded-full border-8 border-white shadow-[0_30px_80px_rgba(0,0,0,0.15)]">
-                <NextImage
-                  src="/images/jacks_chicken_burger_cutout.png"
-                  alt="Jack's buttermilk chicken burger"
-                  width={1920}
-                  height={1280}
-                  sizes="(max-width: 1024px) 82vw, 560px"
-                  className="aspect-square h-auto w-full object-cover"
-                />
+              <div className="relative overflow-hidden rounded-full border-8 border-white shadow-[0_30px_80px_rgba(0,0,0,0.15)]">                  <NextImage
+                    src="/images/jacks_scroll03_transparent_v2.png"
+                    alt="The full Jack's spread — burgers, fries and rings"
+                    width={1600}
+                    height={914}
+                    sizes="(max-width: 1024px) 82vw, 560px"
+                    className="aspect-square h-auto w-full object-cover"
+                  />
                 {/* Faint dark scrim so the pin reads */}
                 <div
                   aria-hidden
@@ -312,7 +345,7 @@ export default function FindUsSection() {
               <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-4 py-2 font-mono text-[10px] tracking-[0.22em] text-navy-800 uppercase shadow-lg backdrop-blur-sm">
                   <span className="size-1.5 rounded-full bg-red" />
-                  Jack&rsquo;s · High Street
+                  Jack&rsquo;s · Brynteg
                 </span>
               </div>
             </motion.div>

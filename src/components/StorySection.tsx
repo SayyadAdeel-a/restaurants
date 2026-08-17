@@ -10,6 +10,7 @@ import {
 } from "framer-motion";
 import NextImage from "next/image";
 import { ArrowRight } from "lucide-react";
+import Flame from "@/components/Flame";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -42,13 +43,21 @@ export default function StorySection() {
     <section
       id="story"
       ref={rootRef}
-      className="relative overflow-hidden bg-navy-950 py-24 lg:py-36"
+      className="relative overflow-hidden bg-jacks py-24 lg:py-36"
     >
-      {/* Soft red glow behind the burger */}
+      {/* Flame glow — orange/red heat rising from the bottom, like the hero */}
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/2 left-[26%] h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red/20 blur-3xl"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] bg-[radial-gradient(ellipse_at_bottom,rgba(255,122,26,0.45),transparent_70%)]"
       />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[38%] bg-[radial-gradient(ellipse_at_bottom,rgba(237,28,36,0.35),transparent_65%)]"
+      />
+      {/* Flame shapes licking up the edges */}
+      <Flame className="absolute bottom-0 left-[5%] w-16 text-flame/80 sm:w-20" />
+      <Flame className="absolute right-[6%] bottom-0 w-20 text-blue/60 sm:w-24" />
+      <Flame className="absolute right-[38%] bottom-0 hidden w-12 text-flame/70 md:block" />
 
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-16 px-5 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:px-10">
         {/* Left — the burger with ingredient garnish */}
@@ -75,11 +84,11 @@ export default function StorySection() {
                 width={1600}
                 height={914}
                 sizes="(max-width: 1024px) 78vw, 520px"
-                className="relative h-auto w-full object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.18)]"
+                className="relative h-auto w-full object-contain drop-shadow-[0_40px_80px_rgba(61,10,10,0.3)]"
               />
 
               {/* Est. badge */}
-              <span className="absolute -top-3 right-0 rotate-6 rounded-full bg-gold px-4 py-1.5 font-mono text-[10px] font-medium tracking-[0.2em] text-navy-950 uppercase shadow-lg shadow-gold/25">
+              <span className="absolute -top-3 right-0 rotate-6 rounded-full bg-ink px-4 py-1.5 font-mono text-[10px] font-medium tracking-[0.2em] text-jacks uppercase shadow-[0_10px_24px_rgba(0,0,0,0.35)]">
                 ✦ Est. 2024
               </span>
 
@@ -129,7 +138,7 @@ export default function StorySection() {
             whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-15% 0px" }}
             transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
-            className="font-mono text-[11px] tracking-[0.32em] text-cream/50 uppercase"
+            className="font-mono text-[11px] tracking-[0.32em] text-ink/60 uppercase"
           >
             Jack&rsquo;s Burger UK · The Story
           </motion.p>
@@ -137,7 +146,7 @@ export default function StorySection() {
           <h2
             id="story-title"
             ref={titleRef}
-            className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-cream"
+            className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-bold tracking-[-0.02em] text-ink"
           >
             <span className="block overflow-hidden pb-1">
               <motion.span
@@ -167,13 +176,12 @@ export default function StorySection() {
             whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-15% 0px" }}
             transition={{ duration: 0.7, ease: EASE, delay: 0.6 }}
-            className="mt-5 max-w-md text-base leading-relaxed text-cream/60 sm:text-lg"
+            className="mt-5 max-w-md text-base leading-relaxed text-ink/70 sm:text-lg"
           >
-            Jack&rsquo;s started with one idea: proper burgers, done properly.
-            100% British &amp; Irish beef, flame-grilled to order and stacked
-            between fresh-baked brioche — no freezers, no fillers, no
-            shortcuts. Served fast from high-street kitchens across the UK, one
-            made-right burger at a time.
+            Jack&rsquo;s Burger isn&rsquo;t just food — it&rsquo;s a vibe.
+            We&rsquo;re kicking off in North Wales, but soon we&rsquo;ll be
+            smashing burgers across the UK and beyond. Hop aboard this tasty
+            rocket and let&rsquo;s make burger history.
           </motion.p>
 
           {/* Stats */}
@@ -187,10 +195,10 @@ export default function StorySection() {
           >
             {stats.map((s) => (
               <div key={s.value}>
-                <p className="font-serif text-2xl font-semibold text-cream sm:text-3xl">
+                <p className="font-serif text-2xl font-bold text-ink sm:text-3xl">
                   {s.value}
                 </p>
-                <p className="mt-1 text-xs leading-snug text-cream/50">
+                <p className="mt-1 text-xs leading-snug text-ink/60">
                   {s.label}
                 </p>
               </div>
@@ -208,7 +216,7 @@ export default function StorySection() {
           >
             <a
               href="#menu"
-              className="group inline-flex h-12 items-center gap-2 rounded-full border border-cream/25 px-7 text-sm font-medium text-cream transition-all duration-300 hover:border-cream/50 hover:bg-white/10"
+              className="group inline-flex h-12 items-center gap-2 rounded-full border-2 border-ink/25 px-7 text-sm font-semibold text-ink transition-all duration-300 hover:border-ink hover:bg-ink hover:text-white"
             >
               See the Menu
               <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />

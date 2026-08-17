@@ -110,7 +110,7 @@ export default function Navbar() {
                 </motion.a>
               ))}
               <motion.a
-                href="tel:+440000000000"
+                href="tel:+441248666800"
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.28, duration: 0.25 }}

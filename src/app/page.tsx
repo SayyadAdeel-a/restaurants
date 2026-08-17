@@ -14,6 +14,8 @@ const GalleryMarquee = dynamic(() => import('@/components/GalleryMarquee'));
 const BuildBurgerSection = dynamic(() => import('@/components/BuildBurgerSection'));
 const SpecialsSection = dynamic(() => import('@/components/SpecialsSection'));
 const ReviewsSection = dynamic(() => import('@/components/ReviewsSection'));
+const WhyJacksSection = dynamic(() => import('@/components/WhyJacksSection'));
+const SpiceClubStrip = dynamic(() => import('@/components/SpiceClubStrip'));
 const FindUsSection = dynamic(() => import('@/components/FindUsSection'));
 
 export default function Home() {
@@ -29,6 +31,8 @@ export default function Home() {
         <BuildBurgerSection />
         <SpecialsSection />
         <ReviewsSection />
+        <WhyJacksSection />
+        <SpiceClubStrip />
         <FindUsSection />
         <FooterSection />
       </SmoothScroll>
