@@ -27,9 +27,10 @@ type FloatProps = {
   bob: number; // idle float amplitude (px)
   bobDur: number; // idle float duration (s)
   shadow?: boolean;
+  svg?: boolean; // render as a plain <img> (next/image rejects SVGs)
 };
 
-/** One floating dish asset: wrapper (GSAP entrance) → parallax layer → bobbing image. */
+/** One floating asset: wrapper (GSAP entrance) → parallax layer → bobbing image. */
 function FloatingAsset({
   src,
   alt,
@@ -40,6 +41,7 @@ function FloatingAsset({
   bob,
   bobDur,
   shadow = true,
+  svg = false,
 }: FloatProps) {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -77,44 +79,52 @@ function FloatingAsset({
                 }
           }
         >
-          {/* next/image optimizes + lazy-loads; the raw 2 MB PNGs never ship */}
-          <NextImage
-            src={src}
-            alt={alt}
-            width={1920}
-            height={1280}
-            sizes="192px"
-            className={
-              shadow
-                ? "h-auto w-full object-contain drop-shadow-[0_22px_28px_rgba(27,29,58,0.18)]"
-                : "h-auto w-full object-contain"
-            }
-          />
+          {svg ? (
+            /* eslint-disable @next/next/no-img-element */
+            <img
+              src={src}
+              alt={alt}
+              className="h-auto w-full object-contain"
+            />
+          ) : (
+            <NextImage
+              src={src}
+              alt={alt}
+              width={1920}
+              height={1280}
+              sizes="192px"
+              className={
+                shadow
+                  ? "h-auto w-full object-contain drop-shadow-[0_22px_28px_rgba(0,0,0,0.18)]"
+                  : "h-auto w-full object-contain"
+              }
+            />
+          )}
         </motion.div>
       </motion.div>
     </div>
   );
 }
 
-/* The two floating heroes — Shack by day, Boathouse by night */
+/* The two floating heroes — Smash by day, Chicken by night */
 const duo = [
   {
-    src: "/images/dish/exact_sharing_box.png",
-    alt: "The Killybegs Seafood Shack takeaway box",
-    name: "Shack",
+    src: "/images/jacks_smash_burger_cutout.png",
+    alt: "Jack's signature smash burger — double flame-grilled British beef",
+    name: "Smash Burger",
     dur: 5,
-    w: 1920,
-    h: 1280,
-    cls: "w-[min(64vw,300px)] md:w-[min(30vw,340px)]",
+    w: 1600,
+    h: 1600,
+    cls: "w-[min(56vw,300px)] md:w-[min(26vw,320px)]",
   },
   {
-    src: "/images/boathouse-logo.png",
-    alt: "Anderson's Boathouse Restaurant — porthole logo",
-    name: "Boathouse",
+    src: "/images/jacks_chicken_burger_cutout.png",
+    alt: "Jack's buttermilk chicken burger — fried chicken, slaw, hot honey mayo",
+    name: "Chicken Burger",
     dur: 7,
-    w: 500,
-    h: 500,
-    cls: "w-[min(52vw,260px)] md:w-[min(24vw,280px)]",
+    w: 1920,
+    h: 1280,
+    cls: "w-[min(64vw,320px)] md:w-[min(30vw,340px)]",
   },
 ];
 
@@ -156,28 +166,19 @@ export default function HeroSection() {
   const floats: FloatProps[] = [
     // Left column
     {
-      src: "/images/dish/killybegs_calamari_cutout_float.png",
-      alt: "Crispy calamari",
-      className: "left-[3%] top-[15%] w-24 -rotate-10 sm:left-[6%] sm:w-28 lg:w-32",
+      src: "/images/svg-2.svg",
+      alt: "Flame icon",
+      className: "left-[4%] top-[16%] w-10 -rotate-10 sm:left-[7%] sm:w-12",
       progress: scrollYProgress,
       moveY: -75,
       rotateTo: -4,
       bob: 12,
       bobDur: 5.2,
+      svg: true,
     },
     {
-      src: "/images/dish/killybegs_lemon_clean.png",
-      alt: "Lemon wedge",
-      className: "left-[7%] top-[47%] w-16 -rotate-16 sm:left-[11%] sm:w-20",
-      progress: scrollYProgress,
-      moveY: -40,
-      rotateTo: -3,
-      bob: 9,
-      bobDur: 4.4,
-    },
-    {
-      src: "/images/dish/killybegs_mussels_cutout_float.png",
-      alt: "Fresh mussels",
+      src: "/images/jacks_fries_cutout.png",
+      alt: "Skin-on fries",
       className: "left-[4%] bottom-[11%] w-24 rotate-8 sm:left-[7%] sm:w-28",
       progress: scrollYProgress,
       moveY: -95,
@@ -187,34 +188,26 @@ export default function HeroSection() {
     },
     // Right column
     {
-      src: "/images/dish/killybegs_sodabread_cutout_float.png",
-      alt: "Irish soda bread",
-      className: "right-[3%] top-[14%] w-24 rotate-6 sm:right-[6%] sm:w-28 lg:w-32",
+      src: "/images/svg-3.svg",
+      alt: "Flame icon",
+      className: "right-[4%] top-[15%] w-9 rotate-6 sm:right-[7%] sm:w-11",
       progress: scrollYProgress,
       moveY: -55,
       rotateTo: 4,
       bob: 10,
       bobDur: 5.6,
+      svg: true,
     },
     {
-      src: "/images/dish/killybegs_herbs_clean.png",
-      alt: "Fresh herbs",
-      className: "right-[6%] top-[46%] w-20 -rotate-6 sm:right-[11%] sm:w-24",
-      progress: scrollYProgress,
-      moveY: -35,
-      rotateTo: 3,
-      bob: 8,
-      bobDur: 4.7,
-    },
-    {
-      src: "/images/dish/killybegs_crab_cutout_float.png",
-      alt: "Crab claws",
-      className: "right-[4%] bottom-[10%] w-24 -rotate-8 sm:right-[7%] sm:w-28",
+      src: "/images/svg-4.svg",
+      alt: "Flame icon",
+      className: "right-[4%] bottom-[10%] w-8 -rotate-8 sm:right-[7%] sm:w-10",
       progress: scrollYProgress,
       moveY: -85,
       rotateTo: -5,
       bob: 12,
       bobDur: 5.9,
+      svg: true,
     },
   ];
 
@@ -230,7 +223,7 @@ export default function HeroSection() {
         className="pointer-events-none absolute top-[46%] left-1/2 h-[620px] w-[880px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-200/40 blur-3xl"
       />
 
-      {/* Floating dish assets framing the copy */}
+      {/* Floating burger assets framing the copy */}
       {floats.map((f) => (
         <FloatingAsset key={f.src} {...f} />
       ))}
@@ -241,7 +234,7 @@ export default function HeroSection() {
           id="hero-eyebrow"
           className="font-mono text-[11px] tracking-[0.32em] text-navy-800/50 uppercase"
         >
-          Garry &amp; Mairéad Anderson — 40 Years Hospitality
+          Jack&rsquo;s Burger UK · Flame-Grilled British Beef
         </p>
 
         {/* Title */}
@@ -250,11 +243,11 @@ export default function HeroSection() {
           className="mt-6 font-serif text-[clamp(2.9rem,7vw,5.75rem)] leading-[0.98] font-semibold tracking-[-0.02em] text-navy-800"
         >
           <span className="block overflow-hidden pb-1">
-            <span className="line-inner block">From Pier to Plate.</span>
+            <span className="line-inner block">Great Burgers.</span>
           </span>
           <span className="block overflow-hidden pb-1">
             <span className="line-inner block">
-              <em className="text-blue italic">From Day to Night.</em>
+              <em className="text-blue italic">Made Right.</em>
             </span>
           </span>
         </h1>
@@ -264,19 +257,19 @@ export default function HeroSection() {
           id="hero-sub"
           className="mt-6 max-w-xl text-base leading-relaxed text-navy-800/60 sm:text-lg"
         >
-          Gordon Ramsay-trained Garry, front-of-house Mairéad. Shack by day on
-          Main St, Boathouse by night over the harbour, plus harbour-view stay.
+          100% British beef, flame-grilled to order and stacked between toasted
+          brioche — no fillers, no shortcuts, just proper burgers.
         </p>
 
         {/* CTA */}
         <div id="hero-cta" className="mt-9">
           <Button className="h-12 rounded-full bg-red px-9 text-sm font-semibold text-white shadow-lg shadow-red/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-crimson hover:shadow-xl hover:shadow-red/30">
             <Phone className="size-4" />
-            Order Takeaway
+            Order Now
           </Button>
         </div>
 
-        {/* The two floating heroes — Shack box + Boathouse plate */}
+        {/* The two floating heroes — Smash burger + Chicken burger */}
         <motion.div
           className="mt-16 w-full"
           style={reduceMotion ? undefined : { y: duoY, scale: duoScale }}
