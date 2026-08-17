@@ -33,6 +33,18 @@
   --color-chalk: #262b30;
   --color-chalk-teal: #6f9c98;
   --color-gold: #c9a24b;
+
+  /* Photo gallery marquee — 3 identical rows, shifting one row (33.333%) */
+  --animate-marquee: marquee 42s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-33.333%);
+  }
 }
 
 @theme inline {

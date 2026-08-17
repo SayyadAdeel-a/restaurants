@@ -2,15 +2,11 @@
 
 import { useEffect, type ReactNode } from "react";
 import Lenis from "lenis";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function SmoothScroll({ children }: { children: ReactNode }) {
   useEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) return;
-
-    gsap.registerPlugin(ScrollTrigger);
 
     const lenis = new Lenis({ duration: 1.15 });
 
@@ -28,14 +24,17 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     };
     document.addEventListener("click", onClick);
 
-    lenis.on("scroll", ScrollTrigger.update);
-    const raf = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(raf);
-    gsap.ticker.lagSmoothing(0);
+    let rafId = 0;
+    const raf = (time: number) => {
+      // Lenis expects the rAF timestamp in ms — it converts to seconds itself
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    };
+    rafId = requestAnimationFrame(raf);
 
     return () => {
       document.removeEventListener("click", onClick);
-      gsap.ticker.remove(raf);
+      cancelAnimationFrame(rafId);
       lenis.destroy();
     };
   }, []);

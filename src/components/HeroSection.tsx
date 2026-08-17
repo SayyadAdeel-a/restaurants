@@ -1,8 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
 import {
   motion,
   useInView,
@@ -14,8 +12,6 @@ import {
 import NextImage from "next/image";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-gsap.registerPlugin(useGSAP);
 
 type FloatProps = {
   src: string;
@@ -32,7 +28,7 @@ type FloatProps = {
   imgH?: number; // source height for NextImage aspect ratio (default 1280)
 };
 
-/** One floating asset: wrapper (GSAP entrance) → parallax layer → bobbing image. */
+/** One floating asset: wrapper (entrance) → parallax layer → bobbing image. */
 function FloatingAsset({
   src,
   alt,
@@ -120,6 +116,7 @@ const duo = [
     w: 1600,
     h: 1600,
     cls: "w-[min(56vw,300px)] md:w-[min(26vw,320px)]",
+    preload: true, // LCP element — link-preloaded from the head
   },
   {
     src: "/images/jacks_chicken_burger_cutout.png",
@@ -146,27 +143,6 @@ export default function HeroSection() {
   const duoY = useTransform(scrollYProgress, [0, 1], [0, -30]);
   const duoScale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
 
-  // GSAP — one smooth entrance timeline for the copy + floats
-  useGSAP(
-    () => {
-      if (reduceMotion) return;
-
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.from("#hero-eyebrow", { y: 16, opacity: 0, duration: 0.6 }, 0.15)
-        .from(
-          "#hero-title .line-inner",
-          { yPercent: 110, duration: 0.9, stagger: 0.1, ease: "power4.out" },
-          0.25
-        )
-        .from("#hero-sub", { y: 18, opacity: 0, duration: 0.7 }, 0.7)
-        .from("#hero-cta", { y: 16, opacity: 0, duration: 0.6 }, 0.85)
-        // LCP-safe: keep visible (no opacity gate), just a gentle scale-in
-        .from(".hero-duo", { scale: 0.94, duration: 1.2, ease: "power2.out" }, 0.45)
-        .from(".hero-float", { opacity: 0, y: 26, duration: 0.8, stagger: 0.09 }, 0.6);
-    },
-    { scope: rootRef }
-  );
-
   const floats: FloatProps[] = [
     // Left column
     {
@@ -180,7 +156,7 @@ export default function HeroSection() {
       bobDur: 5.2,
     },
     {
-      src: "/images/burger_fries.png",
+      src: "/images/jacks_fries_cutout.png",
       alt: "Skin-on fries",
       className: "left-[4%] bottom-[11%] w-24 rotate-8 sm:left-[7%] sm:w-28",
       progress: scrollYProgress,
@@ -188,8 +164,6 @@ export default function HeroSection() {
       rotateTo: 5,
       bob: 13,
       bobDur: 6.1,
-      imgW: 1600,
-      imgH: 1600,
     },
     // Right column
     {
@@ -232,7 +206,7 @@ export default function HeroSection() {
       ))}
 
       <div className="relative z-10 flex w-full max-w-3xl flex-col items-center">
-        {/* Eyebrow */}
+        {/* Eyebrow — LCP-safe: rendered visible, no JS-gated entrance */}
         <p
           id="hero-eyebrow"
           className="font-mono text-[11px] tracking-[0.32em] text-navy-800/50 uppercase"
@@ -299,6 +273,8 @@ export default function HeroSection() {
                     alt={d.alt}
                     width={d.w}
                     height={d.h}
+                    preload={d.preload ?? false}
+                    loading={d.preload ? undefined : "eager"}
                     sizes="(max-width: 768px) 64vw, 340px"
                     className="relative h-auto w-full object-contain drop-shadow-[0_30px_80px_rgba(0,0,0,0.15)]"
                   />

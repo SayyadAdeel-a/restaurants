@@ -1,9 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   motion,
   useInView,
@@ -15,7 +12,7 @@ import NextImage from "next/image";
 import { Clock, MapPin, Navigation, Phone } from "lucide-react";
 import Scatter from "@/components/Scatter";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const PHONE = "+44 0000 000000";
 const PHONE_HREF = "tel:+440000000000";
@@ -27,6 +24,8 @@ export default function FindUsSection() {
   const rootRef = useRef<HTMLElement>(null);
   const photoRef = useRef<HTMLDivElement>(null);
   const photoInView = useInView(photoRef, { margin: "200px 0px" });
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleInView = useInView(titleRef, { once: true, margin: "-15% 0px" });
   const reduceMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
@@ -34,32 +33,6 @@ export default function FindUsSection() {
     offset: ["start end", "end start"],
   });
   const photoY = useTransform(scrollYProgress, [0, 1], [0, -28]);
-
-  useGSAP(
-    () => {
-      if (reduceMotion) return;
-
-      const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-        scrollTrigger: { trigger: rootRef.current, start: "top 65%" },
-      });
-      tl.from("#find-eyebrow", { y: 16, opacity: 0, duration: 0.6 }, 0.15)
-        .from(
-          "#find-title .line-inner",
-          { yPercent: 110, duration: 0.9, stagger: 0.12, ease: "power4.out" },
-          0.25
-        )
-        .from("#find-address", { y: 14, opacity: 0, duration: 0.6 }, 0.6)
-        .from("#find-hours", { y: 14, opacity: 0, duration: 0.6 }, 0.72)
-        .from("#find-cta", { y: 16, opacity: 0, duration: 0.6 }, 0.85)
-        .from(
-          "#find-photo-inner",
-          { scale: 0.9, opacity: 0, duration: 1.1, ease: "power2.out" },
-          0.45
-        );
-    },
-    { scope: rootRef }
-  );
 
   return (
     <section
@@ -87,6 +60,7 @@ export default function FindUsSection() {
           alt=""
           width={1920}
           height={1280}
+          sizes="96px"
           className="h-auto w-full object-contain"
         />
       </Scatter>
@@ -103,6 +77,7 @@ export default function FindUsSection() {
           alt=""
           width={1920}
           height={1280}
+          sizes="96px"
           className="h-auto w-full object-contain"
         />
       </Scatter>
@@ -119,6 +94,7 @@ export default function FindUsSection() {
           alt=""
           width={1600}
           height={1600}
+          sizes="96px"
           className="h-auto w-full object-contain"
         />
       </Scatter>
@@ -135,6 +111,7 @@ export default function FindUsSection() {
           alt=""
           width={1600}
           height={1600}
+          sizes="96px"
           className="h-auto w-full object-contain"
         />
       </Scatter>
@@ -142,29 +119,53 @@ export default function FindUsSection() {
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-16 px-5 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:px-10">
         {/* Left — copy */}
         <div className="order-1 max-w-xl">
-          <p
+          <motion.p
             id="find-eyebrow"
+            initial={reduceMotion ? false : { y: 16, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
             className="font-mono text-[11px] tracking-[0.32em] text-navy-800/50 uppercase"
           >
             Jack&rsquo;s Burger UK · Find Us
-          </p>
+          </motion.p>
 
           <h2
             id="find-title"
+            ref={titleRef}
             className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-navy-800"
           >
             <span className="block overflow-hidden pb-1">
-              <span className="line-inner block">Hot off the Grill.</span>
+              <motion.span
+                className="line-inner block"
+                initial={reduceMotion ? false : { y: 80 }}
+                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
+              >
+                Hot off the Grill.
+              </motion.span>
             </span>
             <span className="block overflow-hidden pb-1">
-              <span className="line-inner block">
+              <motion.span
+                className="line-inner block"
+                initial={reduceMotion ? false : { y: 80 }}
+                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.37 }}
+              >
                 <em className="text-blue italic">Come Hungry.</em>
-              </span>
+              </motion.span>
             </span>
           </h2>
 
           {/* Address */}
-          <div id="find-address" className="mt-8 flex items-start gap-4">
+          <motion.div
+            id="find-address"
+            initial={reduceMotion ? false : { y: 14, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.6 }}
+            className="mt-8 flex items-start gap-4"
+          >
             <span className="mt-0.5 flex size-11 shrink-0 items-center justify-center rounded-full bg-white text-red shadow-[0_8px_30px_rgba(27,29,58,0.08)] ring-1 ring-navy-100">
               <MapPin className="size-5" />
             </span>
@@ -178,10 +179,17 @@ export default function FindUsSection() {
                 More sites opening soon across the UK
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Hours */}
-          <div id="find-hours" className="mt-6 flex items-start gap-4">
+          <motion.div
+            id="find-hours"
+            initial={reduceMotion ? false : { y: 14, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.72 }}
+            className="mt-6 flex items-start gap-4"
+          >
             <span className="mt-0.5 flex size-11 shrink-0 items-center justify-center rounded-full bg-white text-blue shadow-[0_8px_30px_rgba(27,29,58,0.08)] ring-1 ring-navy-100">
               <Clock className="size-5" />
             </span>
@@ -194,7 +202,7 @@ export default function FindUsSection() {
                 queue.
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Phone */}
           <div className="mt-6 flex items-start gap-4">
@@ -223,7 +231,14 @@ export default function FindUsSection() {
           </div>
 
           {/* CTAs */}
-          <div id="find-cta" className="mt-10 flex flex-wrap items-center gap-4">
+          <motion.div
+            id="find-cta"
+            initial={reduceMotion ? false : { y: 16, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.85 }}
+            className="mt-10 flex flex-wrap items-center gap-4"
+          >
             <a
               href={PHONE_HREF}
               className="inline-flex h-12 items-center gap-2 rounded-full bg-red px-8 text-sm font-semibold text-white shadow-lg shadow-red/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-crimson hover:shadow-xl hover:shadow-red/30"
@@ -243,12 +258,18 @@ export default function FindUsSection() {
                 →
               </span>
             </a>
-          </div>
+          </motion.div>
         </div>
 
         {/* Right — the chicken burger as a floating plate */}
         <div className="order-2 mx-auto w-[min(82vw,480px)] lg:w-[min(42vw,560px)]">
           <motion.div style={reduceMotion ? undefined : { y: photoY }}>
+            <motion.div
+              initial={reduceMotion ? false : { scale: 0.9, opacity: 0 }}
+              whileInView={reduceMotion ? undefined : { scale: 1, opacity: 1 }}
+              viewport={{ once: true, margin: "-10% 0px" }}
+              transition={{ duration: 1.1, ease: EASE, delay: 0.45 }}
+            >
             <motion.div
               id="find-photo-inner"
               ref={photoRef}
@@ -294,6 +315,7 @@ export default function FindUsSection() {
                   Jack&rsquo;s · High Street
                 </span>
               </div>
+            </motion.div>
             </motion.div>
           </motion.div>
         </div>

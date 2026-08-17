@@ -17,13 +17,13 @@ type ScatterProps = {
   rotate: number;
   children: ReactNode;
   progress: MotionValue<number>;
-  wrapperCls?: string; // extra classes (e.g. GSAP entrance targets)
+  wrapperCls?: string; // extra classes for the wrapper
 };
 
 /**
  * One floating dish asset drifting at the page edge.
  *
- * Performance (gsap-performance):
+ * Performance:
  *  - The infinite orbit only runs while the element is near the viewport
  *    (useInView with a 200px margin) — off-screen scatters cost nothing.
  *  - All motion is transform/opacity only, with `will-change: transform`
@@ -45,9 +45,13 @@ export default function Scatter({
   const y = useTransform(progress, [0, 1], [0, parallax]);
 
   return (
-    <div
+    <motion.div
       ref={ref}
       aria-hidden
+      initial={reduceMotion ? false : { opacity: 0, scale: 0.6 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, scale: 1 }}
+      viewport={{ once: true, margin: "-10% 0px" }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       className={`pointer-events-none absolute z-0 ${posCls} ${wrapperCls}`}
     >
       <motion.div
@@ -73,6 +77,6 @@ export default function Scatter({
           {children}
         </motion.div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }

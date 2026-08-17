@@ -1,9 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   AnimatePresence,
   motion,
@@ -16,7 +13,7 @@ import NextImage from "next/image";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 /* ---------- Data ---------- */
 
@@ -45,11 +42,11 @@ const layers: Layer[] = [
     bob: 7,
   },
   {
-    src: "/images/jacks_asset_lettuce.png",
+    src: "/images/jacks_stack_lettuce_clean.png",
     label: "Lettuce",
     alt: "Crisp lettuce",
-    imgW: 1920,
-    imgH: 1280,
+    imgW: 900,
+    imgH: 600,
     cls: "rotate-2 w-44 sm:w-52",
     mt: "-mt-10",
     dur: 5.1,
@@ -110,6 +107,39 @@ const layers: Layer[] = [
     dur: 4.4,
     bob: 6,
   },
+  {
+    src: "/images/jacks_asset_jalapeno.png",
+    label: "Jalapeños",
+    alt: "Pickled jalapeños",
+    imgW: 1920,
+    imgH: 1280,
+    cls: "rotate-2 w-36 sm:w-40",
+    mt: "-mt-8",
+    dur: 4.7,
+    bob: 8,
+  },
+  {
+    src: "/images/jacks_stack_beef_patty.png",
+    label: "Beef Patty",
+    alt: "Flame-grilled beef patty",
+    imgW: 1600,
+    imgH: 1600,
+    cls: "-rotate-1 w-44 sm:w-48",
+    mt: "-mt-9",
+    dur: 5.3,
+    bob: 7,
+  },
+  {
+    src: "/images/jacks_stack_bottom_bun.png",
+    label: "Bottom Bun",
+    alt: "Toasted bottom bun",
+    imgW: 900,
+    imgH: 900,
+    cls: "rotate-2 w-48 sm:w-56",
+    mt: "-mt-9",
+    dur: 4.9,
+    bob: 9,
+  },
 ];
 
 /* ---------- Component ---------- */
@@ -118,6 +148,8 @@ export default function BuildBurgerSection() {
   const rootRef = useRef<HTMLElement>(null);
   const stackRef = useRef<HTMLDivElement>(null);
   const stackInView = useInView(stackRef, { margin: "200px 0px" });
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleInView = useInView(titleRef, { once: true, margin: "-15% 0px" });
   const reduceMotion = useReducedMotion();
 
   // Active topping layers — toggled from the chips. Starts fully stacked.
@@ -139,33 +171,6 @@ export default function BuildBurgerSection() {
   });
   const stackY = useTransform(scrollYProgress, [0, 1], [0, -28]);
 
-  // Entrance timeline — same language as the other sections
-  useGSAP(
-    () => {
-      if (reduceMotion) return;
-
-      const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-        scrollTrigger: { trigger: rootRef.current, start: "top 65%" },
-      });
-      tl.from("#build-eyebrow", { y: 16, opacity: 0, duration: 0.6 }, 0.15)
-        .from(
-          "#build-title .line-inner",
-          { yPercent: 110, duration: 0.9, stagger: 0.12, ease: "power4.out" },
-          0.25
-        )
-        .from("#build-sub", { y: 18, opacity: 0, duration: 0.7 }, 0.6)
-        .from("#build-chips", { y: 16, opacity: 0, duration: 0.6 }, 0.75)
-        .from("#build-cta", { y: 14, opacity: 0, duration: 0.6 }, 0.9)
-        .from(
-          ".build-layer",
-          { scale: 0.7, opacity: 0, duration: 0.7, stagger: 0.08, ease: "back.out(1.6)" },
-          0.45
-        );
-    },
-    { scope: rootRef }
-  );
-
   return (
     <section
       id="build"
@@ -181,38 +186,66 @@ export default function BuildBurgerSection() {
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-16 px-5 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:px-10">
         {/* Left — copy */}
         <div className="max-w-xl">
-          <p
+          <motion.p
             id="build-eyebrow"
+            initial={reduceMotion ? false : { y: 16, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
             className="font-mono text-[11px] tracking-[0.32em] text-cream/50 uppercase"
           >
             Jack&rsquo;s Burger UK · Build Your Burger
-          </p>
+          </motion.p>
 
           <h2
             id="build-title"
+            ref={titleRef}
             className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-cream"
           >
             <span className="block overflow-hidden pb-1">
-              <span className="line-inner block">Stack It Your Way.</span>
+              <motion.span
+                className="line-inner block"
+                initial={reduceMotion ? false : { y: 80 }}
+                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
+              >
+                Stack It Your Way.
+              </motion.span>
             </span>
             <span className="block overflow-hidden pb-1">
-              <span className="line-inner block">
+              <motion.span
+                className="line-inner block"
+                initial={reduceMotion ? false : { y: 80 }}
+                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.37 }}
+              >
                 <em className="text-blue italic">No Two Alike.</em>
-              </span>
+              </motion.span>
             </span>
           </h2>
 
-          <p
+          <motion.p
             id="build-sub"
+            initial={reduceMotion ? false : { y: 18, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.7, ease: EASE, delay: 0.6 }}
             className="mt-5 max-w-md text-base leading-relaxed text-cream/60 sm:text-lg"
           >
             Every burger starts with flame-grilled British beef. Then pile it
             high — fresh brioche, crisp lettuce, smoky bacon and everything in
             between. Pick any combo, add-ons from 50p.
-          </p>
+          </motion.p>
 
           {/* Topping chips — tap to add or remove a layer */}
-          <div id="build-chips" className="mt-7">
+          <motion.div
+            id="build-chips"
+            initial={reduceMotion ? false : { y: 16, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.75 }}
+            className="mt-7"
+          >
             <div className="flex flex-wrap gap-2.5">
               {layers.map((l) => {
                 const on = active.includes(l.src);
@@ -242,10 +275,17 @@ export default function BuildBurgerSection() {
               Tap a topping to add or remove it · {active.length}/{layers.length}{" "}
               stacked
             </p>
-          </div>
+          </motion.div>
 
           {/* CTA */}
-          <div id="build-cta" className="mt-9 flex flex-wrap items-center gap-4">
+          <motion.div
+            id="build-cta"
+            initial={reduceMotion ? false : { y: 14, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.9 }}
+            className="mt-9 flex flex-wrap items-center gap-4"
+          >
             <Button className="h-12 rounded-full bg-red px-9 text-sm font-semibold text-white shadow-lg shadow-red/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-crimson hover:shadow-xl hover:shadow-red/30">
               <Phone className="size-4" />
               Order Now
@@ -259,7 +299,7 @@ export default function BuildBurgerSection() {
                 →
               </span>
             </a>
-          </div>
+          </motion.div>
         </div>
 
         {/* Right — the ingredient stack, each layer bobbing on its own cycle */}

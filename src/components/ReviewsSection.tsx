@@ -1,9 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   motion,
   useInView,
@@ -15,7 +12,7 @@ import NextImage from "next/image";
 import { ArrowRight, Star } from "lucide-react";
 import Scatter from "@/components/Scatter";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const TRIPADVISOR_URL =
   "https://www.tripadvisor.co.uk/RestaurantsNear-g186338-d19115661-London_England.html";
@@ -38,6 +35,8 @@ export default function ReviewsSection() {
   const rootRef = useRef<HTMLElement>(null);
   const burgerRef = useRef<HTMLDivElement>(null);
   const burgerInView = useInView(burgerRef, { margin: "200px 0px" });
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleInView = useInView(titleRef, { once: true, margin: "-15% 0px" });
   const reduceMotion = useReducedMotion();
 
   // Shared scroll progress for the parallax on the burger + edge scatters
@@ -46,39 +45,6 @@ export default function ReviewsSection() {
     offset: ["start end", "end start"],
   });
   const burgerY = useTransform(scrollYProgress, [0, 1], [0, -30]);
-
-  useGSAP(
-    () => {
-      if (reduceMotion) return;
-
-      const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-        scrollTrigger: { trigger: rootRef.current, start: "top 65%" },
-      });
-      tl.from("#rev-eyebrow", { y: 16, opacity: 0, duration: 0.6 }, 0.15)
-        .from(
-          "#rev-title .line-inner",
-          { yPercent: 110, duration: 0.9, stagger: 0.12, ease: "power4.out" },
-          0.25
-        )
-        .from("#rev-stars", { y: 14, opacity: 0, duration: 0.6 }, 0.6)
-        .from("#rev-quote", { y: 22, opacity: 0, duration: 0.8 }, 0.7)
-        .from("#rev-author", { y: 12, opacity: 0, duration: 0.5 }, 0.95)
-        .from(
-          "#rev-avatars",
-          { scale: 0.5, opacity: 0, duration: 0.55, stagger: 0.2, ease: "back.out(2)" },
-          1.05
-        )
-        .from("#rev-badges", { y: 12, opacity: 0, duration: 0.5 }, 1.35)
-        .from("#rev-cta", { y: 14, opacity: 0, duration: 0.6 }, 1.5)
-        .from(
-          "#rev-burger-inner",
-          { scale: 0.92, opacity: 0, duration: 1.1, ease: "power2.out" },
-          0.45
-        );
-    },
-    { scope: rootRef }
-  );
 
   return (
     <section
@@ -106,6 +72,7 @@ export default function ReviewsSection() {
           alt=""
           width={1920}
           height={1280}
+          sizes="96px"
           className="h-auto w-full object-contain"
         />
       </Scatter>
@@ -122,6 +89,7 @@ export default function ReviewsSection() {
           alt=""
           width={1600}
           height={1600}
+          sizes="96px"
           className="h-auto w-full object-contain"
         />
       </Scatter>
@@ -138,6 +106,7 @@ export default function ReviewsSection() {
           alt=""
           width={1920}
           height={1280}
+          sizes="96px"
           className="h-auto w-full object-contain"
         />
       </Scatter>
@@ -154,6 +123,7 @@ export default function ReviewsSection() {
           alt=""
           width={1920}
           height={1280}
+          sizes="96px"
           className="h-auto w-full object-contain"
         />
       </Scatter>
@@ -164,9 +134,15 @@ export default function ReviewsSection() {
           <motion.div style={reduceMotion ? undefined : { y: burgerY }}>
             {/* Burger — floats forever on a slow 8s cycle */}
             <motion.div
-              id="rev-burger-inner"
-              ref={burgerRef}
-              className="relative will-change-transform"
+              initial={reduceMotion ? false : { scale: 0.92, opacity: 0 }}
+              whileInView={reduceMotion ? undefined : { scale: 1, opacity: 1 }}
+              viewport={{ once: true, margin: "-10% 0px" }}
+              transition={{ duration: 1.1, ease: EASE, delay: 0.45 }}
+            >
+              <motion.div
+                id="rev-burger-inner"
+                ref={burgerRef}
+                className="relative will-change-transform"
               animate={
                 reduceMotion || !burgerInView ? undefined : { y: [0, -15, 0] }
               }
@@ -181,7 +157,6 @@ export default function ReviewsSection() {
                 alt="Jack's signature smash burger"
                 width={1600}
                 height={1600}
-                priority
                 sizes="(max-width: 1024px) 78vw, 520px"
                 className="relative h-auto w-full object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.18)]"
               />
@@ -224,30 +199,48 @@ export default function ReviewsSection() {
                   className="h-auto w-full object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.15)]"
                 />
               </motion.div>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>
 
         {/* Right — social proof */}
         <div className="order-1 max-w-xl lg:order-2">
-          <p
+          <motion.p
             id="rev-eyebrow"
+            initial={reduceMotion ? false : { y: 16, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
             className="font-mono text-[11px] tracking-[0.32em] text-navy-800/50 uppercase"
           >
             Jack&rsquo;s Burger UK · Social Proof
-          </p>
+          </motion.p>
 
           <h2
             id="rev-title"
+            ref={titleRef}
             className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-navy-800"
           >
             <span className="block overflow-hidden pb-1">
-              <span className="line-inner block">            TripAdvisor&rsquo;s #1.</span>
+              <motion.span
+                className="line-inner block"
+                initial={reduceMotion ? false : { y: 80 }}
+                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
+              >
+                TripAdvisor&rsquo;s #1.
+              </motion.span>
             </span>
             <span className="block overflow-hidden pb-1">
-              <span className="line-inner block">
+              <motion.span
+                className="line-inner block"
+                initial={reduceMotion ? false : { y: 80 }}
+                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.37 }}
+              >
                 <em className="text-blue italic">A Thousand Reasons.</em>
-              </span>
+              </motion.span>
             </span>
           </h2>
 
@@ -267,7 +260,14 @@ export default function ReviewsSection() {
           </div>
 
           {/* Stars */}
-          <div id="rev-stars" className="mt-6 flex items-center gap-3">
+          <motion.div
+            id="rev-stars"
+            initial={reduceMotion ? false : { y: 14, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.6 }}
+            className="mt-6 flex items-center gap-3"
+          >
             <div className="flex gap-1">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star key={i} className="size-5 fill-gold text-gold" />
@@ -279,36 +279,61 @@ export default function ReviewsSection() {
             <span className="font-mono text-[10px] tracking-[0.24em] text-navy-800/50 uppercase">
               from 1,000+ reviews
             </span>
-          </div>
+          </motion.div>
 
           {/* Real TripAdvisor quote */}
-          <blockquote id="rev-quote" className="mt-8">
+          <motion.blockquote
+            id="rev-quote"
+            initial={reduceMotion ? false : { y: 22, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.8, ease: EASE, delay: 0.7 }}
+            className="mt-8"
+          >
             <p className="font-serif text-2xl leading-snug text-navy-800 italic sm:text-[1.75rem]">
               “Best burger we&rsquo;ve had in the UK. Charred edges, juicy
               middle, stacked high — worth the detour.”
             </p>
-            <footer
+            <motion.footer
               id="rev-author"
+              initial={reduceMotion ? false : { y: 12, opacity: 0 }}
+              whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+              viewport={{ once: true, margin: "-15% 0px" }}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.95 }}
               className="mt-4 font-mono text-[11px] tracking-[0.26em] text-navy-800/60 uppercase"
             >
               — Sarah M. · TripAdvisor
-            </footer>
-          </blockquote>
+            </motion.footer>
+          </motion.blockquote>
 
           {/* Avatars + badges */}
           <div className="mt-8 flex items-center gap-3">
-            <div id="rev-avatars" className="flex -space-x-3">
+            <motion.div
+              id="rev-avatars"
+              initial={reduceMotion ? false : { scale: 0.5, opacity: 0 }}
+              whileInView={reduceMotion ? undefined : { scale: 1, opacity: 1 }}
+              viewport={{ once: true, margin: "-15% 0px" }}
+              transition={{ duration: 0.55, ease: "backOut", delay: 1.05 }}
+              className="flex -space-x-3"
+            >
               <Avatar initials="SM" tone="bg-navy-800" />
               <Avatar initials="KM" tone="bg-navy-600" />
               <Avatar initials="JP" tone="bg-blue" />
-            </div>
+            </motion.div>
             <p className="text-sm text-navy-800/60">
               Loved by <span className="font-semibold text-navy-800">1,000+</span>{" "}
               burger regulars
             </p>
           </div>
 
-          <div id="rev-badges" className="mt-6 flex flex-wrap items-center gap-3">
+          <motion.div
+            id="rev-badges"
+            initial={reduceMotion ? false : { y: 12, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.5, ease: EASE, delay: 1.35 }}
+            className="mt-6 flex flex-wrap items-center gap-3"
+          >
             {/* TripAdvisor badge */}
             <span className="inline-flex items-center gap-2 rounded-full border border-navy-100 bg-white px-4 py-2 shadow-[0_8px_30px_rgba(27,29,58,0.08)]">
               <span className="flex size-5 items-center justify-center rounded-full bg-[#00af87] font-sans text-[9px] font-bold text-white">
@@ -325,10 +350,17 @@ export default function ReviewsSection() {
                 4.9 / 5 · 1,000+ Reviews
               </span>
             </span>
-          </div>
+          </motion.div>
 
           {/* CTA */}
-          <div id="rev-cta" className="mt-9 flex flex-wrap items-center gap-4">
+          <motion.div
+            id="rev-cta"
+            initial={reduceMotion ? false : { y: 14, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, ease: EASE, delay: 1.5 }}
+            className="mt-9 flex flex-wrap items-center gap-4"
+          >
             <a
               href={TRIPADVISOR_URL}
               target="_blank"
@@ -344,7 +376,7 @@ export default function ReviewsSection() {
               Find a Jack&rsquo;s Near You
               <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

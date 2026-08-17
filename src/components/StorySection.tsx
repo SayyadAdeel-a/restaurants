@@ -1,9 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   motion,
   useInView,
@@ -14,7 +11,7 @@ import {
 import NextImage from "next/image";
 import { ArrowRight } from "lucide-react";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 /* ---------- Data ---------- */
 
@@ -30,6 +27,8 @@ export default function StorySection() {
   const rootRef = useRef<HTMLElement>(null);
   const visualRef = useRef<HTMLDivElement>(null);
   const visualInView = useInView(visualRef, { margin: "200px 0px" });
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleInView = useInView(titleRef, { once: true, margin: "-15% 0px" });
   const reduceMotion = useReducedMotion();
 
   // Gentle parallax drift on the burger while scrolling
@@ -38,33 +37,6 @@ export default function StorySection() {
     offset: ["start end", "end start"],
   });
   const visualY = useTransform(scrollYProgress, [0, 1], [0, -28]);
-
-  // Entrance timeline — same language as the other sections
-  useGSAP(
-    () => {
-      if (reduceMotion) return;
-
-      const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-        scrollTrigger: { trigger: rootRef.current, start: "top 65%" },
-      });
-      tl.from("#story-eyebrow", { y: 16, opacity: 0, duration: 0.6 }, 0.15)
-        .from(
-          "#story-title .line-inner",
-          { yPercent: 110, duration: 0.9, stagger: 0.12, ease: "power4.out" },
-          0.25
-        )
-        .from("#story-body", { y: 18, opacity: 0, duration: 0.7 }, 0.6)
-        .from("#story-stats", { y: 16, opacity: 0, duration: 0.6 }, 0.75)
-        .from("#story-cta", { y: 14, opacity: 0, duration: 0.6 }, 0.9)
-        .from(
-          "#story-visual-inner",
-          { scale: 0.92, opacity: 0, duration: 1.1, ease: "power2.out" },
-          0.45
-        );
-    },
-    { scope: rootRef }
-  );
 
   return (
     <section
@@ -83,6 +55,12 @@ export default function StorySection() {
         <div className="order-2 mx-auto w-[min(78vw,430px)] lg:order-1 lg:w-[min(40vw,520px)]">
           <motion.div style={reduceMotion ? undefined : { y: visualY }}>
             <motion.div
+              initial={reduceMotion ? false : { scale: 0.92, opacity: 0 }}
+              whileInView={reduceMotion ? undefined : { scale: 1, opacity: 1 }}
+              viewport={{ once: true, margin: "-10% 0px" }}
+              transition={{ duration: 1.1, ease: EASE, delay: 0.45 }}
+            >
+            <motion.div
               id="story-visual-inner"
               ref={visualRef}
               className="relative will-change-transform"
@@ -92,11 +70,10 @@ export default function StorySection() {
               transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
             >
               <NextImage
-                src="/images/jacks_smash_burger_cutout.png"
-                alt="Jack's signature smash burger"
+                src="/images/jacks_top_burger_transparent.png"
+                alt="Jack's signature smash burger, stacked high"
                 width={1600}
-                height={1600}
-                priority
+                height={914}
                 sizes="(max-width: 1024px) 78vw, 520px"
                 className="relative h-auto w-full object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.18)]"
               />
@@ -140,34 +117,56 @@ export default function StorySection() {
                 />
               </motion.div>
             </motion.div>
+            </motion.div>
           </motion.div>
         </div>
 
         {/* Right — copy */}
         <div className="order-1 max-w-xl lg:order-2">
-          <p
+          <motion.p
             id="story-eyebrow"
+            initial={reduceMotion ? false : { y: 16, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
             className="font-mono text-[11px] tracking-[0.32em] text-cream/50 uppercase"
           >
             Jack&rsquo;s Burger UK · The Story
-          </p>
+          </motion.p>
 
           <h2
             id="story-title"
+            ref={titleRef}
             className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-cream"
           >
             <span className="block overflow-hidden pb-1">
-              <span className="line-inner block">Born on the</span>
+              <motion.span
+                className="line-inner block"
+                initial={reduceMotion ? false : { y: 80 }}
+                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
+              >
+                Born on the
+              </motion.span>
             </span>
             <span className="block overflow-hidden pb-1">
-              <span className="line-inner block">
+              <motion.span
+                className="line-inner block"
+                initial={reduceMotion ? false : { y: 80 }}
+                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.37 }}
+              >
                 <em className="text-blue italic">High Street.</em>
-              </span>
+              </motion.span>
             </span>
           </h2>
 
-          <p
+          <motion.p
             id="story-body"
+            initial={reduceMotion ? false : { y: 18, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.7, ease: EASE, delay: 0.6 }}
             className="mt-5 max-w-md text-base leading-relaxed text-cream/60 sm:text-lg"
           >
             Jack&rsquo;s started with one idea: proper burgers, done properly.
@@ -175,11 +174,15 @@ export default function StorySection() {
             between fresh-baked brioche — no freezers, no fillers, no
             shortcuts. Served fast from high-street kitchens across the UK, one
             made-right burger at a time.
-          </p>
+          </motion.p>
 
           {/* Stats */}
-          <div
+          <motion.div
             id="story-stats"
+            initial={reduceMotion ? false : { y: 16, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.75 }}
             className="mt-8 grid max-w-md grid-cols-3 gap-6"
           >
             {stats.map((s) => (
@@ -192,10 +195,17 @@ export default function StorySection() {
                 </p>
               </div>
             ))}
-          </div>
+          </motion.div>
 
           {/* CTA */}
-          <div id="story-cta" className="mt-9">
+          <motion.div
+            id="story-cta"
+            initial={reduceMotion ? false : { y: 14, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.9 }}
+            className="mt-9"
+          >
             <a
               href="#menu"
               className="group inline-flex h-12 items-center gap-2 rounded-full border border-cream/25 px-7 text-sm font-medium text-cream transition-all duration-300 hover:border-cream/50 hover:bg-white/10"
@@ -203,7 +213,7 @@ export default function StorySection() {
               See the Menu
               <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
