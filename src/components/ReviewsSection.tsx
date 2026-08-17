@@ -21,8 +21,8 @@ export default function ReviewsSection() {
   const rootRef = useRef<HTMLElement>(null);
   const burgerRef = useRef<HTMLDivElement>(null);
   const burgerInView = useInView(burgerRef, { margin: "200px 0px" });
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const titleInView = useInView(titleRef, { once: true, margin: "-15% 0px" });
+
+
   const reduceMotion = useReducedMotion();
 
   // Shared scroll progress for the parallax on the burger + edge scatters
@@ -137,14 +137,14 @@ export default function ReviewsSection() {
 
           <h2
             id="rev-title"
-            ref={titleRef}
+
             className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-bold tracking-[-0.02em] text-ink"
           >
             <span className="block overflow-hidden pb-1">
               <motion.span
                 className="line-inner block"
                 initial={reduceMotion ? false : { y: 80 }}
-                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                animate={reduceMotion ? undefined : { y: 0 }}
                 transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
               >
                 The Name You Shout
@@ -154,7 +154,7 @@ export default function ReviewsSection() {
               <motion.span
                 className="line-inner block"
                 initial={reduceMotion ? false : { y: 80 }}
-                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                animate={reduceMotion ? undefined : { y: 0 }}
                 transition={{ duration: 0.9, ease: EASE, delay: 0.37 }}
               >
                 <em className="text-blue italic">When Cravings Hit.</em>

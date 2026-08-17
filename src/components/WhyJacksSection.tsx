@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   Award,
   Bike,
@@ -70,61 +70,24 @@ const reasons: Reason[] = [
 
 export default function WhyJacksSection() {
   const rootRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const titleInView = useInView(titleRef, { once: true, margin: "-15% 0px" });
+
   const reduceMotion = useReducedMotion();
 
   return (
     <section
       id="why"
       ref={rootRef}
-      className="relative overflow-hidden bg-maroon py-24 lg:py-36"
+      className="relative overflow-hidden bg-[#3B0A0A] py-16 lg:py-[120px]"
     >
-      {/* Warm red glow + a hint of flame at the bottom */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[45%] bg-[radial-gradient(ellipse_at_bottom,rgba(237,28,36,0.28),transparent_70%)]"
-      />
-
-      <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-6 lg:px-10">
+      <div className="relative z-10 mx-auto max-w-[1280px] px-5 sm:px-6 lg:px-[120px]">
         {/* Chapter header */}
         <div className="mx-auto max-w-2xl text-center">
-          <motion.p
-            id="why-eyebrow"
-            initial={reduceMotion ? false : { y: 16, opacity: 0 }}
-            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
-            viewport={{ once: true, margin: "-15% 0px" }}
-            transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
-            className="font-mono text-[11px] tracking-[0.32em] text-cream/50 uppercase"
-          >
-            Jack&rsquo;s Burger UK · Why Jack&rsquo;s?
-          </motion.p>
-
           <h2
             id="why-title"
-            ref={titleRef}
-            className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-bold tracking-[-0.02em] text-cream"
+
+            className="mt-6 text-[36px] md:text-[48px] leading-[0.95] font-black tracking-[-0.03em] text-[#FFFFFF]"
           >
-            <span className="block overflow-hidden pb-1">
-              <motion.span
-                className="line-inner block"
-                initial={reduceMotion ? false : { y: 80 }}
-                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
-                transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
-              >
-                Why Jack&rsquo;s Burger?
-              </motion.span>
-            </span>
-            <span className="block overflow-hidden pb-1">
-              <motion.span
-                className="line-inner block"
-                initial={reduceMotion ? false : { y: 80 }}
-                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
-                transition={{ duration: 0.9, ease: EASE, delay: 0.37 }}
-              >
-                <em className="text-jacks italic">Kind of Awesome.</em>
-              </motion.span>
-            </span>
+            Why Jack&rsquo;s Burger? <span className="text-[#FFD60A]">Kind of Awesome.</span>
           </h2>
 
           <motion.p
@@ -133,7 +96,7 @@ export default function WhyJacksSection() {
             whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-15% 0px" }}
             transition={{ duration: 0.7, ease: EASE, delay: 0.6 }}
-            className="mt-5 mx-auto max-w-md text-base leading-relaxed text-cream/60 sm:text-lg"
+            className="mt-5 mx-auto max-w-md text-sm leading-relaxed text-[#FFFFFF]/60"
           >
             Because we&rsquo;re kind of awesome — but still chill. Eight very
             good reasons, straight from the grill.
@@ -141,7 +104,7 @@ export default function WhyJacksSection() {
         </div>
 
         {/* The eight reasons */}
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-12 grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {reasons.map((r, i) => (
             <motion.article
               key={r.title}
@@ -149,18 +112,15 @@ export default function WhyJacksSection() {
               whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
               viewport={{ once: true, margin: "-10% 0px" }}
               transition={{ duration: 0.8, ease: EASE, delay: 0.4 + i * 0.09 }}
-              whileHover={
-                reduceMotion ? undefined : { y: -6, transition: { duration: 0.25 } }
-              }
-              className="rounded-3xl border border-cream/10 bg-white/5 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.25)]"
+              className="rounded-[12px] border border-[#2B0A0A] bg-[#4A1515] p-6 shadow-soft"
             >
-              <span className="flex size-11 items-center justify-center rounded-full bg-jacks text-ink shadow-[0_8px_24px_rgba(255,210,15,0.25)]">
+              <span className="flex size-11 items-center justify-center rounded-full bg-[#FFD60A] text-[#0A0A0A] shadow-soft">
                 <r.icon className="size-5" />
               </span>
-              <h3 className="mt-4 font-serif text-lg font-bold text-cream">
+              <h3 className="mt-4 text-[14px] font-bold text-[#FFFFFF]">
                 {r.title}
               </h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-cream/60">
+              <p className="mt-1.5 text-[11px] leading-relaxed text-[#FFFFFF]/60">
                 {r.desc}
               </p>
             </motion.article>

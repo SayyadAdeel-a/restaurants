@@ -136,8 +136,8 @@ export default function BuildBurgerSection() {
   const rootRef = useRef<HTMLElement>(null);
   const figureRef = useRef<HTMLDivElement>(null);
   const figureInView = useInView(figureRef, { margin: "200px 0px" });
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const titleInView = useInView(titleRef, { once: true, margin: "-15% 0px" });
+
+
   const reduceMotion = useReducedMotion();
 
   // Active toppings — toggled from the chips or the fan. Starts fully stacked.
@@ -189,7 +189,7 @@ export default function BuildBurgerSection() {
 
           <h2
             id="build-title"
-            ref={titleRef}
+
             className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-cream"
           >
             <span className="block overflow-hidden pb-1">
@@ -197,7 +197,7 @@ export default function BuildBurgerSection() {
                 className="line-inner block"
                 initial={reduceMotion ? false : { y: 80 }}
                 animate={
-                  reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }
+                  reduceMotion ? undefined : { y: 0 }
                 }
                 transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
               >
@@ -209,7 +209,7 @@ export default function BuildBurgerSection() {
                 className="line-inner block"
                 initial={reduceMotion ? false : { y: 80 }}
                 animate={
-                  reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }
+                  reduceMotion ? undefined : { y: 0 }
                 }
                 transition={{ duration: 0.9, ease: EASE, delay: 0.37 }}
               >

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import NextImage from "next/image";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -68,8 +68,8 @@ const deals: Deal[] = [
 
 export default function SpecialsSection() {
   const rootRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const titleInView = useInView(titleRef, { once: true, margin: "-15% 0px" });
+
+
   const reduceMotion = useReducedMotion();
 
   return (
@@ -100,14 +100,14 @@ export default function SpecialsSection() {
 
           <h2
             id="deals-title"
-            ref={titleRef}
+
             className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-cream"
           >
             <span className="block overflow-hidden pb-1">
               <motion.span
                 className="line-inner block"
                 initial={reduceMotion ? false : { y: 80 }}
-                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                animate={reduceMotion ? undefined : { y: 0 }}
                 transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
               >
                 Big Taste.
@@ -117,7 +117,7 @@ export default function SpecialsSection() {
               <motion.span
                 className="line-inner block"
                 initial={reduceMotion ? false : { y: 80 }}
-                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                animate={reduceMotion ? undefined : { y: 0 }}
                 transition={{ duration: 0.9, ease: EASE, delay: 0.37 }}
               >
                 <em className="text-blue italic">Better Deals.</em>

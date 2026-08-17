@@ -103,8 +103,8 @@ export default function BoxesSection() {
   const rootRef = useRef<HTMLElement>(null);
   const boxesRef = useRef<HTMLDivElement>(null);
   const boxesInView = useInView(boxesRef, { margin: "200px 0px" });
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const titleInView = useInView(titleRef, { once: true, margin: "-15% 0px" });
+
+
   const reduceMotion = useReducedMotion();
 
   return (
@@ -135,14 +135,14 @@ export default function BoxesSection() {
 
           <h2
             id="boxes-title"
-            ref={titleRef}
+
             className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-ink"
           >
             <span className="block overflow-hidden pb-1">
               <motion.span
                 className="line-inner block"
                 initial={reduceMotion ? false : { y: 80 }}
-                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                animate={reduceMotion ? undefined : { y: 0 }}
                 transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
               >
                 Six Bestsellers.
@@ -152,7 +152,7 @@ export default function BoxesSection() {
               <motion.span
                 className="line-inner block"
                 initial={reduceMotion ? false : { y: 80 }}
-                animate={reduceMotion ? undefined : titleInView ? { y: 0 } : { y: 80 }}
+                animate={reduceMotion ? undefined : { y: 0 }}
                 transition={{ duration: 0.9, ease: EASE, delay: 0.35 }}
               >
                 <em className="text-blue italic">Zero Filler.</em>

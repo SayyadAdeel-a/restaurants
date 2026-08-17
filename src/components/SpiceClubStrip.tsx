@@ -2,8 +2,6 @@
 
 import { useState, type FormEvent } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Flame } from "lucide-react";
-
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -27,33 +25,17 @@ export default function SpiceClubStrip() {
   return (
     <section
       id="spice-club"
-      className="relative overflow-hidden border-y border-jacks/20 bg-maroon"
+      className="relative overflow-hidden bg-[#2B0A0A] py-16"
     >
-      {/* Warm member-only glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,210,15,0.09),transparent_65%)]"
-      />
-
-      <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-8 px-5 py-14 sm:px-6 lg:flex-row lg:justify-between lg:gap-14 lg:px-10 lg:py-16">
+      <div className="relative z-10 mx-auto grid max-w-[1280px] grid-cols-1 md:grid-cols-2 items-center gap-8 px-5 sm:px-6 lg:px-[120px]">
         {/* Copy */}
-        <div className="max-w-xl text-center lg:text-left">
-          <motion.p
-            initial={reduceMotion ? false : { y: 14, opacity: 0 }}
-            whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
-            viewport={{ once: true, margin: "-10% 0px" }}
-            transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-            className="font-mono text-[11px] tracking-[0.32em] text-jacks uppercase"
-          >
-            Jack&rsquo;s Burger UK · Spice Club
-          </motion.p>
-
+        <div className="text-center md:text-left">
           <motion.h2
             initial={reduceMotion ? false : { y: 22, opacity: 0 }}
             whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-10% 0px" }}
             transition={{ duration: 0.7, ease: EASE, delay: 0.22 }}
-            className="mt-4 font-retro text-[clamp(1.9rem,4.5vw,3.2rem)] leading-[1.04] tracking-wide text-cream uppercase"
+            className="mt-4 text-[36px] font-bold tracking-tight text-[#FFFFFF]"
           >
             Join the Spice Club
           </motion.h2>
@@ -63,7 +45,7 @@ export default function SpiceClubStrip() {
             whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-10% 0px" }}
             transition={{ duration: 0.6, ease: EASE, delay: 0.34 }}
-            className="mt-3 text-sm leading-relaxed text-cream/65 sm:text-base"
+            className="mt-3 text-[12px] leading-relaxed text-[#808080]"
           >
             Member-only deals, secret menu drops &amp; free fries on your
             birthday — straight to your inbox. No spam, just spice.
@@ -76,26 +58,26 @@ export default function SpiceClubStrip() {
           whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.7, ease: EASE, delay: 0.42 }}
-          className="w-full max-w-md lg:max-w-sm"
+          className="w-full flex flex-col md:items-end justify-center"
         >
           {status === "done" ? (
             <div
               role="status"
-              className="rounded-2xl border border-jacks/40 bg-jacks/10 px-6 py-5 text-center"
+              className="rounded-[16px] bg-[#3B0A0A] px-6 py-5 text-center w-full max-w-sm"
             >
-              <p className="font-retro text-lg text-jacks">
+              <p className="font-bold text-lg text-[#FFD60A]">
                 You&rsquo;re in! 🔥
               </p>
-              <p className="mt-1 text-sm text-cream/70">
+              <p className="mt-1 text-[12px] text-[#FFFFFF]/70">
                 Keep an eye on your inbox for the first drop of spice.
               </p>
             </div>
           ) : (
-            <>
+            <div className="w-full max-w-sm">
               <form
                 onSubmit={handleSubmit}
                 noValidate
-                className="flex flex-col gap-2.5 sm:flex-row"
+                className="flex flex-col gap-2.5 sm:flex-row w-full"
               >
                 <label htmlFor="spice-email" className="sr-only">
                   Email address
@@ -112,25 +94,24 @@ export default function SpiceClubStrip() {
                     if (status === "error") setStatus("idle");
                   }}
                   aria-invalid={status === "error"}
-                  className="h-12 min-w-0 flex-1 rounded-full bg-cream px-5 font-mono text-sm text-ink placeholder:font-sans placeholder:text-ink/35 focus:ring-2 focus:ring-jacks focus:outline-none"
+                  className="h-12 min-w-0 flex-1 rounded-[12px] bg-[#FFFFFF] px-5 text-sm text-[#0A0A0A] placeholder:text-[#808080] focus:ring-2 focus:ring-[#FFD60A] focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-jacks px-7 text-sm font-semibold text-ink shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cream"
+                  className="inline-flex h-12 shrink-0 items-center justify-center rounded-[12px] bg-[#FFD60A] px-7 text-sm font-semibold text-[#0A0A0A] shadow-soft transition-all hover:bg-[#FFFFFF]"
                 >
-                  <Flame className="size-4" />
                   Join Free
                 </button>
               </form>
               {status === "error" && (
-                <p className="mt-2.5 text-xs font-medium text-jacks">
+                <p className="mt-2.5 text-xs font-medium text-[#FFD60A]">
                   Please enter a valid email address to join.
                 </p>
               )}
-              <p className="mt-3 font-mono text-[10px] tracking-[0.18em] text-cream/45 uppercase">
+              <p className="mt-3 text-[10px] tracking-[0.2em] text-[#808080] uppercase">
                 Free to join · Unsubscribe anytime
               </p>
-            </>
+            </div>
           )}
         </motion.div>
       </div>
