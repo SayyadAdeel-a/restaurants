@@ -10,7 +10,6 @@ import {
 } from "framer-motion";
 import NextImage from "next/image";
 import { Clock, Mail, MapPin, Navigation, Phone } from "lucide-react";
-import Scatter from "@/components/Scatter";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -41,83 +40,13 @@ export default function FindUsSection() {
     <section
       id="contact"
       ref={rootRef}
-      className="relative overflow-hidden bg-cream py-24 lg:py-36"
+      className="relative overflow-hidden bg-jacks py-24 lg:py-36"
     >
       {/* Soft red glow behind the photo */}
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 right-[26%] h-[600px] w-[600px] -translate-y-1/2 translate-x-1/2 rounded-full bg-red-200/30 blur-3xl"
       />
-
-      {/* Edge scatters — flames, ribbon & fries drifting down the page */}
-      <Scatter
-        posCls="left-[4%] top-[10%] w-12 sm:left-[6%] sm:w-14"
-        parallax={-45}
-        orbit={8}
-        orbitDur={5.6}
-        rotate={-12}
-        progress={scrollYProgress}
-      >
-        <NextImage
-          src="/images/burger_bacon.png"
-          alt=""
-          width={1920}
-          height={1280}
-          sizes="96px"
-          className="h-auto w-full object-contain"
-        />
-      </Scatter>
-      <Scatter
-        posCls="right-[5%] top-[12%] w-12 sm:right-[8%] sm:w-14"
-        parallax={-65}
-        orbit={7}
-        orbitDur={3.3}
-        rotate={10}
-        progress={scrollYProgress}
-      >
-        <NextImage
-          src="/images/jacks_asset_lettuce.png"
-          alt=""
-          width={1920}
-          height={1280}
-          sizes="96px"
-          className="h-auto w-full object-contain"
-        />
-      </Scatter>
-      <Scatter
-        posCls="right-[10%] top-[46%] w-14 sm:right-[16%] sm:w-16"
-        parallax={-65}
-        orbit={8}
-        orbitDur={3.7}
-        rotate={-10}
-        progress={scrollYProgress}
-      >
-        <NextImage
-          src="/images/jacks_asset_burger_box.png"
-          alt=""
-          width={1600}
-          height={1600}
-          sizes="96px"
-          className="h-auto w-full object-contain"
-        />
-      </Scatter>
-      <Scatter
-        posCls="left-[10%] top-[48%] w-16 sm:left-[14%] sm:w-18"
-        parallax={-45}
-        orbit={9}
-        orbitDur={6.1}
-        rotate={6}
-        progress={scrollYProgress}
-      >
-        <NextImage
-          src="/images/burger_fries.png"
-          alt=""
-          width={1600}
-          height={1600}
-          sizes="96px"
-          className="h-auto w-full object-contain"
-        />
-      </Scatter>
 
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-16 px-5 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:px-10">
         {/* Left — copy */}
@@ -128,7 +57,7 @@ export default function FindUsSection() {
             whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-15% 0px" }}
             transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
-            className="font-mono text-[11px] tracking-[0.32em] text-navy-800/50 uppercase"
+            className="font-mono text-[11px] tracking-[0.32em] text-ink/60 uppercase"
           >
             Jack&rsquo;s Burger UK · Find Us
           </motion.p>
@@ -136,7 +65,7 @@ export default function FindUsSection() {
           <h2
             id="find-title"
             ref={titleRef}
-            className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-navy-800"
+            className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-ink"
           >
             <span className="block overflow-hidden pb-1">
               <motion.span
@@ -253,10 +182,10 @@ export default function FindUsSection() {
               </div>
             </div>
 
-            {/* Coming-soon strip — banter from the real site */}
+            {/* Branches strip — the real Jack's Burger sites */}
             <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-white/10 bg-maroon px-6 py-4">
               <p className="font-mono text-[10px] tracking-[0.2em] text-cream/70 uppercase">
-                Bryn Bettws Lodge · Opening Soon
+                Bangor · Penrhyn Bay · Abersoch
               </p>
               <p className="font-mono text-[10px] tracking-[0.2em] text-jacks uppercase">
                 More sites across the UK — watch us grow 🍔
@@ -284,7 +213,7 @@ export default function FindUsSection() {
               href={MAPS_URL}
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex h-12 items-center gap-2 rounded-full border border-navy-800/20 px-7 text-sm font-medium text-navy-800 transition-all duration-300 hover:border-navy-800/40 hover:bg-white"
+              className="group inline-flex h-12 items-center gap-2 rounded-full border-2 border-ink/20 px-7 text-sm font-medium text-ink transition-all duration-300 hover:border-ink hover:bg-white"
             >
               <Navigation className="size-4 text-blue" />
               Get Directions
@@ -343,7 +272,7 @@ export default function FindUsSection() {
 
               {/* You-are-here label */}
               <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-4 py-2 font-mono text-[10px] tracking-[0.22em] text-navy-800 uppercase shadow-lg backdrop-blur-sm">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-4 py-2 font-mono text-[10px] tracking-[0.22em] text-ink uppercase shadow-lg backdrop-blur-sm">
                   <span className="size-1.5 rounded-full bg-red" />
                   Jack&rsquo;s · Brynteg
                 </span>

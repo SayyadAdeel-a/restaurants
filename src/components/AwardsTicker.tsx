@@ -3,11 +3,11 @@
 import { motion, useReducedMotion } from "framer-motion";
 
 const awards = [
-  "Flame-Grilled British Beef",
-  "1,000+ 5-Star Reviews",
-  "Burgers Made to Order",
-  "Fresh Daily · Never Frozen",
-  "100% British & Irish Beef",
+  "Flame-Grilled Smash Burgers",
+  "100% Halal-Certified",
+  "Smashed to Order",
+  "Famous Sweet Chili Fries",
+  "Tender & Juicy, Every Time",
 ];
 
 /** One full pass of the marquee content. */

@@ -18,8 +18,8 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const stats = [
   { value: "Est. 2024", label: "Born on the high street" },
-  { value: "100%", label: "British & Irish beef, never frozen" },
-  { value: "Made to order", label: "Flame-grilled the moment you order" },
+  { value: "100%", label: "Halal-certified ingredients" },
+  { value: "Smashed to order", label: "Tender & juicy, every time" },
 ];
 
 /* ---------- Component ---------- */

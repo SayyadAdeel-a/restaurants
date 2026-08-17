@@ -14,7 +14,7 @@ const links = [
   },
   {
     label: "Facebook",
-    href: "https://www.facebook.com/",
+    href: "https://www.facebook.com/jacksbangor/",
   },
   {
     label: "TikTok",

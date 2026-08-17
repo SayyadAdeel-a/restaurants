@@ -1,16 +1,14 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { useRef } from "react";
 import {
   motion,
   useInView,
   useReducedMotion,
-  useScroll,
 } from "framer-motion";
 import NextImage from "next/image";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Scatter from "@/components/Scatter";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -99,16 +97,6 @@ const boxes: Box[] = [
   },
 ];
 
-type Scatter = {
-  posCls: string; // absolute position + size
-  speed: "slow" | "fast";
-  parallax: number; // scroll drift px
-  orbit: number; // idle orbit amplitude (px)
-  orbitDur: number; // idle orbit duration (s)
-  rotate: number;
-  children: ReactNode;
-};
-
 /* ---------- Component ---------- */
 
 export default function BoxesSection() {
@@ -119,108 +107,17 @@ export default function BoxesSection() {
   const titleInView = useInView(titleRef, { once: true, margin: "-15% 0px" });
   const reduceMotion = useReducedMotion();
 
-  // One shared scroll progress → per-scatter parallax (fast = 1.5× slow)
-  const { scrollYProgress } = useScroll({
-    target: rootRef,
-    offset: ["start end", "end start"],
-  });
-
-  const scatters: Scatter[] = [
-    {
-      posCls: "left-[5%] top-[22%] w-12 sm:left-[7%] sm:w-14",
-      speed: "slow",
-      parallax: -40,
-      orbit: 8,
-      orbitDur: 6.2,
-      rotate: -12,
-      children: (
-        <NextImage
-          src="/images/burger_cheese.png"
-          alt=""
-          width={1920}
-          height={1280}
-          sizes="96px"
-          className="h-auto w-full object-contain"
-        />
-      ),
-    },
-    {
-      posCls: "right-[6%] top-[18%] w-12 sm:right-[9%] sm:w-14",
-      speed: "fast",
-      parallax: -60,
-      orbit: 7,
-      orbitDur: 3.1,
-      rotate: 10,
-      children: (
-        <NextImage
-          src="/images/jacks_asset_lettuce.png"
-          alt=""
-          width={1920}
-          height={1280}
-          sizes="96px"
-          className="h-auto w-full object-contain"
-        />
-      ),
-    },
-    {
-      posCls: "left-[4%] top-[50%] w-16 sm:left-[2%] sm:w-18",
-      speed: "slow",
-      parallax: -40,
-      orbit: 8,
-      orbitDur: 6.6,
-      rotate: 6,
-      children: (
-        <NextImage
-          src="/images/burger_bacon.png"
-          alt=""
-          width={1920}
-          height={1280}
-          sizes="96px"
-          className="h-auto w-full object-contain"
-        />
-      ),
-    },
-    {
-      posCls: "right-[4%] top-[46%] w-12 sm:right-[3%] sm:w-14",
-      speed: "fast",
-      parallax: -60,
-      orbit: 9,
-      orbitDur: 3.3,
-      rotate: -10,
-      children: (
-        <NextImage
-          src="/images/jacks_asset_onion_rings.png"
-          alt=""
-          width={1600}
-          height={1600}
-          sizes="96px"
-          className="h-auto w-full object-contain"
-        />
-      ),
-    },
-  ];
-
   return (
     <section
       id="menu"
       ref={rootRef}
-      className="relative overflow-hidden bg-cream py-24 lg:py-36"
+      className="relative overflow-hidden bg-jacks py-24 lg:py-36"
     >
       {/* Soft red glow — same as the hero */}
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 left-1/2 h-[640px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-200/40 blur-3xl"
       />
-
-      {/* Scatters — behind the boxes, each with scroll parallax + idle orbit */}
-      {scatters.map((s, i) => (
-        <Scatter
-          key={i}
-          {...s}
-          progress={scrollYProgress}
-          wrapperCls="boxes-scatter"
-        />
-      ))}
 
       <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-6 lg:px-10">
         {/* Chapter header */}
@@ -231,7 +128,7 @@ export default function BoxesSection() {
             whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-15% 0px" }}
             transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
-            className="font-mono text-[11px] tracking-[0.32em] text-navy-800/50 uppercase"
+            className="font-mono text-[11px] tracking-[0.32em] text-ink/60 uppercase"
           >
             Jack&rsquo;s Burger UK · Flame-Grilled
           </motion.p>
@@ -239,7 +136,7 @@ export default function BoxesSection() {
           <h2
             id="boxes-title"
             ref={titleRef}
-            className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-navy-800"
+            className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-ink"
           >
             <span className="block overflow-hidden pb-1">
               <motion.span
@@ -280,7 +177,7 @@ export default function BoxesSection() {
                 className="size-4 object-contain"
               />
             </span>
-            <span className="font-mono text-[10px] tracking-[0.3em] text-navy-800/60 uppercase">
+            <span className="font-mono text-[10px] tracking-[0.3em] text-ink/65 uppercase">
               British Beef · Baked Fresh · No Fillers
             </span>
           </motion.div>
@@ -291,7 +188,7 @@ export default function BoxesSection() {
             whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-15% 0px" }}
             transition={{ duration: 0.7, ease: EASE, delay: 0.75 }}
-            className="mt-5 mx-auto max-w-md text-base leading-relaxed text-navy-800/60 sm:text-lg"
+            className="mt-5 mx-auto max-w-md text-base leading-relaxed text-ink/70 sm:text-lg"
           >
             100% British beef, flame-grilled to order and stacked into toasted
             brioche — no fillers, no shortcuts.
@@ -341,13 +238,13 @@ export default function BoxesSection() {
                 <div className="mt-8 text-center">
                   {box.champion && (
                     <p className="mb-1 font-mono text-[9px] tracking-[0.26em] text-gold uppercase">
-                      ✦ Bestseller · 1,000+ Sold
+                      ✦ Best Selling
                     </p>
                   )}
-                  <h3 className="font-serif text-xl font-bold text-navy-800 sm:text-2xl">
+                  <h3 className="font-serif text-xl font-bold text-ink sm:text-2xl">
                     {box.name}
                   </h3>
-                  <p className="mt-1 max-w-[16rem] text-sm leading-relaxed text-navy-800/60">
+                  <p className="mt-1 max-w-[16rem] text-sm leading-relaxed text-ink/70">
                     {box.desc}
                   </p>
                   <span className="mt-3 inline-block rounded-full bg-red px-4 py-1 font-mono text-sm font-medium text-white shadow-md shadow-red/25">
