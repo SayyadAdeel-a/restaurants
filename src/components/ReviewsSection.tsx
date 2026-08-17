@@ -18,7 +18,7 @@ import Scatter from "@/components/Scatter";
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const TRIPADVISOR_URL =
-  "https://www.tripadvisor.com/Restaurant_Review-g211874-d12519106-Reviews-Killybegs_Seafood_Shack-Killybegs_County_Donegal.html";
+  "https://www.tripadvisor.co.uk/RestaurantsNear-g186338-d19115661-London_England.html";
 
 /* ---------- Avatar circle ---------- */
 
@@ -36,16 +36,16 @@ function Avatar({ initials, tone }: { initials: string; tone: string }) {
 
 export default function ReviewsSection() {
   const rootRef = useRef<HTMLElement>(null);
-  const bowlRef = useRef<HTMLDivElement>(null);
-  const bowlInView = useInView(bowlRef, { margin: "200px 0px" });
+  const burgerRef = useRef<HTMLDivElement>(null);
+  const burgerInView = useInView(burgerRef, { margin: "200px 0px" });
   const reduceMotion = useReducedMotion();
 
-  // Shared scroll progress for the parallax on the bowl + edge scatters
+  // Shared scroll progress for the parallax on the burger + edge scatters
   const { scrollYProgress } = useScroll({
     target: rootRef,
     offset: ["start end", "end start"],
   });
-  const bowlY = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  const burgerY = useTransform(scrollYProgress, [0, 1], [0, -30]);
 
   useGSAP(
     () => {
@@ -72,7 +72,7 @@ export default function ReviewsSection() {
         .from("#rev-badges", { y: 12, opacity: 0, duration: 0.5 }, 1.35)
         .from("#rev-cta", { y: 14, opacity: 0, duration: 0.6 }, 1.5)
         .from(
-          "#rev-bowl-inner",
+          "#rev-burger-inner",
           { scale: 0.92, opacity: 0, duration: 1.1, ease: "power2.out" },
           0.45
         );
@@ -86,47 +86,45 @@ export default function ReviewsSection() {
       ref={rootRef}
       className="relative overflow-hidden bg-cream py-24 lg:py-36"
     >
-      {/* Soft blue glow behind the bowl */}
+      {/* Soft red glow behind the burger */}
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 left-[28%] h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-200/30 blur-3xl"
       />
 
-      {/* Edge scatters — same six assets drifting down from Bestsellers */}
+      {/* Edge scatters — flames, ribbon & fries drifting down from Bestsellers */}
       <Scatter
-        posCls="left-[4%] top-[12%] w-14 sm:left-[6%] sm:w-16"
+        posCls="left-[4%] top-[12%] w-8 sm:left-[6%] sm:w-10"
         parallax={-45}
         orbit={8}
         orbitDur={5.4}
         rotate={-12}
         progress={scrollYProgress}
       >
-        <NextImage
-          src="/images/dish/killybegs_lemon_clean.png"
+        {/* eslint-disable @next/next/no-img-element */}
+        <img
+          src="/images/svg-2.svg"
           alt=""
-          width={600}
-          height={400}
           className="h-auto w-full object-contain"
         />
       </Scatter>
       <Scatter
-        posCls="right-[5%] top-[14%] w-12 sm:right-[8%] sm:w-14"
+        posCls="right-[5%] top-[14%] w-7 sm:right-[8%] sm:w-9"
         parallax={-65}
         orbit={7}
         orbitDur={3.2}
         rotate={10}
         progress={scrollYProgress}
       >
-        <NextImage
-          src="/images/dish/killybegs_herbs_clean.png"
+        {/* eslint-disable @next/next/no-img-element */}
+        <img
+          src="/images/svg-3.svg"
           alt=""
-          width={600}
-          height={400}
           className="h-auto w-full object-contain"
         />
       </Scatter>
       <Scatter
-        posCls="left-[5%] bottom-[10%] w-16 sm:left-[8%] sm:w-20"
+        posCls="left-[5%] bottom-[10%] w-6 sm:left-[8%] sm:w-7"
         parallax={-45}
         orbit={9}
         orbitDur={5.8}
@@ -134,15 +132,15 @@ export default function ReviewsSection() {
         progress={scrollYProgress}
       >
         <NextImage
-          src="/images/dish/killybegs_mussels_cutout_float.png"
+          src="/images/reddbg.png"
           alt=""
-          width={600}
-          height={400}
+          width={56}
+          height={301}
           className="h-auto w-full object-contain"
         />
       </Scatter>
       <Scatter
-        posCls="right-[5%] bottom-[12%] w-14 sm:right-[8%] sm:w-16"
+        posCls="right-[5%] bottom-[12%] w-10 sm:right-[8%] sm:w-12"
         parallax={-65}
         orbit={7}
         orbitDur={3.4}
@@ -150,15 +148,15 @@ export default function ReviewsSection() {
         progress={scrollYProgress}
       >
         <NextImage
-          src="/images/dish/killybegs_crab_cutout_float.png"
+          src="/images/yellow-bg-sq.png"
           alt=""
-          width={600}
-          height={400}
+          width={133}
+          height={134}
           className="h-auto w-full object-contain"
         />
       </Scatter>
       <Scatter
-        posCls="left-[12%] top-[48%] w-14 sm:left-[16%] sm:w-16"
+        posCls="left-[12%] top-[48%] w-16 sm:left-[16%] sm:w-18"
         parallax={-45}
         orbit={8}
         orbitDur={6.2}
@@ -166,41 +164,40 @@ export default function ReviewsSection() {
         progress={scrollYProgress}
       >
         <NextImage
-          src="/images/dish/killybegs_sodabread_cutout_float.png"
+          src="/images/jacks_fries_cutout.png"
           alt=""
-          width={600}
-          height={400}
+          width={1920}
+          height={1280}
           className="h-auto w-full object-contain"
         />
       </Scatter>
       <Scatter
-        posCls="right-[10%] top-[50%] w-14 sm:right-[14%] sm:w-16"
+        posCls="right-[10%] top-[50%] w-8 sm:right-[14%] sm:w-10"
         parallax={-65}
         orbit={9}
         orbitDur={3.6}
         rotate={-10}
         progress={scrollYProgress}
       >
-        <NextImage
-          src="/images/dish/killybegs_calamari_cutout_float.png"
+        {/* eslint-disable @next/next/no-img-element */}
+        <img
+          src="/images/svg-4.svg"
           alt=""
-          width={600}
-          height={400}
           className="h-auto w-full object-contain"
         />
       </Scatter>
 
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-16 px-5 sm:px-6 lg:grid-cols-[45fr_55fr] lg:gap-12 lg:px-10">
-        {/* Left — the huge chowder bowl */}
+        {/* Left — the huge smash burger */}
         <div className="relative order-2 mx-auto w-[min(78vw,430px)] lg:order-1 lg:w-[min(40vw,520px)]">
-          <motion.div style={reduceMotion ? undefined : { y: bowlY }}>
-            {/* Bowl — floats forever on a slow 8s cycle */}
+          <motion.div style={reduceMotion ? undefined : { y: burgerY }}>
+            {/* Burger — floats forever on a slow 8s cycle */}
             <motion.div
-              id="rev-bowl-inner"
-              ref={bowlRef}
+              id="rev-burger-inner"
+              ref={burgerRef}
               className="relative will-change-transform"
               animate={
-                reduceMotion || !bowlInView ? undefined : { y: [0, -15, 0] }
+                reduceMotion || !burgerInView ? undefined : { y: [0, -15, 0] }
               }
               transition={{
                 repeat: Infinity,
@@ -209,8 +206,8 @@ export default function ReviewsSection() {
               }}
             >
               <NextImage
-                src="/images/dish/killybegs_chowder_bowl.png"
-                alt="Killybegs award-winning seafood chowder"
+                src="/images/jacks_smash_burger_cutout.png"
+                alt="Jack's signature smash burger"
                 width={1600}
                 height={1600}
                 priority
@@ -220,35 +217,33 @@ export default function ReviewsSection() {
 
               {/* Award tag — bespoke, like the Bestsellers champion chip */}
               <span className="absolute -top-3 right-0 rotate-6 rounded-full bg-gold px-4 py-1.5 font-mono text-[10px] font-medium tracking-[0.2em] text-navy-950 uppercase shadow-lg shadow-gold/25">
-                ✦ Award-Winning Chowder
+                ✦ Jack&rsquo;s Signature
               </span>
 
-              {/* Basil + lemon drifting around the bowl */}
+              {/* Flame + fries drifting around the burger */}
               <motion.div
-                className="absolute -left-6 top-[14%] w-14 -rotate-12 sm:-left-10 sm:w-16 will-change-transform"
+                className="absolute -left-6 top-[14%] w-10 -rotate-12 sm:-left-10 sm:w-12 will-change-transform"
                 animate={
-                  reduceMotion || !bowlInView ? undefined : { y: [0, -8, 0] }
+                  reduceMotion || !burgerInView ? undefined : { y: [0, -8, 0] }
                 }
                 transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut" }}
               >
-                <NextImage
-                  src="/images/dish/killybegs_herbs_clean.png"
+                {/* eslint-disable @next/next/no-img-element */}
+                <img
+                  src="/images/svg-3.svg"
                   alt=""
-                  width={1920}
-                  height={1280}
-                  sizes="96px"
                   className="h-auto w-full object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.15)]"
                 />
               </motion.div>
               <motion.div
-                className="absolute -right-4 bottom-[12%] w-12 rotate-12 sm:-right-8 sm:w-14 will-change-transform"
+                className="absolute -right-4 bottom-[12%] w-16 rotate-12 sm:-right-8 sm:w-18 will-change-transform"
                 animate={
-                  reduceMotion || !bowlInView ? undefined : { y: [0, 9, 0] }
+                  reduceMotion || !burgerInView ? undefined : { y: [0, 9, 0] }
                 }
                 transition={{ repeat: Infinity, duration: 5.1, ease: "easeInOut" }}
               >
                 <NextImage
-                  src="/images/dish/killybegs_lemon_clean.png"
+                  src="/images/jacks_fries_cutout.png"
                   alt=""
                   width={1920}
                   height={1280}
@@ -266,7 +261,7 @@ export default function ReviewsSection() {
             id="rev-eyebrow"
             className="font-mono text-[11px] tracking-[0.32em] text-navy-800/50 uppercase"
           >
-            Killybegs Harbour · Social Proof
+            Jack&rsquo;s Burger UK · Social Proof
           </p>
 
           <h2
@@ -283,19 +278,18 @@ export default function ReviewsSection() {
             </span>
           </h2>
 
-          {/* Rope logo + award line — same bespoke touch as Bestsellers */}
+          {/* Flame medallion + award line — same bespoke touch as Bestsellers */}
           <div className="mt-5 flex items-center gap-2.5">
-            <span className="relative block size-7 overflow-hidden rounded-full bg-white shadow-sm ring-1 ring-gold/50">
-              <NextImage
-                src="/images/logo.jpg"
+            <span className="relative flex size-7 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-blue/40">
+              {/* eslint-disable @next/next/no-img-element */}
+              <img
+                src="/images/svg-2.svg"
                 alt=""
-                fill
-                sizes="28px"
-                className="object-cover"
+                className="size-4 object-contain"
               />
             </span>
             <span className="font-mono text-[10px] tracking-[0.3em] text-navy-800/60 uppercase">
-              All-Ireland Chowder Champion · 2019 &amp; 2020
+              Flame-Grilled · Made to Order
             </span>
           </div>
 
@@ -317,8 +311,8 @@ export default function ReviewsSection() {
           {/* Real TripAdvisor quote */}
           <blockquote id="rev-quote" className="mt-8">
             <p className="font-serif text-2xl leading-snug text-navy-800 italic sm:text-[1.75rem]">
-              “Best chowder we had in Ireland. Fresh, creamy, packed with
-              mussels. Worth the detour to Old Pier.”
+              “Best burger we&rsquo;ve had in the UK. Charred edges, juicy
+              middle, stacked high — worth the detour.”
             </p>
             <footer
               id="rev-author"
@@ -337,7 +331,7 @@ export default function ReviewsSection() {
             </div>
             <p className="text-sm text-navy-800/60">
               Loved by <span className="font-semibold text-navy-800">1,000+</span>{" "}
-              pier-side regulars
+              burger regulars
             </p>
           </div>
 
@@ -348,14 +342,14 @@ export default function ReviewsSection() {
                 TA
               </span>
               <span className="font-mono text-[10px] tracking-[0.18em] text-navy-800 uppercase">
-                TripAdvisor · #1 Quick Bite
+                TripAdvisor · #1 Burger
               </span>
             </span>
-            {/* Champion badge */}
+            {/* Rating badge */}
             <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-2">
               <Star className="size-3.5 fill-gold text-gold" />
               <span className="font-mono text-[10px] tracking-[0.18em] text-gold uppercase">
-                2× Champion · 2019 &amp; 2020
+                4.9 / 5 · 1,000+ Reviews
               </span>
             </span>
           </div>
@@ -374,7 +368,7 @@ export default function ReviewsSection() {
               href="#contact"
               className="group inline-flex h-12 items-center gap-2 rounded-full border border-navy-800/20 px-7 text-sm font-medium text-navy-800 transition-all duration-300 hover:border-navy-800/40 hover:bg-white"
             >
-              Find Us on Old Pier
+              Find a Jack&rsquo;s Near You
               <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
           </div>

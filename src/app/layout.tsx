@@ -20,36 +20,33 @@ const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
 });
 
-const SITE_URL = "https://killybegsseafoodshack.ie";
-const TITLE = "Killybegs Seafood Shack | Award-Winning Seafood on the Old Pier, Donegal";
+const SITE_URL = "https://jacksburgeruk.com";
+const TITLE = "Jack's Burger UK | Flame-Grilled British Beef Burgers";
 const DESCRIPTION =
-  "Taste Ireland's #1 Seafood Chowder and pier-fresh fish & chips at the Killybegs Seafood Shack on the Wild Atlantic Way. Crafted by Chef Garry Anderson.";
+  "Flame-grilled 100% British beef burgers, made to order. Fresh brioche, melted cheddar and house sauces — served fast from our high-street kitchens across the UK.";
 
 const OG_IMAGE = {
-  url: "/og-image.jpg",
-  width: 1200,
-  height: 630,
-  alt: "Killybegs Seafood Shack — award-winning seafood on the Old Pier, Donegal",
+  url: "/images/jacks_smash_burger_cutout.png",
+  width: 1600,
+  height: 1600,
+  alt: "Jack's Burger UK — the signature flame-grilled smash burger",
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: TITLE,
   description: DESCRIPTION,
-  applicationName: "Killybegs Seafood Shack",
-  authors: [{ name: "Garry Anderson" }, { name: "Mairéad Anderson" }],
-  creator: "Anderson Hospitality Group",
-  publisher: "Anderson Hospitality Group",
+  applicationName: "Jack's Burger UK",
   category: "food",
   keywords: [
-    "Killybegs Seafood Shack",
-    "seafood takeaway Donegal",
-    "fish and chips Killybegs",
-    "Wild Atlantic Way seafood",
-    "Old Pier Killybegs",
-    "All-Ireland Chowder Champion",
-    "Anderson's Boathouse",
-    "Killybegs chowder",
+    "Jack's Burger UK",
+    "British beef burgers",
+    "flame-grilled burgers",
+    "best burger UK",
+    "smash burger",
+    "chicken burger",
+    "burger takeaway UK",
+    "burgers made to order",
   ],
   alternates: {
     canonical: "/",
@@ -67,12 +64,12 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    siteName: "Killybegs Seafood Shack",
+    siteName: "Jack's Burger UK",
     title: TITLE,
     description: DESCRIPTION,
     url: "/",
     images: [OG_IMAGE],
-    locale: "en_IE",
+    locale: "en_GB",
   },
   twitter: {
     card: "summary_large_image",
@@ -88,31 +85,28 @@ const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Restaurant",
+      "@type": "FastFoodRestaurant",
       "@id": `${SITE_URL}/#restaurant`,
-      name: "The Killybegs Seafood Shack",
-      alternateName: "Killybegs Seafood Shack",
+      name: "Jack's Burger UK",
       description:
-        "Pier-side gourmet seafood takeaway on the Old Pier, Killybegs — award-winning chowder and pier-fresh fish & chips, crafted daily by Chef Garry Anderson.",
+        "Flame-grilled 100% British beef burgers, made to order. Fresh brioche, melted cheddar and house sauces — served fast from our high-street kitchens across the UK.",
       url: SITE_URL,
-      image: `${SITE_URL}/og-image.jpg`,
-      telephone: "+353892393094",
-      priceRange: "€€",
-      servesCuisine: ["Seafood", "Fish and Chips", "Irish"],
+      image: `${SITE_URL}/images/jacks_smash_burger_cutout.png`,
+      telephone: "+440000000000",
+      priceRange: "£",
+      servesCuisine: ["Burgers", "Fast Food", "British"],
       acceptsReservations: "False",
-      hasMap: "https://maps.google.com/?cid=12648710332822452345",
+      hasMap: "https://maps.google.com/",
       address: {
         "@type": "PostalAddress",
-        streetAddress: "Shore Road, Old Pier",
-        addressLocality: "Killybegs",
-        addressRegion: "County Donegal",
-        postalCode: "F94 WF5X",
-        addressCountry: "IE",
+        streetAddress: "High Street",
+        addressLocality: "London",
+        addressCountry: "GB",
       },
       geo: {
         "@type": "GeoCoordinates",
-        latitude: 54.6365,
-        longitude: -8.4051,
+        latitude: 51.5074,
+        longitude: -0.1278,
       },
       openingHoursSpecification: [
         {
@@ -127,18 +121,9 @@ const structuredData = {
             "Sunday",
           ],
           opens: "11:30",
-          closes: "20:00",
+          closes: "21:00",
         },
       ],
-      founder: [
-        { "@type": "Person", name: "Garry Anderson" },
-        { "@type": "Person", name: "Mairéad Anderson" },
-      ],
-      parentOrganization: {
-        "@type": "Organization",
-        name: "Anderson Hospitality Group",
-      },
-      award: "All-Ireland Seafood Chowder Champion 2019 & 2020",
       aggregateRating: {
         "@type": "AggregateRating",
         ratingValue: "4.9",
@@ -146,49 +131,48 @@ const structuredData = {
         reviewCount: "1000",
       },
       sameAs: [
-        "https://www.facebook.com/killybegsseafoodshack/",
-        "https://instagram.com/killybegsseafoodshack",
-        "https://www.tripadvisor.com/Restaurant_Review-g211874-d12519106-Reviews-Killybegs_Seafood_Shack-Killybegs_County_Donegal.html",
-        "https://dishcult.com/restaurant/andersonsboathouse",
+        "https://www.facebook.com/",
+        "https://instagram.com/jacksburgeruk",
+        "https://www.tiktok.com/",
       ],
       hasMenu: {
         "@type": "Menu",
-        name: "Killybegs Seafood Shack Bestsellers",
+        name: "Jack's Burger UK Bestsellers",
         hasMenuSection: {
           "@type": "MenuSection",
           name: "Bestsellers",
           hasMenuItem: [
             {
               "@type": "MenuItem",
-              name: "The Sharing Box",
+              name: "The Smash Burger",
               description:
-                "Smoked haddock, goujons, scampi & calamari with skin-on fries.",
-              offers: {
-                "@type": "Offer",
-                price: "14.00",
-                priceCurrency: "EUR",
-              },
-            },
-            {
-              "@type": "MenuItem",
-              name: "The Award-Winning Chowder",
-              description:
-                "Smoked haddock, wild salmon & Donegal blue mussels in a creamy base, with Irish soda bread.",
+                "Double flame-grilled British beef, melted cheddar and house sauce.",
               offers: {
                 "@type": "Offer",
                 price: "8.50",
-                priceCurrency: "EUR",
+                priceCurrency: "GBP",
               },
             },
             {
               "@type": "MenuItem",
-              name: "Fish & Chips",
+              name: "The Chicken Burger",
               description:
-                "Hand-battered cod with triple-cooked chips and mushy peas.",
+                "Buttermilk-fried chicken, crunchy slaw and hot honey mayo.",
               offers: {
                 "@type": "Offer",
-                price: "9.50",
-                priceCurrency: "EUR",
+                price: "8.95",
+                priceCurrency: "GBP",
+              },
+            },
+            {
+              "@type": "MenuItem",
+              name: "The Fries",
+              description:
+                "Skin-on, double-cooked with Jack's signature seasoning.",
+              offers: {
+                "@type": "Offer",
+                price: "3.50",
+                priceCurrency: "GBP",
               },
             },
           ],
@@ -200,34 +184,34 @@ const structuredData = {
       mainEntity: [
         {
           "@type": "Question",
-          name: "Is the Killybegs Seafood Shack takeaway only?",
+          name: "Is Jack's Burger UK takeaway only?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Yes — the Killybegs Seafood Shack is a pier-side gourmet seafood takeaway on the Old Pier, Killybegs. No booking needed, just join the queue on the pier.",
+            text: "No — dine in, take away or get it delivered. Order ahead to skip the queue.",
           },
         },
         {
           "@type": "Question",
-          name: "Where is the Killybegs Seafood Shack?",
+          name: "Where is Jack's Burger UK?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "On Shore Road at the Old Pier, Killybegs, County Donegal, Ireland — right beside the fishing harbour on the Wild Atlantic Way.",
+            text: "On High Street, London — with more sites opening soon across the UK.",
           },
         },
         {
           "@type": "Question",
-          name: "What are the Killybegs Seafood Shack opening hours?",
+          name: "What are Jack's Burger UK opening hours?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "The shack is open daily from 11:30 to 8pm for takeaway.",
+            text: "Open every day from 11:30am to 9pm.",
           },
         },
         {
           "@type": "Question",
-          name: "What is the best thing to order at the Killybegs Seafood Shack?",
+          name: "What is the best thing to order at Jack's Burger UK?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "The award-winning seafood chowder — All-Ireland Chowder Champion 2019 & 2020 — packed with smoked haddock, wild salmon and Donegal blue mussels.",
+            text: "The Smash Burger — double flame-grilled British beef with melted cheddar and Jack's house sauce.",
           },
         },
       ],

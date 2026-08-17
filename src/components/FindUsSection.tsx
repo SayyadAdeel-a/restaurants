@@ -17,9 +17,9 @@ import Scatter from "@/components/Scatter";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const PHONE = "+353 89 239 3094";
-const PHONE_HREF = "tel:+353892393094";
-const MAPS_URL = "https://maps.google.com/?cid=12648710332822452345";
+const PHONE = "+44 0000 000000";
+const PHONE_HREF = "tel:+440000000000";
+const MAPS_URL = "https://maps.google.com/";
 
 /* ---------- Section ---------- */
 
@@ -67,47 +67,45 @@ export default function FindUsSection() {
       ref={rootRef}
       className="relative overflow-hidden bg-cream py-24 lg:py-36"
     >
-      {/* Soft blue glow behind the photo */}
+      {/* Soft red glow behind the photo */}
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 right-[26%] h-[600px] w-[600px] -translate-y-1/2 translate-x-1/2 rounded-full bg-red-200/30 blur-3xl"
       />
 
-      {/* Edge scatters — same assets drifting down the page */}
+      {/* Edge scatters — flames, ribbon & fries drifting down the page */}
       <Scatter
-        posCls="left-[4%] top-[10%] w-14 sm:left-[6%] sm:w-16"
+        posCls="left-[4%] top-[10%] w-8 sm:left-[6%] sm:w-10"
         parallax={-45}
         orbit={8}
         orbitDur={5.6}
         rotate={-12}
         progress={scrollYProgress}
       >
-        <NextImage
-          src="/images/dish/killybegs_lemon_clean.png"
+        {/* eslint-disable @next/next/no-img-element */}
+        <img
+          src="/images/svg-2.svg"
           alt=""
-          width={600}
-          height={400}
           className="h-auto w-full object-contain"
         />
       </Scatter>
       <Scatter
-        posCls="right-[5%] top-[12%] w-12 sm:right-[8%] sm:w-14"
+        posCls="right-[5%] top-[12%] w-7 sm:right-[8%] sm:w-9"
         parallax={-65}
         orbit={7}
         orbitDur={3.3}
         rotate={10}
         progress={scrollYProgress}
       >
-        <NextImage
-          src="/images/dish/killybegs_herbs_clean.png"
+        {/* eslint-disable @next/next/no-img-element */}
+        <img
+          src="/images/svg-3.svg"
           alt=""
-          width={600}
-          height={400}
           className="h-auto w-full object-contain"
         />
       </Scatter>
       <Scatter
-        posCls="left-[5%] bottom-[8%] w-16 sm:left-[8%] sm:w-20"
+        posCls="left-[5%] bottom-[8%] w-6 sm:left-[8%] sm:w-7"
         parallax={-45}
         orbit={9}
         orbitDur={5.9}
@@ -115,15 +113,15 @@ export default function FindUsSection() {
         progress={scrollYProgress}
       >
         <NextImage
-          src="/images/dish/killybegs_mussels_cutout_float.png"
+          src="/images/reddbg.png"
           alt=""
-          width={600}
-          height={400}
+          width={56}
+          height={301}
           className="h-auto w-full object-contain"
         />
       </Scatter>
       <Scatter
-        posCls="right-[5%] bottom-[10%] w-14 sm:right-[8%] sm:w-16"
+        posCls="right-[5%] bottom-[10%] w-10 sm:right-[8%] sm:w-12"
         parallax={-65}
         orbit={7}
         orbitDur={3.5}
@@ -131,31 +129,30 @@ export default function FindUsSection() {
         progress={scrollYProgress}
       >
         <NextImage
-          src="/images/dish/killybegs_crab_cutout_float.png"
+          src="/images/yellow-bg-sq.png"
           alt=""
-          width={600}
-          height={400}
+          width={133}
+          height={134}
           className="h-auto w-full object-contain"
         />
       </Scatter>
       <Scatter
-        posCls="right-[10%] top-[46%] w-14 sm:right-[16%] sm:w-16"
+        posCls="right-[10%] top-[46%] w-8 sm:right-[16%] sm:w-10"
         parallax={-65}
         orbit={8}
         orbitDur={3.7}
         rotate={-10}
         progress={scrollYProgress}
       >
-        <NextImage
-          src="/images/dish/killybegs_sodabread_cutout_float.png"
+        {/* eslint-disable @next/next/no-img-element */}
+        <img
+          src="/images/svg-4.svg"
           alt=""
-          width={600}
-          height={400}
           className="h-auto w-full object-contain"
         />
       </Scatter>
       <Scatter
-        posCls="left-[10%] top-[48%] w-14 sm:left-[14%] sm:w-16"
+        posCls="left-[10%] top-[48%] w-16 sm:left-[14%] sm:w-18"
         parallax={-45}
         orbit={9}
         orbitDur={6.1}
@@ -163,10 +160,10 @@ export default function FindUsSection() {
         progress={scrollYProgress}
       >
         <NextImage
-          src="/images/dish/killybegs_calamari_cutout_float.png"
+          src="/images/jacks_fries_cutout.png"
           alt=""
-          width={600}
-          height={400}
+          width={1920}
+          height={1280}
           className="h-auto w-full object-contain"
         />
       </Scatter>
@@ -178,7 +175,7 @@ export default function FindUsSection() {
             id="find-eyebrow"
             className="font-mono text-[11px] tracking-[0.32em] text-navy-800/50 uppercase"
           >
-            Killybegs Harbour · Find Us
+            Jack&rsquo;s Burger UK · Find Us
           </p>
 
           <h2
@@ -186,7 +183,7 @@ export default function FindUsSection() {
             className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-navy-800"
           >
             <span className="block overflow-hidden pb-1">
-              <span className="line-inner block">On the Old Pier.</span>
+              <span className="line-inner block">Hot off the Grill.</span>
             </span>
             <span className="block overflow-hidden pb-1">
               <span className="line-inner block">
@@ -202,12 +199,12 @@ export default function FindUsSection() {
             </span>
             <div>
               <p className="text-lg font-medium text-navy-800">
-                Shore Road, Old Pier
+                Find your nearest Jack&rsquo;s
               </p>
               <p className="mt-1 text-sm leading-relaxed text-navy-800/60">
-                Killybegs, Co. Donegal, Ireland
+                High Street, London
                 <br />
-                Wild Atlantic Way · right beside the fishing harbour
+                More sites opening soon across the UK
               </p>
             </div>
           </div>
@@ -219,11 +216,11 @@ export default function FindUsSection() {
             </span>
             <div>
               <p className="text-lg font-medium text-navy-800">
-                11:30 – 8pm, Daily
+                Mon–Sun · 11:30am – 9pm
               </p>
               <p className="mt-1 text-sm leading-relaxed text-navy-800/60">
-                Takeaway only · no booking needed — just join the queue on
-                the pier.
+                Dine-in, takeaway &amp; delivery — order ahead to skip the
+                queue.
               </p>
             </div>
           </div>
@@ -243,12 +240,12 @@ export default function FindUsSection() {
               <p className="mt-1 text-sm leading-relaxed text-navy-800/60">
                 Or send us a message on Instagram{" "}
                 <a
-                  href="https://instagram.com/killybegsseafoodshack"
+                  href="https://instagram.com/jacksburgeruk"
                   target="_blank"
                   rel="noreferrer"
                   className="font-medium text-blue transition-colors hover:text-navy-800"
                 >
-                  @killybegsseafoodshack
+                  @jacksburgeruk
                 </a>
               </p>
             </div>
@@ -261,7 +258,7 @@ export default function FindUsSection() {
               className="inline-flex h-12 items-center gap-2 rounded-full bg-red px-8 text-sm font-semibold text-white shadow-lg shadow-red/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-crimson hover:shadow-xl hover:shadow-red/30"
             >
               <Phone className="size-4" />
-              Order Takeaway
+              Order Now
             </a>
             <a
               href={MAPS_URL}
@@ -278,7 +275,7 @@ export default function FindUsSection() {
           </div>
         </div>
 
-        {/* Right — the trailer photo as a floating plate */}
+        {/* Right — the chicken burger as a floating plate */}
         <div className="order-2 mx-auto w-[min(82vw,480px)] lg:w-[min(42vw,560px)]">
           <motion.div style={reduceMotion ? undefined : { y: photoY }}>
             <motion.div
@@ -293,14 +290,14 @@ export default function FindUsSection() {
               {/* Floating plate — circular crop like a serving plate */}
               <div className="relative overflow-hidden rounded-full border-8 border-white shadow-[0_30px_80px_rgba(0,0,0,0.15)]">
                 <NextImage
-                  src="/images/truck.webp"
-                  alt="The Killybegs Seafood Shack trailer on Old Pier"
-                  width={677}
-                  height={510}
+                  src="/images/jacks_chicken_burger_cutout.png"
+                  alt="Jack's buttermilk chicken burger"
+                  width={1920}
+                  height={1280}
                   sizes="(max-width: 1024px) 82vw, 560px"
                   className="aspect-square h-auto w-full object-cover"
                 />
-                {/* Faint navy scrim so the pin reads */}
+                {/* Faint dark scrim so the pin reads */}
                 <div
                   aria-hidden
                   className="absolute inset-0 bg-navy-950/10"
@@ -323,7 +320,7 @@ export default function FindUsSection() {
               <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-4 py-2 font-mono text-[10px] tracking-[0.22em] text-navy-800 uppercase shadow-lg backdrop-blur-sm">
                   <span className="size-1.5 rounded-full bg-red" />
-                  Old Pier · Shore Road
+                  Jack&rsquo;s · High Street
                 </span>
               </div>
             </motion.div>

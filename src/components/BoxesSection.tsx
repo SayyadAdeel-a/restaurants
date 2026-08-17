@@ -27,37 +27,45 @@ type Box = {
   price: string;
   dur: number; // float cycle length (s) — 5, 6, 7 so they never sync
   wCls: string; // width
+  imgW: number;
+  imgH: number;
   champion?: boolean;
 };
 
 const boxes: Box[] = [
   {
-    src: "/images/dish/exact_sharing_box.png",
-    alt: "The Sharing Box — smoked haddock, goujons, scampi and calamari",
-    name: "The Sharing Box",
-    desc: "Smoked haddock, goujons, scampi & calamari, skin-on fries",
-    price: "€14",
+    src: "/images/jacks_chicken_burger_cutout.png",
+    alt: "The Chicken Burger — buttermilk-fried chicken, slaw and hot honey mayo",
+    name: "The Chicken Burger",
+    desc: "Buttermilk-fried chicken, crunchy slaw & hot honey mayo",
+    price: "£8.95",
     dur: 5,
     wCls: "w-52 md:w-48 lg:w-64",
+    imgW: 1920,
+    imgH: 1280,
   },
   {
-    src: "/images/dish/killybegs_chowder_bowl.png",
-    alt: "Award-winning seafood chowder",
-    name: "The Chowder",
-    desc: "Smoked haddock, wild salmon & Donegal blue mussels",
-    price: "€8.50",
+    src: "/images/jacks_smash_burger_cutout.png",
+    alt: "The Smash Burger — double flame-grilled beef, melted cheddar and house sauce",
+    name: "The Smash Burger",
+    desc: "Double flame-grilled beef, melted cheddar, house sauce",
+    price: "£8.50",
     dur: 6,
-    wCls: "w-56 md:w-52 lg:w-[17.6rem]", // 10% bigger — the award winner
+    wCls: "w-56 md:w-52 lg:w-[17.6rem]", // 10% bigger — the bestseller
+    imgW: 1600,
+    imgH: 1600,
     champion: true,
   },
   {
-    src: "/images/dish/exact_cod_bites.png",
-    alt: "Fish & Chips — hand-battered cod with triple-cooked chips",
-    name: "Fish & Chips",
-    desc: "Hand-battered cod, triple-cooked chips, mushy peas",
-    price: "€9.50",
+    src: "/images/jacks_fries_cutout.png",
+    alt: "The Fries — skin-on, double-cooked with Jack's signature seasoning",
+    name: "The Fries",
+    desc: "Skin-on, double-cooked with Jack's signature seasoning",
+    price: "£3.50",
     dur: 7,
     wCls: "w-52 md:w-48 lg:w-64",
+    imgW: 1920,
+    imgH: 1280,
   },
 ];
 
@@ -87,41 +95,39 @@ export default function BoxesSection() {
 
   const scatters: Scatter[] = [
     {
-      posCls: "left-[5%] top-[22%] w-14 sm:left-[7%] sm:w-16",
+      posCls: "left-[5%] top-[22%] w-8 sm:left-[7%] sm:w-10",
       speed: "slow",
       parallax: -40,
       orbit: 8,
       orbitDur: 6.2,
       rotate: -12,
       children: (
-        <NextImage
-          src="/images/dish/killybegs_lemon_clean.png"
+        /* eslint-disable @next/next/no-img-element */
+        <img
+          src="/images/svg-2.svg"
           alt=""
-          width={600}
-          height={400}
           className="h-auto w-full object-contain"
         />
       ),
     },
     {
-      posCls: "right-[6%] top-[18%] w-12 sm:right-[9%] sm:w-14",
+      posCls: "right-[6%] top-[18%] w-7 sm:right-[9%] sm:w-9",
       speed: "fast",
       parallax: -60,
       orbit: 7,
       orbitDur: 3.1,
       rotate: 10,
       children: (
-        <NextImage
-          src="/images/dish/killybegs_herbs_clean.png"
+        /* eslint-disable @next/next/no-img-element */
+        <img
+          src="/images/svg-3.svg"
           alt=""
-          width={600}
-          height={400}
           className="h-auto w-full object-contain"
         />
       ),
     },
     {
-      posCls: "left-[3%] bottom-[16%] w-16 sm:left-[6%] sm:w-20",
+      posCls: "left-[3%] bottom-[16%] w-6 sm:left-[6%] sm:w-7",
       speed: "fast",
       parallax: -60,
       orbit: 9,
@@ -129,16 +135,16 @@ export default function BoxesSection() {
       rotate: 8,
       children: (
         <NextImage
-          src="/images/dish/killybegs_mussels_cutout_float.png"
+          src="/images/reddbg.png"
           alt=""
-          width={600}
-          height={400}
+          width={56}
+          height={301}
           className="h-auto w-full object-contain"
         />
       ),
     },
     {
-      posCls: "right-[3%] bottom-[20%] w-14 sm:right-[7%] sm:w-16",
+      posCls: "right-[3%] bottom-[20%] w-10 sm:right-[7%] sm:w-12",
       speed: "slow",
       parallax: -40,
       orbit: 7,
@@ -146,16 +152,16 @@ export default function BoxesSection() {
       rotate: -8,
       children: (
         <NextImage
-          src="/images/dish/killybegs_crab_cutout_float.png"
+          src="/images/yellow-bg-sq.png"
           alt=""
-          width={600}
-          height={400}
+          width={133}
+          height={134}
           className="h-auto w-full object-contain"
         />
       ),
     },
     {
-      posCls: "left-[4%] top-[50%] w-16 sm:left-[2%] sm:w-20",
+      posCls: "left-[4%] top-[50%] w-16 sm:left-[2%] sm:w-18",
       speed: "slow",
       parallax: -40,
       orbit: 8,
@@ -163,44 +169,26 @@ export default function BoxesSection() {
       rotate: 6,
       children: (
         <NextImage
-          src="/images/dish/killybegs_sodabread_cutout_float.png"
+          src="/images/jacks_fries_cutout.png"
           alt=""
-          width={600}
-          height={400}
+          width={1920}
+          height={1280}
           className="h-auto w-full object-contain"
         />
       ),
     },
     {
-      posCls: "right-[4%] top-[46%] w-16 sm:right-[3%] sm:w-18",
+      posCls: "right-[4%] top-[46%] w-8 sm:right-[3%] sm:w-10",
       speed: "fast",
       parallax: -60,
       orbit: 9,
       orbitDur: 3.3,
       rotate: -10,
       children: (
-        <NextImage
-          src="/images/dish/killybegs_calamari_cutout_float.png"
+        /* eslint-disable @next/next/no-img-element */
+        <img
+          src="/images/svg-4.svg"
           alt=""
-          width={600}
-          height={400}
-          className="h-auto w-full object-contain"
-        />
-      ),
-    },
-    {
-      posCls: "left-[12%] bottom-[6%] w-16 sm:left-[19%] sm:w-20",
-      speed: "slow",
-      parallax: -40,
-      orbit: 6,
-      orbitDur: 5.4,
-      rotate: 8,
-      children: (
-        <NextImage
-          src="/images/dish/exact_garlic_mayo.png"
-          alt=""
-          width={600}
-          height={400}
           className="h-auto w-full object-contain"
         />
       ),
@@ -245,7 +233,7 @@ export default function BoxesSection() {
       ref={rootRef}
       className="relative overflow-hidden bg-cream py-24 lg:py-36"
     >
-      {/* Soft blue glow — same as the hero */}
+      {/* Soft red glow — same as the hero */}
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 left-1/2 h-[640px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-200/40 blur-3xl"
@@ -268,7 +256,7 @@ export default function BoxesSection() {
             id="boxes-eyebrow"
             className="font-mono text-[11px] tracking-[0.32em] text-navy-800/50 uppercase"
           >
-            Killybegs Harbour · Solar Powered
+            Jack&rsquo;s Burger UK · Flame-Grilled
           </p>
 
           <h2
@@ -285,22 +273,21 @@ export default function BoxesSection() {
             </span>
           </h2>
 
-          {/* Rope medallion + provenance line */}
+          {/* Flame medallion + provenance line */}
           <div
             id="boxes-rope"
             className="mt-5 flex items-center justify-center gap-2.5"
           >
-            <span className="relative block size-7 overflow-hidden rounded-full bg-white shadow-sm ring-1 ring-gold/50">
-              <NextImage
-                src="/images/logo.jpg"
+            <span className="relative flex size-7 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-blue/40">
+              {/* eslint-disable @next/next/no-img-element */}
+              <img
+                src="/images/svg-2.svg"
                 alt=""
-                fill
-                sizes="28px"
-                className="object-cover"
+                className="size-4 object-contain"
               />
             </span>
             <span className="font-mono text-[10px] tracking-[0.3em] text-navy-800/60 uppercase">
-              Fresh · Local · Sustainable
+              British Beef · Baked Fresh · No Fillers
             </span>
           </div>
 
@@ -308,8 +295,8 @@ export default function BoxesSection() {
             id="boxes-sub"
             className="mt-5 mx-auto max-w-md text-base leading-relaxed text-navy-800/60 sm:text-lg"
           >
-            Pier-fresh, battered to order daily from our trailer on Old Pier,
-            Donegal.
+            100% British beef, flame-grilled to order and stacked into toasted
+            brioche — no fillers, no shortcuts.
           </p>
         </div>
 
@@ -340,8 +327,8 @@ export default function BoxesSection() {
                   <NextImage
                     src={box.src}
                     alt={box.alt}
-                    width={1920}
-                    height={1280}
+                    width={box.imgW}
+                    height={box.imgH}
                     sizes="(max-width: 640px) 208px, (max-width: 1024px) 280px, 320px"
                     className="relative h-auto w-full object-contain drop-shadow-[0_30px_80px_rgba(0,0,0,0.15)]"
                   />
@@ -350,7 +337,7 @@ export default function BoxesSection() {
                 <div className="mt-8 text-center">
                   {box.champion && (
                     <p className="mb-1 font-mono text-[9px] tracking-[0.26em] text-gold uppercase">
-                      ✦ 2× Champion · 2019 &amp; 2020
+                      ✦ Bestseller · 1,000+ Sold
                     </p>
                   )}
                   <h3 className="font-serif text-xl font-semibold text-navy-800 sm:text-2xl">
@@ -372,11 +359,10 @@ export default function BoxesSection() {
         <div id="boxes-cta" className="mt-16 flex justify-center">
           <Button className="h-12 rounded-full bg-red px-9 text-sm font-semibold text-white shadow-lg shadow-red/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-crimson hover:shadow-xl hover:shadow-red/30">
             <Phone className="size-4" />
-            Order Takeaway
+            Order Now
           </Button>
         </div>
       </div>
     </section>
   );
 }
-

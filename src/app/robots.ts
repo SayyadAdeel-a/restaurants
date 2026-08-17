@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://killybegsseafoodshack.ie/sitemap.xml",
+    sitemap: "https://jacksburgeruk.com/sitemap.xml",
   };
 }
