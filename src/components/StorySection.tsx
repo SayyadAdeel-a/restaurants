@@ -43,7 +43,7 @@ export default function StorySection() {
     <section
       id="story"
       ref={rootRef}
-      className="relative overflow-hidden bg-jacks py-24 lg:py-36"
+      className="relative overflow-hidden bg-navy-950 py-24 lg:py-36"
     >
       {/* Flame glow — orange/red heat rising from the bottom, like the hero */}
       <div
@@ -88,7 +88,7 @@ export default function StorySection() {
               />
 
               {/* Est. badge */}
-              <span className="absolute -top-3 right-0 rotate-6 rounded-full bg-ink px-4 py-1.5 font-mono text-[10px] font-medium tracking-[0.2em] text-jacks uppercase shadow-[0_10px_24px_rgba(0,0,0,0.35)]">
+              <span className="absolute -top-3 right-0 rotate-6 rounded-full bg-jacks px-4 py-1.5 font-mono text-[10px] font-medium tracking-[0.2em] text-ink uppercase shadow-[0_10px_24px_rgba(0,0,0,0.35)]">
                 ✦ Est. 2024
               </span>
 
@@ -138,7 +138,7 @@ export default function StorySection() {
             whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-15% 0px" }}
             transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
-            className="font-mono text-[11px] tracking-[0.32em] text-ink/60 uppercase"
+            className="font-mono text-[11px] tracking-[0.32em] text-cream/60 uppercase"
           >
             Jack&rsquo;s Burger UK · The Story
           </motion.p>
@@ -146,7 +146,7 @@ export default function StorySection() {
           <h2
             id="story-title"
             ref={titleRef}
-            className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-bold tracking-[-0.02em] text-ink"
+            className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-bold tracking-[-0.02em] text-cream"
           >
             <span className="block overflow-hidden pb-1">
               <motion.span
@@ -176,7 +176,7 @@ export default function StorySection() {
             whileInView={reduceMotion ? undefined : { y: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-15% 0px" }}
             transition={{ duration: 0.7, ease: EASE, delay: 0.6 }}
-            className="mt-5 max-w-md text-base leading-relaxed text-ink/70 sm:text-lg"
+            className="mt-5 max-w-md text-base leading-relaxed text-cream/70 sm:text-lg"
           >
             Jack&rsquo;s Burger isn&rsquo;t just food — it&rsquo;s a vibe.
             We&rsquo;re kicking off in North Wales, but soon we&rsquo;ll be
@@ -195,10 +195,10 @@ export default function StorySection() {
           >
             {stats.map((s) => (
               <div key={s.value}>
-                <p className="font-serif text-2xl font-bold text-ink sm:text-3xl">
+                <p className="font-serif text-2xl font-bold text-cream sm:text-3xl">
                   {s.value}
                 </p>
-                <p className="mt-1 text-xs leading-snug text-ink/60">
+                <p className="mt-1 text-xs leading-snug text-cream/60">
                   {s.label}
                 </p>
               </div>
@@ -216,7 +216,7 @@ export default function StorySection() {
           >
             <a
               href="#menu"
-              className="group inline-flex h-12 items-center gap-2 rounded-full border-2 border-ink/25 px-7 text-sm font-semibold text-ink transition-all duration-300 hover:border-ink hover:bg-ink hover:text-white"
+              className="group inline-flex h-12 items-center gap-2 rounded-full border-2 border-cream/25 px-7 text-sm font-semibold text-cream transition-all duration-300 hover:border-cream hover:bg-cream hover:text-navy-950"
             >
               See the Menu
               <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />

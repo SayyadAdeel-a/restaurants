@@ -150,9 +150,42 @@ const structuredData = {
           hasMenuItem: [
             {
               "@type": "MenuItem",
-              name: "The Smash Burger",
+              name: "Classic Smash Burger",
               description:
-                "Double flame-grilled British beef, melted cheddar and house sauce.",
+                "Flame-grilled British beef, melted cheese & house sauce.",
+              offers: {
+                "@type": "Offer",
+                price: "6.50",
+                priceCurrency: "GBP",
+              },
+            },
+            {
+              "@type": "MenuItem",
+              name: "Duo Smash Burger",
+              description:
+                "Double flame-grilled beef, double cheese & house sauce.",
+              offers: {
+                "@type": "Offer",
+                price: "7.50",
+                priceCurrency: "GBP",
+              },
+            },
+            {
+              "@type": "MenuItem",
+              name: "Trio Smash Burger",
+              description:
+                "Triple flame-grilled beef, triple cheese & all the sauce.",
+              offers: {
+                "@type": "Offer",
+                price: "9.95",
+                priceCurrency: "GBP",
+              },
+            },
+            {
+              "@type": "MenuItem",
+              name: "Hot Smash Burger",
+              description:
+                "Fiery smash, jalapeños, chilli & Jack's hot sauce.",
               offers: {
                 "@type": "Offer",
                 price: "8.50",
@@ -163,7 +196,7 @@ const structuredData = {
               "@type": "MenuItem",
               name: "The Chicken Burger",
               description:
-                "Buttermilk-fried chicken, crunchy slaw and hot honey mayo.",
+                "Buttermilk-fried chicken, crunchy slaw & hot honey mayo.",
               offers: {
                 "@type": "Offer",
                 price: "8.95",
@@ -172,9 +205,9 @@ const structuredData = {
             },
             {
               "@type": "MenuItem",
-              name: "The Fries",
+              name: "Sweet Chili Fries",
               description:
-                "Skin-on, double-cooked with Jack's signature seasoning.",
+                "Crispy loaded fries with our famous sweet chili glaze.",
               offers: {
                 "@type": "Offer",
                 price: "3.50",
@@ -217,7 +250,71 @@ const structuredData = {
           name: "What is the best thing to order at Jack's Burger UK?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "The Smash Burger — double flame-grilled British beef with melted cheddar and Jack's house sauce.",
+            text: "The Duo Smash Burger — double flame-grilled British beef with melted cheese and Jack's house sauce.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Why Jack's: Smashed Burgers?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Tender, juicy perfection that'll have you dreaming of your next bite.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Why Jack's: Beyond Burgers?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Grilled chicken, crispy loaded fries, thick shakes & our famous sweet chili fries that steal the show.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Why Jack's: Proven Pros?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "From the geniuses behind Benllech Tandoori and other North Wales foodie gems.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Why Jack's: Halal Vibes?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "100% certified ingredients for quality you can taste and trust.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Why Jack's: Consistency is Key?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Same great flavour every time — no burger surprises here.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Why Jack's: Spice Club Perks?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Discounts that make every meal a little spicier (and sweeter).",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Why Jack's: Options Galore?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Delivery, takeaway or dine-in — your burger, your rules.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Why Jack's: Going Big?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "From North Wales to the UK, and maybe the universe — watch us grow!",
           },
         },
       ],

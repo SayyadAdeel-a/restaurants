@@ -4,7 +4,8 @@ import NextImage from "next/image";
 
 const PHONE = "01248 666800";
 const PHONE_HREF = "tel:+441248666800";
-const MAPS_URL = "https://maps.google.com/";
+const MAPS_URL =
+  "https://www.google.com/maps/search/?api=1&query=Llangefni+Road+Brynteg+LL78+8JQ";
 
 const links = [
   {

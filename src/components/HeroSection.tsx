@@ -20,7 +20,10 @@ function SauceDrip({ className }: { className?: string }) {
       viewBox="0 0 640 220"
       className={className}
       aria-hidden
-      preserveAspectRatio="xMidYMid meet"
+      /* Bottom-align + crop the top: the caller caps the height, so the drip
+         tips stay pinned to the SVG's bottom edge instead of growing with the
+         headline width and bleeding into the copy below. */
+      preserveAspectRatio="xMidYMax slice"
     >
       {/* Irregular ketchup splat body */}
       <path
@@ -91,7 +94,7 @@ export default function HeroSection() {
     <section
       id="hero"
       ref={rootRef}
-      className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-jacks px-5 pt-28 pb-20 sm:px-6 lg:px-10"
+      className="relative flex min-h-screen flex-col justify-center overflow-x-clip bg-jacks px-5 pt-28 pb-20 sm:px-6 lg:px-10"
     >
       {/* Flame glow — orange/red heat rising from the bottom, not pink */}
       <div
@@ -129,7 +132,7 @@ export default function HeroSection() {
                 Where Passion Meets Flavour
               </span>
               <span className="relative mt-4 block w-fit">
-                <SauceDrip className="pointer-events-none absolute -inset-x-8 -top-4 z-0 w-[calc(100%+64px)] scale-110 -rotate-3 text-blue" />
+                <SauceDrip className="pointer-events-none absolute -inset-x-8 -top-4 z-0 h-[112px] w-[calc(100%+64px)] -rotate-3 text-blue sm:h-[132px]" />
                 <span className="relative z-10 font-retro text-[clamp(1.2rem,2.6vw,1.95rem)] leading-[1.15] text-white [text-shadow:0_3px_0_rgba(61,10,10,0.4)]">
                   (and Maybe a Little Sauce on Your Chin)
                 </span>
@@ -137,8 +140,8 @@ export default function HeroSection() {
             </h1>
           </div>
 
-          {/* Sub — mt-16 clears the drips hanging off the headline */}
-          <p className="mx-auto mt-16 max-w-xl text-base leading-relaxed text-ink/70 sm:text-lg lg:mx-0">
+          {/* Sub — mt-24 clears the drips hanging off the headline (drip height is capped so it never scales into the copy) */}
+          <p className="mx-auto mt-24 max-w-xl text-base leading-relaxed text-ink/70 sm:text-lg lg:mx-0">
             With over a decade of mastery in the food industry and a shelf full
             of awards, we&rsquo;ve perfected the art of an unforgettable burger
             experience. At Jack&rsquo;s Burger, we live to see you smile — one
@@ -171,25 +174,6 @@ export default function HeroSection() {
             className="relative will-change-transform"
           >
             <div className="relative mx-auto w-[min(80vw,540px)]">
-              {/* Fries peeking out behind the burger */}
-              <motion.div
-                aria-hidden
-                className="absolute -left-10 bottom-8 z-0 w-40 -rotate-12 sm:-left-14 sm:w-48"
-                animate={
-                  reduceMotion || !plateInView ? undefined : { y: [0, -10, 0] }
-                }
-                transition={{ repeat: Infinity, duration: 6.4, ease: "easeInOut" }}
-              >
-                <NextImage
-                  src="/images/jacks_scroll02_transparent_v2.png"
-                  alt=""
-                  width={1600}
-                  height={952}
-                  sizes="192px"
-                  className="h-auto w-full object-contain drop-shadow-[0_26px_40px_rgba(0,0,0,0.22)]"
-                />
-              </motion.div>
-
               {/* The star of the show — saucy, dripping, flame-grilled */}
               <motion.div
                 className="relative z-10"
@@ -199,8 +183,8 @@ export default function HeroSection() {
                 transition={{ repeat: Infinity, duration: 5.4, ease: "easeInOut" }}
               >
                 <NextImage
-                  src="/images/jacks_scroll01_transparent_v2.png"
-                  alt="Jack's flame-grilled smash burger, dripping with sauce — the signature stack"
+                  src="/images/jacks_messy_hero_burger.png"
+                  alt="Jack's flame-grilled smash burger, properly messy with cheddar leaking and sauce dripping"
                   width={1600}
                   height={1066}
                   preload
@@ -230,6 +214,16 @@ export default function HeroSection() {
             </div>
           </motion.div>
         </div>
+      </div>
+      {/* Ketchup drip transition to black section */}
+      <div className="absolute inset-x-0 top-full -mt-[1px] z-20 pointer-events-none h-[80px] md:h-[120px]">
+        <NextImage
+          src="/images/ketchup_long_drip.png"
+          alt=""
+          fill
+          className="object-cover object-top"
+          unoptimized
+        />
       </div>
     </section>
   );
