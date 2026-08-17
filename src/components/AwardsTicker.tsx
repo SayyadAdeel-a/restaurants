@@ -33,7 +33,7 @@ export default function AwardsTicker() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className="relative z-10 overflow-hidden border-y border-navy-800/10 bg-white py-3">
+    <div className="relative z-10 overflow-hidden border-y border-cream/10 bg-navy-950 py-3">
       {reduceMotion ? (
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 px-6 text-center">
           {awards.map((award) => (

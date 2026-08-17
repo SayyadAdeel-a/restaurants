@@ -57,15 +57,37 @@ const boxes: Box[] = [
     champion: true,
   },
   {
-    src: "/images/jacks_fries_cutout.png",
+    src: "/images/burger_fries.png",
     alt: "The Fries — skin-on, double-cooked with Jack's signature seasoning",
     name: "The Fries",
     desc: "Skin-on, double-cooked with Jack's signature seasoning",
     price: "£3.50",
     dur: 7,
     wCls: "w-52 md:w-48 lg:w-64",
-    imgW: 1920,
-    imgH: 1280,
+    imgW: 1600,
+    imgH: 1600,
+  },
+  {
+    src: "/images/jacks_asset_onion_rings.png",
+    alt: "The Onion Rings — crispy beer-battered rings with Jack's smoky dip",
+    name: "The Onion Rings",
+    desc: "Crispy beer-battered rings with Jack's smoky dip",
+    price: "£3.95",
+    dur: 8,
+    wCls: "w-52 md:w-48 lg:w-64",
+    imgW: 1600,
+    imgH: 1600,
+  },
+  {
+    src: "/images/jacks_asset_burger_box.png",
+    alt: "The Burger Box — smash burger, fries and a drink in Jack's signature box",
+    name: "The Burger Box",
+    desc: "Smash burger, fries & a drink — the full Jack's in a box",
+    price: "£12.95",
+    dur: 9,
+    wCls: "w-52 md:w-48 lg:w-64",
+    imgW: 1600,
+    imgH: 1600,
   },
 ];
 
@@ -95,33 +117,35 @@ export default function BoxesSection() {
 
   const scatters: Scatter[] = [
     {
-      posCls: "left-[5%] top-[22%] w-8 sm:left-[7%] sm:w-10",
+      posCls: "left-[5%] top-[22%] w-12 sm:left-[7%] sm:w-14",
       speed: "slow",
       parallax: -40,
       orbit: 8,
       orbitDur: 6.2,
       rotate: -12,
       children: (
-        /* eslint-disable @next/next/no-img-element */
-        <img
-          src="/images/svg-2.svg"
+        <NextImage
+          src="/images/burger_cheese.png"
           alt=""
+          width={1920}
+          height={1280}
           className="h-auto w-full object-contain"
         />
       ),
     },
     {
-      posCls: "right-[6%] top-[18%] w-7 sm:right-[9%] sm:w-9",
+      posCls: "right-[6%] top-[18%] w-12 sm:right-[9%] sm:w-14",
       speed: "fast",
       parallax: -60,
       orbit: 7,
       orbitDur: 3.1,
       rotate: 10,
       children: (
-        /* eslint-disable @next/next/no-img-element */
-        <img
-          src="/images/svg-3.svg"
+        <NextImage
+          src="/images/jacks_asset_lettuce.png"
           alt=""
+          width={1920}
+          height={1280}
           className="h-auto w-full object-contain"
         />
       ),
@@ -135,7 +159,7 @@ export default function BoxesSection() {
       rotate: 6,
       children: (
         <NextImage
-          src="/images/jacks_fries_cutout.png"
+          src="/images/burger_bacon.png"
           alt=""
           width={1920}
           height={1280}
@@ -144,17 +168,18 @@ export default function BoxesSection() {
       ),
     },
     {
-      posCls: "right-[4%] top-[46%] w-8 sm:right-[3%] sm:w-10",
+      posCls: "right-[4%] top-[46%] w-12 sm:right-[3%] sm:w-14",
       speed: "fast",
       parallax: -60,
       orbit: 9,
       orbitDur: 3.3,
       rotate: -10,
       children: (
-        /* eslint-disable @next/next/no-img-element */
-        <img
-          src="/images/svg-4.svg"
+        <NextImage
+          src="/images/jacks_asset_onion_rings.png"
           alt=""
+          width={1600}
+          height={1600}
           className="h-auto w-full object-contain"
         />
       ),
@@ -230,7 +255,7 @@ export default function BoxesSection() {
             className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-semibold tracking-[-0.02em] text-navy-800"
           >
             <span className="block overflow-hidden pb-1">
-              <span className="line-inner block">Three Bestsellers.</span>
+              <span className="line-inner block">Five Bestsellers.</span>
             </span>
             <span className="block overflow-hidden pb-1">
               <span className="line-inner block">
@@ -269,7 +294,7 @@ export default function BoxesSection() {
         {/* The three big boxes — floating, never synced */}
         <div
           ref={boxesRef}
-          className="mt-10 flex flex-col items-center gap-14 md:flex-row md:items-end md:justify-center md:gap-8 lg:gap-16"
+          className="mt-10 flex flex-col items-center gap-14 md:flex-row md:flex-wrap md:items-end md:justify-center md:gap-x-8 md:gap-y-14 lg:gap-x-16"
         >
           {boxes.map((box) => (
             <div

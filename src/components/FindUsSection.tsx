@@ -75,47 +75,50 @@ export default function FindUsSection() {
 
       {/* Edge scatters — flames, ribbon & fries drifting down the page */}
       <Scatter
-        posCls="left-[4%] top-[10%] w-8 sm:left-[6%] sm:w-10"
+        posCls="left-[4%] top-[10%] w-12 sm:left-[6%] sm:w-14"
         parallax={-45}
         orbit={8}
         orbitDur={5.6}
         rotate={-12}
         progress={scrollYProgress}
       >
-        {/* eslint-disable @next/next/no-img-element */}
-        <img
-          src="/images/svg-2.svg"
+        <NextImage
+          src="/images/burger_bacon.png"
           alt=""
+          width={1920}
+          height={1280}
           className="h-auto w-full object-contain"
         />
       </Scatter>
       <Scatter
-        posCls="right-[5%] top-[12%] w-7 sm:right-[8%] sm:w-9"
+        posCls="right-[5%] top-[12%] w-12 sm:right-[8%] sm:w-14"
         parallax={-65}
         orbit={7}
         orbitDur={3.3}
         rotate={10}
         progress={scrollYProgress}
       >
-        {/* eslint-disable @next/next/no-img-element */}
-        <img
-          src="/images/svg-3.svg"
+        <NextImage
+          src="/images/jacks_asset_lettuce.png"
           alt=""
+          width={1920}
+          height={1280}
           className="h-auto w-full object-contain"
         />
       </Scatter>
       <Scatter
-        posCls="right-[10%] top-[46%] w-8 sm:right-[16%] sm:w-10"
+        posCls="right-[10%] top-[46%] w-14 sm:right-[16%] sm:w-16"
         parallax={-65}
         orbit={8}
         orbitDur={3.7}
         rotate={-10}
         progress={scrollYProgress}
       >
-        {/* eslint-disable @next/next/no-img-element */}
-        <img
-          src="/images/svg-4.svg"
+        <NextImage
+          src="/images/jacks_asset_burger_box.png"
           alt=""
+          width={1600}
+          height={1600}
           className="h-auto w-full object-contain"
         />
       </Scatter>
@@ -128,10 +131,10 @@ export default function FindUsSection() {
         progress={scrollYProgress}
       >
         <NextImage
-          src="/images/jacks_fries_cutout.png"
+          src="/images/burger_fries.png"
           alt=""
-          width={1920}
-          height={1280}
+          width={1600}
+          height={1600}
           className="h-auto w-full object-contain"
         />
       </Scatter>

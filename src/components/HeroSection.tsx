@@ -28,6 +28,8 @@ type FloatProps = {
   bobDur: number; // idle float duration (s)
   shadow?: boolean;
   svg?: boolean; // render as a plain <img> (next/image rejects SVGs)
+  imgW?: number; // source width for NextImage aspect ratio (default 1920)
+  imgH?: number; // source height for NextImage aspect ratio (default 1280)
 };
 
 /** One floating asset: wrapper (GSAP entrance) → parallax layer → bobbing image. */
@@ -42,6 +44,8 @@ function FloatingAsset({
   bobDur,
   shadow = true,
   svg = false,
+  imgW = 1920,
+  imgH = 1280,
 }: FloatProps) {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -90,8 +94,8 @@ function FloatingAsset({
             <NextImage
               src={src}
               alt={alt}
-              width={1920}
-              height={1280}
+              width={imgW}
+              height={imgH}
               sizes="192px"
               className={
                 shadow
@@ -166,18 +170,17 @@ export default function HeroSection() {
   const floats: FloatProps[] = [
     // Left column
     {
-      src: "/images/svg-2.svg",
-      alt: "Flame icon",
-      className: "left-[4%] top-[16%] w-10 -rotate-10 sm:left-[7%] sm:w-12",
+      src: "/images/jacks_asset_brioche.png",
+      alt: "Fresh brioche bun",
+      className: "left-[4%] top-[16%] w-12 -rotate-10 sm:left-[7%] sm:w-14",
       progress: scrollYProgress,
       moveY: -75,
       rotateTo: -4,
       bob: 12,
       bobDur: 5.2,
-      svg: true,
     },
     {
-      src: "/images/jacks_fries_cutout.png",
+      src: "/images/burger_fries.png",
       alt: "Skin-on fries",
       className: "left-[4%] bottom-[11%] w-24 rotate-8 sm:left-[7%] sm:w-28",
       progress: scrollYProgress,
@@ -185,29 +188,29 @@ export default function HeroSection() {
       rotateTo: 5,
       bob: 13,
       bobDur: 6.1,
+      imgW: 1600,
+      imgH: 1600,
     },
     // Right column
     {
-      src: "/images/svg-3.svg",
-      alt: "Flame icon",
-      className: "right-[4%] top-[15%] w-9 rotate-6 sm:right-[7%] sm:w-11",
+      src: "/images/burger_tomato.png",
+      alt: "Fresh tomato",
+      className: "right-[4%] top-[15%] w-12 rotate-6 sm:right-[7%] sm:w-14",
       progress: scrollYProgress,
       moveY: -55,
       rotateTo: 4,
       bob: 10,
       bobDur: 5.6,
-      svg: true,
     },
     {
-      src: "/images/svg-4.svg",
-      alt: "Flame icon",
-      className: "right-[4%] bottom-[10%] w-8 -rotate-8 sm:right-[7%] sm:w-10",
+      src: "/images/jacks_asset_pickle_lemon.png",
+      alt: "Pickles and lemon",
+      className: "right-[4%] bottom-[10%] w-12 -rotate-8 sm:right-[7%] sm:w-14",
       progress: scrollYProgress,
       moveY: -85,
       rotateTo: -5,
       bob: 12,
       bobDur: 5.9,
-      svg: true,
     },
   ];
 

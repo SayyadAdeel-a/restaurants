@@ -94,32 +94,34 @@ export default function ReviewsSection() {
 
       {/* Edge scatters — flames, ribbon & fries drifting down from Bestsellers */}
       <Scatter
-        posCls="left-[4%] top-[12%] w-8 sm:left-[6%] sm:w-10"
+        posCls="left-[4%] top-[12%] w-12 sm:left-[6%] sm:w-14"
         parallax={-45}
         orbit={8}
         orbitDur={5.4}
         rotate={-12}
         progress={scrollYProgress}
       >
-        {/* eslint-disable @next/next/no-img-element */}
-        <img
-          src="/images/svg-2.svg"
+        <NextImage
+          src="/images/jacks_asset_pickle_lemon.png"
           alt=""
+          width={1920}
+          height={1280}
           className="h-auto w-full object-contain"
         />
       </Scatter>
       <Scatter
-        posCls="right-[5%] top-[14%] w-7 sm:right-[8%] sm:w-9"
+        posCls="right-[5%] top-[14%] w-12 sm:right-[8%] sm:w-14"
         parallax={-65}
         orbit={7}
         orbitDur={3.2}
         rotate={10}
         progress={scrollYProgress}
       >
-        {/* eslint-disable @next/next/no-img-element */}
-        <img
-          src="/images/svg-3.svg"
+        <NextImage
+          src="/images/jacks_asset_onion_rings.png"
           alt=""
+          width={1600}
+          height={1600}
           className="h-auto w-full object-contain"
         />
       </Scatter>
@@ -132,7 +134,7 @@ export default function ReviewsSection() {
         progress={scrollYProgress}
       >
         <NextImage
-          src="/images/jacks_fries_cutout.png"
+          src="/images/burger_tomato.png"
           alt=""
           width={1920}
           height={1280}
@@ -140,17 +142,18 @@ export default function ReviewsSection() {
         />
       </Scatter>
       <Scatter
-        posCls="right-[10%] top-[50%] w-8 sm:right-[14%] sm:w-10"
+        posCls="right-[10%] top-[50%] w-12 sm:right-[14%] sm:w-14"
         parallax={-65}
         orbit={9}
         orbitDur={3.6}
         rotate={-10}
         progress={scrollYProgress}
       >
-        {/* eslint-disable @next/next/no-img-element */}
-        <img
-          src="/images/svg-4.svg"
+        <NextImage
+          src="/images/jacks_asset_brioche.png"
           alt=""
+          width={1920}
+          height={1280}
           className="h-auto w-full object-contain"
         />
       </Scatter>
@@ -190,16 +193,18 @@ export default function ReviewsSection() {
 
               {/* Flame + fries drifting around the burger */}
               <motion.div
-                className="absolute -left-6 top-[14%] w-10 -rotate-12 sm:-left-10 sm:w-12 will-change-transform"
+                className="absolute -left-6 top-[14%] w-12 -rotate-12 sm:-left-10 sm:w-14 will-change-transform"
                 animate={
                   reduceMotion || !burgerInView ? undefined : { y: [0, -8, 0] }
                 }
                 transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut" }}
               >
-                {/* eslint-disable @next/next/no-img-element */}
-                <img
-                  src="/images/svg-3.svg"
+                <NextImage
+                  src="/images/burger_cheese.png"
                   alt=""
+                  width={1920}
+                  height={1280}
+                  sizes="96px"
                   className="h-auto w-full object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.15)]"
                 />
               </motion.div>
@@ -211,10 +216,10 @@ export default function ReviewsSection() {
                 transition={{ repeat: Infinity, duration: 5.1, ease: "easeInOut" }}
               >
                 <NextImage
-                  src="/images/jacks_fries_cutout.png"
+                  src="/images/burger_fries.png"
                   alt=""
-                  width={1920}
-                  height={1280}
+                  width={1600}
+                  height={1600}
                   sizes="96px"
                   className="h-auto w-full object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.15)]"
                 />
