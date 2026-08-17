@@ -105,38 +105,6 @@ export default function FindUsSection() {
         />
       </Scatter>
       <Scatter
-        posCls="left-[5%] bottom-[8%] w-6 sm:left-[8%] sm:w-7"
-        parallax={-45}
-        orbit={9}
-        orbitDur={5.9}
-        rotate={8}
-        progress={scrollYProgress}
-      >
-        <NextImage
-          src="/images/reddbg.png"
-          alt=""
-          width={56}
-          height={301}
-          className="h-auto w-full object-contain"
-        />
-      </Scatter>
-      <Scatter
-        posCls="right-[5%] bottom-[10%] w-10 sm:right-[8%] sm:w-12"
-        parallax={-65}
-        orbit={7}
-        orbitDur={3.5}
-        rotate={-8}
-        progress={scrollYProgress}
-      >
-        <NextImage
-          src="/images/yellow-bg-sq.png"
-          alt=""
-          width={133}
-          height={134}
-          className="h-auto w-full object-contain"
-        />
-      </Scatter>
-      <Scatter
         posCls="right-[10%] top-[46%] w-8 sm:right-[16%] sm:w-10"
         parallax={-65}
         orbit={8}

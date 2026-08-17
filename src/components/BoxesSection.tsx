@@ -127,40 +127,6 @@ export default function BoxesSection() {
       ),
     },
     {
-      posCls: "left-[3%] bottom-[16%] w-6 sm:left-[6%] sm:w-7",
-      speed: "fast",
-      parallax: -60,
-      orbit: 9,
-      orbitDur: 3.4,
-      rotate: 8,
-      children: (
-        <NextImage
-          src="/images/reddbg.png"
-          alt=""
-          width={56}
-          height={301}
-          className="h-auto w-full object-contain"
-        />
-      ),
-    },
-    {
-      posCls: "right-[3%] bottom-[20%] w-10 sm:right-[7%] sm:w-12",
-      speed: "slow",
-      parallax: -40,
-      orbit: 7,
-      orbitDur: 5.8,
-      rotate: -8,
-      children: (
-        <NextImage
-          src="/images/yellow-bg-sq.png"
-          alt=""
-          width={133}
-          height={134}
-          className="h-auto w-full object-contain"
-        />
-      ),
-    },
-    {
       posCls: "left-[4%] top-[50%] w-16 sm:left-[2%] sm:w-18",
       speed: "slow",
       parallax: -40,
