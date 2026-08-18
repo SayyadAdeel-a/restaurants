@@ -336,8 +336,12 @@ export default function BuildBurgerSection() {
                   )}
 
                   <span
-                    style={{ transform: `rotate(${tilt + l.rot}deg)` }}
-                    className="relative block"
+                    style={
+                      {
+                        "--layer-rot": `${tilt + l.rot}deg`,
+                      } as React.CSSProperties
+                    }
+                    className="relative block rotate-[var(--layer-rot)]"
                   >
                     <motion.span
                       className="flex h-14 w-full items-center justify-center sm:h-16"
