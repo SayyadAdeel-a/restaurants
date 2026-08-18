@@ -165,10 +165,11 @@ export default function ReviewsSection() {
           {/* Flame medallion + provenance line */}
           <div className="mt-5 flex items-center gap-2.5">
             <span className="relative flex size-7 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-blue/40">
-              {/* eslint-disable @next/next/no-img-element */}
-              <img
+              <NextImage
                 src="/images/svg-2.svg"
                 alt=""
+                width={16}
+                height={16}
                 className="size-4 object-contain"
               />
             </span>
