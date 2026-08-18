@@ -118,7 +118,7 @@ export default function FindUsSection() {
                 <a
                   href={MAPS_URL}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="mt-4 inline-flex items-center gap-1.5 font-mono text-[10px] tracking-[0.18em] text-jacks uppercase transition-colors hover:text-cream"
                 >
                   <Navigation className="size-3.5" />
@@ -173,7 +173,7 @@ export default function FindUsSection() {
                   <a
                     href="https://instagram.com/jacksburgeruk"
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="font-medium text-jacks transition-colors hover:text-cream"
                   >
                     @jacksburgeruk
@@ -212,7 +212,7 @@ export default function FindUsSection() {
             <a
               href={MAPS_URL}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="group inline-flex h-12 items-center gap-2 rounded-full border-2 border-ink/20 px-7 text-sm font-medium text-ink transition-all duration-300 hover:border-ink hover:bg-white"
             >
               <Navigation className="size-4 text-blue" />
